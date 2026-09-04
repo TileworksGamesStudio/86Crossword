@@ -1,0 +1,715 @@
+{
+  "metadata": {
+    "title": "Cocktail Crossword",
+    "edition": "Mini • Midi • Main",
+    "version": "2.4.0",
+    "description": "The definitive mixology crossword game combining craft recipes, distillation lore, bar history, and wordcraft."
+  },
+  "puzzles": [
+    {
+      "id": "mini-1",
+      "title": "The Italian Hour",
+      "tier": "mini",
+      "theme": "Aperitivo Culture & Bar Formulations",
+      "blurb": "A snappy 5×5 featuring bitter liqueurs, mise en place, and hospitality traditions.",
+      "gridSize": { "rows": 5, "cols": 5 },
+      "words": [
+        {
+          "id": "1A",
+          "num": 1,
+          "dir": "across",
+          "row": 0,
+          "col": 0,
+          "answer": "SPECS",
+          "clue": "Standard cocktail recipes and measures followed for drink consistency",
+          "cat": "Methods & Tools",
+          "codexId": "specs"
+        },
+        {
+          "id": "3A",
+          "num": 3,
+          "dir": "across",
+          "row": 2,
+          "col": 0,
+          "answer": "AMARO",
+          "clue": "Bittersweet Italian herbal liqueur enjoyed as an aperitivo or digestivo",
+          "cat": "Spirits",
+          "codexId": "amaro"
+        },
+        {
+          "id": "5A",
+          "num": 5,
+          "dir": "across",
+          "row": 4,
+          "col": 0,
+          "answer": "TWIST",
+          "clue": "Citrus peel expressed over the surface to release aromatic oils",
+          "cat": "Methods & Tools",
+          "codexId": "twist"
+        },
+        {
+          "id": "1D",
+          "num": 1,
+          "dir": "down",
+          "row": 0,
+          "col": 0,
+          "answer": "START",
+          "clue": "Beginning of a busy Friday night shift and station mise en place",
+          "cat": "Methods & Tools",
+          "codexId": "start"
+        },
+        {
+          "id": "2D",
+          "num": 2,
+          "dir": "down",
+          "row": 1,
+          "col": 2,
+          "answer": "BAR",
+          "clue": "The counter where cocktails are crafted and hospitality is shared",
+          "cat": "History & Lore",
+          "codexId": "bar"
+        },
+        {
+          "id": "4D",
+          "num": 4,
+          "dir": "down",
+          "row": 0,
+          "col": 4,
+          "answer": "SHOOT",
+          "clue": "Down a neat measure with fellow staff as a camaraderie toast",
+          "cat": "History & Lore",
+          "codexId": "shoot"
+        }
+      ]
+    },
+    {
+      "id": "mini-2",
+      "title": "The Citrus Station",
+      "tier": "mini",
+      "theme": "Sours, Acid Balance & Aeration",
+      "blurb": "Master the holy trinity of spirit, citrus, and sweet balance.",
+      "gridSize": { "rows": 5, "cols": 5 },
+      "words": [
+        {
+          "id": "1A",
+          "num": 1,
+          "dir": "across",
+          "row": 0,
+          "col": 0,
+          "answer": "SHAKE",
+          "clue": "Agitate vigorously with ice to aerate, chill, and dilute citrus drinks",
+          "cat": "Methods & Tools",
+          "codexId": "shake"
+        },
+        {
+          "id": "3A",
+          "num": 3,
+          "dir": "across",
+          "row": 2,
+          "col": 0,
+          "answer": "ELDER",
+          "clue": "Fragrant floral liqueur flavor (St-Germain) dubbed 'bartender's ketchup'",
+          "cat": "Spirits",
+          "codexId": "specs"
+        },
+        {
+          "id": "5A",
+          "num": 5,
+          "dir": "across",
+          "row": 4,
+          "col": 0,
+          "answer": "SOURS",
+          "clue": "Foundational cocktail family defined by spirit, citrus, and sweetener",
+          "cat": "Cocktails",
+          "codexId": "sours"
+        },
+        {
+          "id": "1D",
+          "num": 1,
+          "dir": "down",
+          "row": 0,
+          "col": 0,
+          "answer": "SPECS",
+          "clue": "House cocktail measurement guides followed across all bar shifts",
+          "cat": "Methods & Tools",
+          "codexId": "specs"
+        },
+        {
+          "id": "2D",
+          "num": 2,
+          "dir": "down",
+          "row": 1,
+          "col": 2,
+          "answer": "ADD",
+          "clue": "Incorporate a modifier or syrup directly into the cocktail shaker tin",
+          "cat": "Methods & Tools",
+          "codexId": "shake"
+        },
+        {
+          "id": "4D",
+          "num": 4,
+          "dir": "down",
+          "row": 0,
+          "col": 4,
+          "answer": "EARNS",
+          "clue": "What an attentive bartender does with gratuities through warm hospitality",
+          "cat": "History & Lore",
+          "codexId": "bar"
+        }
+      ]
+    },
+    {
+      "id": "mini-3",
+      "title": "The Stirred Classic",
+      "tier": "mini",
+      "theme": "Spirit-Forward Clarity & Stemware",
+      "blurb": "Explore crystal-clear dilution and vintage glassware silhouettes.",
+      "gridSize": { "rows": 5, "cols": 5 },
+      "words": [
+        {
+          "id": "1A",
+          "num": 1,
+          "dir": "across",
+          "row": 0,
+          "col": 0,
+          "answer": "NEAT",
+          "clue": "Served straight from the bottle at ambient room temperature with zero ice",
+          "cat": "Methods & Tools",
+          "codexId": "shoot"
+        },
+        {
+          "id": "3A",
+          "num": 3,
+          "dir": "across",
+          "row": 2,
+          "col": 0,
+          "answer": "COUPE",
+          "clue": "Stemmed shallow-bowled glass preferred for drinks served up without ice",
+          "cat": "Glassware",
+          "codexId": "coupe"
+        },
+        {
+          "id": "5A",
+          "num": 5,
+          "dir": "across",
+          "row": 4,
+          "col": 1,
+          "answer": "STIR",
+          "clue": "Mix smoothly with a spiral barspoon to preserve crystal clarity",
+          "cat": "Methods & Tools",
+          "codexId": "stir"
+        },
+        {
+          "id": "1D",
+          "num": 1,
+          "dir": "down",
+          "row": 0,
+          "col": 0,
+          "answer": "NICK",
+          "clue": "Stemware partner to Nora, named after the 1934 'Thin Man' cinematic sleuths",
+          "cat": "Glassware",
+          "codexId": "coupe"
+        },
+        {
+          "id": "2D",
+          "num": 2,
+          "dir": "down",
+          "row": 0,
+          "col": 3,
+          "answer": "TOP",
+          "clue": "Crown a highball or fizz with sparkling soda or champagne",
+          "cat": "Methods & Tools",
+          "codexId": "specs"
+        },
+        {
+          "id": "4D",
+          "num": 4,
+          "dir": "down",
+          "row": 2,
+          "col": 4,
+          "answer": "EAR",
+          "clue": "Sensory organ that monitors the acoustic rhythm of shaking or stirring ice",
+          "cat": "Methods & Tools",
+          "codexId": "shake"
+        }
+      ]
+    },
+    {
+      "id": "midi-1",
+      "title": "Old New Orleans Quarter",
+      "tier": "midi",
+      "theme": "Creole Heritage, Sazeracs & French Quarter Apothecaries",
+      "blurb": "Journey through the French Quarter cradle of American cocktail culture.",
+      "gridSize": { "rows": 7, "cols": 7 },
+      "words": [
+        {
+          "id": "1A",
+          "num": 1,
+          "dir": "across",
+          "row": 0,
+          "col": 0,
+          "answer": "SAZERAC",
+          "clue": "New Orleans icon combining rye, sugar, Peychaud's, and an absinthe rinse",
+          "cat": "Cocktails",
+          "codexId": "sazerac"
+        },
+        {
+          "id": "4A",
+          "num": 4,
+          "dir": "across",
+          "row": 2,
+          "col": 1,
+          "answer": "ANISE",
+          "clue": "Licorice-like botanical signature characterizing both absinthe and pastis",
+          "cat": "Spirits",
+          "codexId": "absinthe"
+        },
+        {
+          "id": "6A",
+          "num": 6,
+          "dir": "across",
+          "row": 4,
+          "col": 0,
+          "answer": "GLASS",
+          "clue": "Heavy-bottomed tumbler pre-chilled with crushed ice before the absinthe rinse",
+          "cat": "Glassware",
+          "codexId": "coupe"
+        },
+        {
+          "id": "8A",
+          "num": 8,
+          "dir": "across",
+          "row": 6,
+          "col": 1,
+          "answer": "NEAT",
+          "clue": "Served without ice cubes in the finished rocks glass, per authentic Creole spec",
+          "cat": "Methods & Tools",
+          "codexId": "sazerac"
+        },
+        {
+          "id": "1D",
+          "num": 1,
+          "dir": "down",
+          "row": 0,
+          "col": 0,
+          "answer": "SLING",
+          "clue": "Ancestral 19th-century drink formula of spirit, sugar, water, and nutmeg",
+          "cat": "History & Lore",
+          "codexId": "bar"
+        },
+        {
+          "id": "2D",
+          "num": 2,
+          "dir": "down",
+          "row": 0,
+          "col": 2,
+          "answer": "ZINC",
+          "clue": "Classic metal bar-top material prized in historic French and Creole bistros",
+          "cat": "History & Lore",
+          "codexId": "bar"
+        },
+        {
+          "id": "3D",
+          "num": 3,
+          "dir": "down",
+          "row": 0,
+          "col": 4,
+          "answer": "ROSES",
+          "clue": "Floral aromatic profile echoing the delicate cherry-floral notes in Creole bitters",
+          "cat": "Spirits",
+          "codexId": "peychaud"
+        },
+        {
+          "id": "5D",
+          "num": 5,
+          "dir": "down",
+          "row": 4,
+          "col": 2,
+          "answer": "AGE",
+          "clue": "Charred oak maturation that imparts peppery spice and vanilla to rye whiskey",
+          "cat": "Spirits",
+          "codexId": "rye"
+        }
+      ]
+    },
+    {
+      "id": "main-1",
+      "title": "The Grand Savoy Compendium",
+      "tier": "main",
+      "theme": "London Classics, Grand Hotel Culture & The American Bar",
+      "blurb": "A rich 9×9 honoring Ada Coleman, Harry Craddock, and European mixology craft.",
+      "gridSize": { "rows": 9, "cols": 9 },
+      "words": [
+        {
+          "id": "1A",
+          "num": 1,
+          "dir": "across",
+          "row": 0,
+          "col": 0,
+          "answer": "NEGRONI",
+          "clue": "Florentine icon created when Count Camillo requested gin instead of soda",
+          "cat": "Cocktails",
+          "codexId": "negroni"
+        },
+        {
+          "id": "3A",
+          "num": 3,
+          "dir": "across",
+          "row": 2,
+          "col": 0,
+          "answer": "CANE",
+          "clue": "Sugar crop providing molasses and raw juice for rum distillation",
+          "cat": "Spirits",
+          "codexId": "specs"
+        },
+        {
+          "id": "5A",
+          "num": 5,
+          "dir": "across",
+          "row": 4,
+          "col": 0,
+          "answer": "STIR",
+          "clue": "Mixing technique Harry Craddock specified to preserve jewel-like clarity",
+          "cat": "Methods & Tools",
+          "codexId": "stir"
+        },
+        {
+          "id": "7A",
+          "num": 7,
+          "dir": "across",
+          "row": 6,
+          "col": 2,
+          "answer": "AMARO",
+          "clue": "Herbal bitter elixir family including Campari, Averna, and Cynar",
+          "cat": "Spirits",
+          "codexId": "amaro"
+        },
+        {
+          "id": "9A",
+          "num": 9,
+          "dir": "across",
+          "row": 8,
+          "col": 2,
+          "answer": "SWEET",
+          "clue": "Red botanical vermouth partner balancing London Dry Gin in the Negroni",
+          "cat": "Spirits",
+          "codexId": "negroni"
+        },
+        {
+          "id": "1D",
+          "num": 1,
+          "dir": "down",
+          "row": 0,
+          "col": 0,
+          "answer": "NICK",
+          "clue": "Delicate stemmed glass shape featured heavily in vintage hotel cocktail books",
+          "cat": "Glassware",
+          "codexId": "coupe"
+        },
+        {
+          "id": "2D",
+          "num": 2,
+          "dir": "down",
+          "row": 0,
+          "col": 2,
+          "answer": "GIN",
+          "clue": "Juniper-led botanical spirit forming the backbone of the Savoy cocktail canon",
+          "cat": "Spirits",
+          "codexId": "gin"
+        },
+        {
+          "id": "3D",
+          "num": 3,
+          "dir": "down",
+          "row": 0,
+          "col": 4,
+          "answer": "OLD",
+          "clue": "Victorian sweeter gin style ('___ Tom') bridging genever and London dry",
+          "cat": "Spirits",
+          "codexId": "gin"
+        },
+        {
+          "id": "4D",
+          "num": 4,
+          "dir": "down",
+          "row": 4,
+          "col": 0,
+          "answer": "SOUR",
+          "clue": "Core cocktail archetype of spirit, lemon or lime, and balancing sugar",
+          "cat": "Cocktails",
+          "codexId": "sours"
+        },
+        {
+          "id": "5D",
+          "num": 5,
+          "dir": "down",
+          "row": 4,
+          "col": 3,
+          "answer": "RUMS",
+          "clue": "Distilled sugarcane spirits championed in Caribbean swizzles and punches",
+          "cat": "Spirits",
+          "codexId": "specs"
+        },
+        {
+          "id": "6D",
+          "num": 6,
+          "dir": "down",
+          "row": 6,
+          "col": 5,
+          "answer": "RYE",
+          "clue": "Spicy American grain whiskey that anchors the Manhattan and Sazerac",
+          "cat": "Spirits",
+          "codexId": "rye"
+        },
+        {
+          "id": "7D",
+          "num": 7,
+          "dir": "down",
+          "row": 0,
+          "col": 6,
+          "answer": "ICE",
+          "clue": "The essential thermal coolant whose quality and density define drink texture",
+          "cat": "Methods & Tools",
+          "codexId": "ice"
+        }
+      ]
+    }
+  ],
+  "codex": [
+    {
+      "id": "negroni",
+      "name": "Negroni",
+      "category": "Cocktails",
+      "subline": "Aperitivo Archetype • Florence, Italy c. 1919",
+      "glass": "Double Rocks Glass",
+      "method": "Stirred over ice until chilled and diluted (~30s)",
+      "ice": "Single large clear crystal cube",
+      "garnish": "Expressed orange peel swath or fresh wheel",
+      "formula": "1.0 oz (30 ml) London Dry Gin\n1.0 oz (30 ml) Campari\n1.0 oz (30 ml) Sweet Vermouth",
+      "tip": "Equal parts simplicity hides a delicate thermal balance. Stir for 30–40 seconds to achieve 25% dilution, which opens botanical aromatics and softens bitter gentian.",
+      "lore": "Legend holds that Count Camillo Negroni asked bartender Fosco Scarselli at Caffè Casoni in Florence to strengthen his favorite Americano by swapping soda water for gin."
+    },
+    {
+      "id": "sazerac",
+      "name": "Sazerac",
+      "category": "Cocktails",
+      "subline": "Official Cocktail of New Orleans c. 1850s",
+      "glass": "Chilled Rocks Glass (served neat)",
+      "method": "Stirred with ice, strained into absinthe-rinsed glass",
+      "ice": "Ice in mixing glass only; none in service glass",
+      "garnish": "Expressed lemon twist (expressed over top and discarded)",
+      "formula": "2.0 oz (60 ml) Rye Whiskey (or Cognac)\n0.25 oz (7.5 ml) Rich Demerara Syrup (or 1 sugar cube)\n3–4 dashes Peychaud's Bitters\n1 dash Angostura Bitters\nAbsinthe wash/rinse",
+      "tip": "Pack the serving rocks glass with crushed ice to freeze the crystal while you stir the cocktail. Dump the ice, coat the cold glass interior with an absinthe atomizer or rinse, then strain.",
+      "lore": "Originally crafted with Sazerac de Forge et Fils Cognac at the Sazerac Coffee House. When phylloxera devastated French vineyards in the 1870s, local bartenders transitioned to Maryland and Pennsylvania rye whiskeys."
+    },
+    {
+      "id": "sours",
+      "name": "The Sour Family",
+      "category": "Cocktails",
+      "subline": "The Cornerstone of Balance (Spirit, Citrus, Sugar)",
+      "glass": "Coupe, Nick & Nora, or Rocks",
+      "method": "Vigorously shaken with ice (optional dry shake for egg white)",
+      "ice": "Strained neat into chilled coupe or over fresh rock",
+      "garnish": "Citrus wheel, twist, or Angostura aromatic drops",
+      "formula": "2.0 oz (60 ml) Base Spirit\n0.75 oz (22.5 ml) Fresh Citrus Juice (Lemon or Lime)\n0.75 oz (22.5 ml) Simple Syrup (1:1 or adjusted for 2:1)",
+      "tip": "Citrus acidity varies across seasons. Always straw-taste fresh juice daily; dial sugar back an eighth-ounce in midsummer when limes are sweeter, or bump it up when citrus is sharply astringent.",
+      "lore": "Derived from British Royal Navy rations where rum or gin was cut with lime juice and raw sugar to ward off scurvy, transforming medicinal necessity into the foundation of modern mixology."
+    },
+    {
+      "id": "amaro",
+      "name": "Amaro",
+      "category": "Spirits",
+      "subline": "Italian Bittersweet Herbal Liqueurs",
+      "glass": "Rocks Glass or Neat Snifter",
+      "method": "Neat, built over ice, or stirred as a cocktail modifier",
+      "ice": "Optional large rock with orange slice",
+      "garnish": "Orange peel or expressed lemon twist",
+      "formula": "Neutral grain spirit or grape distillate macerated with proprietary botanicals (gentian, rhubarb, cinchona, wormwood, cardamoms, citrus rinds) and aged in oak casks.",
+      "tip": "Lighter aperitivo styles (Aperol, Select) stimulate salivary flow before meals; darker, dense digestivo styles (Averna, Fernet, Cynar) rely on bitter alpine roots to ease digestion.",
+      "lore": "Born in medieval monasteries and apothecary shops across Italy as medicinal restoratives before flourishing in 19th-century piazza café culture."
+    },
+    {
+      "id": "gin",
+      "name": "London Dry Gin",
+      "category": "Spirits",
+      "subline": "Juniper-Led Distillation Aristocrat",
+      "glass": "Martini, Nick & Nora, or Highball",
+      "method": "Stirred, shaken, or built in highballs",
+      "ice": "Dense crystal ice",
+      "garnish": "Lemon swath, olive, or lime wheel",
+      "formula": "Neutral spirit redistilled with natural botanicals dominated legally by Juniperus communis, coriander seed, angelica root, and citrus peels, with zero post-distillation sugar added.",
+      "tip": "London Dry is a production technique, not a geographic designation. It can be made anywhere worldwide provided all flavors are imparted purely through distillation without artificial additives.",
+      "lore": "The British Gin Craze of the early 1700s prompted Parliament to pass distillation acts that elevated crude 'bathtub' hooch into one of the cleanest, most sophisticated spirits in the world."
+    },
+    {
+      "id": "rye",
+      "name": "Rye Whiskey",
+      "category": "Spirits",
+      "subline": "Peppery, Robust American Heritage Grain",
+      "glass": "Rocks Glass or Glencairn",
+      "method": "Spirit-forward stirred classics or neat",
+      "ice": "Large rock or neat pour",
+      "garnish": "Brandied cherry or lemon twist",
+      "formula": "Distilled in the United States from a mashbill of at least 51% malted or unmalted rye grain, aged in virgin charred oak barrels at under 125 proof entry.",
+      "tip": "Rye whiskey possesses a sharp, peppery grain bite and herbaceous dryness that refuses to be overshadowed by sweet vermouth or herbal liqueurs in Manhattans and Sazeracs.",
+      "lore": "Rye was the dominant American whiskey prior to Prohibition, distilled by early Scottish, Irish, and German settlers across Pennsylvania, Maryland, and Virginia."
+    },
+    {
+      "id": "absinthe",
+      "name": "Absinthe",
+      "category": "Spirits",
+      "subline": "The Green Fairy: Grande Wormwood, Anise & Fennel",
+      "glass": "Pontarlier Glass or Mist/Rinse Atomizer",
+      "method": "Slow French ice-water drip fountain or glass rinse",
+      "ice": "Cold iced water slow drip",
+      "garnish": "None",
+      "formula": "High-proof spirit redistilled with the 'holy trinity' of botanicals: Artemisia absinthium (grande wormwood), green anise seed, and Florence fennel.",
+      "tip": "A tiny atomizer mist (or a 1-barspoon rinse rolled around the glass interior) provides intense aromatics without overwhelming the delicate spirit balance of a cocktail.",
+      "lore": "Unfairly banned in 1912 due to moral panic and wine industry lobbying. Rigorous scientific testing in the 2000s proved vintage absinthes never contained hallucinogenic thujone levels, leading to worldwide legalization."
+    },
+    {
+      "id": "peychaud",
+      "name": "Peychaud's Bitters",
+      "category": "Spirits",
+      "subline": "Creole Aromatic Bitters of New Orleans",
+      "glass": "Bar Bottle with Precision Dasher",
+      "method": "Dashed into cocktail tins and mixing glasses",
+      "ice": "N/A",
+      "garnish": "N/A",
+      "formula": "Gentian-based aromatic tincture infused with anise seed, cherry bark, nutmeg, and clove, distinguished by its vibrant crimson hue.",
+      "tip": "Much lighter, more floral, and sweeter than clove-heavy Angostura. Indispensable for authentic New Orleans classics like the Sazerac and Vieux Carré.",
+      "lore": "Formulated in the 1830s by Antoine Amédée Peychaud, a Haitian apothecary who settled in New Orleans and dispensed medicinal toddies from his Royal Street pharmacy."
+    },
+    {
+      "id": "specs",
+      "name": "Cocktail Specs",
+      "category": "Methods & Tools",
+      "subline": "The Standard Bartender Recipe Canon",
+      "glass": "All Glassware",
+      "method": "Volumetric jigger measurement",
+      "ice": "Varies by recipe",
+      "garnish": "Prescribed garnish",
+      "formula": "Standard documented liquid formulas specifying base spirits, modifiers, acids, sweeteners, dilution targets, and wash lines.",
+      "tip": "Always pour the cheapest ingredients first (citrus juices, simple syrups) before adding rare spirits. If you make a measuring mistake, you waste cents rather than dollars.",
+      "lore": "From 19th-century salon logbooks to modern digitized bar manuals, documented specs ensure a cocktail tastes identical regardless of which bartender is on shift."
+    },
+    {
+      "id": "shake",
+      "name": "Shaking Technique",
+      "category": "Methods & Tools",
+      "subline": "Aeration, Rapid Chilling & Micro-Emulsion",
+      "glass": "Two-Piece Boston Tin on Tin",
+      "method": "Vigorous horizontal shaking with dense ice",
+      "ice": "High surface-area ice cubes",
+      "garnish": "N/A",
+      "formula": "Applied to any cocktail containing citrus, egg whites, cream, or fruit purées to emulsify liquids and incorporate thousands of microscopic air bubbles.",
+      "tip": "Shake horizontally with authority along the line of your shoulders. You are not simply cooling; you are creating a velvet foam cap and achieving 25% dilution in 10–12 seconds.",
+      "lore": "Patented in the mid-19th century, metal shaking tins replaced the risky practice of 'throwing' cocktails back and forth between two fragile glass tumblers."
+    },
+    {
+      "id": "stir",
+      "name": "Stirring Technique",
+      "category": "Methods & Tools",
+      "subline": "Silky Texture & Crystal Clarity",
+      "glass": "Heavy Mixing Glass & Spiral Barspoon",
+      "method": "Fluid push-pull glide around the interior wall",
+      "ice": "Dense, dry, solid ice blocks or cubes",
+      "garnish": "N/A",
+      "formula": "Reserved exclusively for spirit-forward cocktails without juice or dairy (Martinis, Manhattans, Negronis) to chill without cloudiness or air bubbles.",
+      "tip": "Keep the back of the spoon flat against the interior glass wall. Drive the orbit using your fingertips, not your wrist or arm, keeping the ice mass moving smoothly as one unit.",
+      "lore": "Promoted by early London and New York private clubs to ensure spirit-forward cocktails remained gem-like, crystal clear, and luxuriously heavy on the tongue."
+    },
+    {
+      "id": "twist",
+      "name": "Citrus Twist Expression",
+      "category": "Methods & Tools",
+      "subline": "Essential Aromatic Oil Dispersion",
+      "glass": "Coupe, Nick & Nora, or Rocks Glass",
+      "method": "Fold skin-side outward over the drink surface",
+      "ice": "N/A",
+      "garnish": "Swath dropped, trimmed, or discarded",
+      "formula": "Wide swath or strip of fresh citrus peel (lemon, orange, or grapefruit) cleanly cut with minimal bitter white pith.",
+      "tip": "Express the peel skin-side outward at a 45-degree angle 2 inches above the glass. The fine aromatic mist coats the surface tension so every sip is preceded by fresh aroma.",
+      "lore": "Standardized in late-19th-century hotel cocktail lounges to deliver volatile citrus oils without introducing citric acid into dry, spirit-forward drinks."
+    },
+    {
+      "id": "ice",
+      "name": "Cocktail Ice Physics",
+      "category": "Methods & Tools",
+      "subline": "Thermal Mass, Dilution & Crystal Clarity",
+      "glass": "All Barware",
+      "method": "Directional freezing for pure crystal blocks",
+      "ice": "Large cubes, spheres, collins spears, crushed ice",
+      "garnish": "N/A",
+      "formula": "Directional freezing freezes water from the top down, pushing dissolved air and minerals to the bottom to yield 100% transparent, dense thermal mass.",
+      "tip": "There is no chilling without dilution. Dense, dry, zero-void clear ice melts at a predictable, controlled rate, keeping a cocktail ice-cold without making it watery.",
+      "lore": "Boston 'Ice King' Frederic Tudor founded the global ice trade in the early 1800s, carving New England pond blocks and shipping them insulated in sawdust to tropical ports."
+    },
+    {
+      "id": "coupe",
+      "name": "Coupe Glass",
+      "category": "Glassware",
+      "subline": "The Definitive Stemmed Up-Glass Silhouette",
+      "glass": "5.5 oz to 7 oz Stemmed Coupe",
+      "method": "Pre-chilled with ice water or freezer staging",
+      "ice": "No ice in service glass",
+      "garnish": "Citrus swath or maraschino cherry",
+      "formula": "Broad, shallow bowl mounted on a slender stem designed for shaken or stirred cocktails served 'up' (without ice in the glass).",
+      "tip": "Always hold the vessel exclusively by the stem. Holding the bowl directly transfers hand heat to the chilled liquid, degrading the cocktail within minutes.",
+      "lore": "The urban legend that it was molded from Marie Antoinette's anatomy is historically false; the coupe was designed by English glassmakers in the 1660s for sparkling wine."
+    },
+    {
+      "id": "start",
+      "name": "Mise en Place",
+      "category": "Methods & Tools",
+      "subline": "The Station Prep & Bar Readiness",
+      "glass": "The Well Station",
+      "method": "Sanitation, staging, and muscle memory alignment",
+      "ice": "Freshly burned and refilled ice wells",
+      "garnish": "Garnish caddy cut fresh, squeeze bottles primed",
+      "formula": "The French culinary philosophy applied to the bar: everything in its deliberate, ergonomic place prior to welcoming the first customer ticket.",
+      "tip": "Speed is an outcome of economy of motion. When jiggers, tins, bottles, and fruit knives reside in identical muscle-memory positions, service flows effortlessly.",
+      "lore": "Perfected in legendary hotel bars like London's Savoy and the Paris Ritz, where master bartenders handled relentless rush tickets with serene calm."
+    },
+    {
+      "id": "bar",
+      "name": "The Bar as Third Space",
+      "category": "History & Lore",
+      "subline": "Hospitality, Sanctuary & Community",
+      "glass": "All Vessels",
+      "method": "Warm greeting, eye contact, thoughtful pacing",
+      "ice": "Hospitality benchmark",
+      "garnish": "Attentive guest care",
+      "formula": "Physical wooden counter, speed rail, mirrored backbar, and stools creating a welcoming public social sanctuary.",
+      "tip": "A flawless drink cannot redeem cold service, but genuine hospitality and warmth can elevate an entire evening into an unforgettable memory.",
+      "lore": "Derived from the physical wooden barrier that separated patrons from spirits in 18th-century inns, the modern bar evolved into a democratic gathering space."
+    },
+    {
+      "id": "shoot",
+      "name": "The Staff Toast & Handshake",
+      "category": "History & Lore",
+      "subline": "Hospitality Solidarity & Industry Ritual",
+      "glass": "Shot Glass, Pony Glass, or Snifter",
+      "method": "Neat pour shared in solidarity",
+      "ice": "None",
+      "garnish": "None",
+      "formula": "1.0 oz neat measure (traditionally Fernet-Branca, Mezcal, Underberg, or Chartreuse) poured to welcome visiting industry peers.",
+      "tip": "Never toast in a way that interrupts guest focus or compromises clean professional service standards.",
+      "lore": "Fernet-Branca became celebrated as the global 'Bartender's Handshake' during the 2000s craft cocktail revival in San Francisco and New York."
+    }
+  ],
+  "ranks": [
+    { "level": 1, "title": "Barback Apprentice", "xpRequired": 0, "icon": "🌱" },
+    { "level": 2, "title": "Junior Mixologist", "xpRequired": 200, "icon": "🍋" },
+    { "level": 3, "title": "Senior Bartender", "xpRequired": 500, "icon": "🍹" },
+    { "level": 4, "title": "Head Mixologist", "xpRequired": 1000, "icon": "🍸" },
+    { "level": 5, "title": "Master of Spirits", "xpRequired": 1600, "icon": "👑" }
+  ],
+  "domains": [
+    { "id": "cocktails", "name": "Classic Cocktails & Specs", "weight": 25 },
+    { "id": "spirits", "name": "Spirits & Liqueurs", "weight": 25 },
+    { "id": "methods", "name": "Techniques & Dilution", "weight": 20 },
+    { "id": "glassware", "name": "Glassware & Presentation", "weight": 15 },
+    { "id": "history", "name": "Cocktail History & Lore", "weight": 15 }
+  ]
+}
