@@ -8,7 +8,6 @@
    1. IN-SCRIPT CONTENT DATASET (EXACTLY 5 PLAYABLE PUZZLE EXAMPLES)
    ========================================================================== */
 const CONTENT_DATA = {
-  // Exactly 5 playable challenge entries forming the complete service progression
   puzzles: [
     {
       id: "puzzle-1-italian-hour",
@@ -1094,4 +1093,280 @@ const UIController = {
     document.querySelectorAll(".kb-key").forEach(k => {
       k.addEventListener("click", e => {
         e.preventDefault();
-        const val
+        const val = k.dataset.key;
+        if (val === "BACKSPACE") {
+          CrosswordEngine.handleBackspace();
+        } else if (k.id === "key-toggle-dir") {
+          CrosswordEngine.toggleDirection();
+        } else if (val) {
+          CrosswordEngine.inputLetter(val);
+        }
+      });
+    });
+  },
+
+  bindModals() {
+    const nextBtn = document.getElementById("btn-next-puzzle");
+    const viewCodexBtn = document.getElementById("btn-view-in-codex");
+    const closeVictoryBtn = document.getElementById("btn-close-victory");
+    const closeSpecBtn = document.getElementById("btn-close-spec-modal");
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-victory").classList.add("hidden");
+        this.switchTab("puzzles");
+      });
+    }
+
+    if (viewCodexBtn) {
+      viewCodexBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-victory").classList.add("hidden");
+        const puzzle = GameState.currentPuzzle;
+        const firstWord = puzzle?.words.find(w => w.codexId);
+        if (firstWord) {
+          this.openSpecModal(firstWord.codexId);
+        }
+        this.switchTab("codex");
+      });
+    }
+
+    if (closeVictoryBtn) {
+      closeVictoryBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-victory").classList.add("hidden");
+      });
+    }
+
+    if (closeSpecBtn) {
+      closeSpecBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-codex-spec").classList.add("hidden");
+      });
+    }
+  },
+
+  openSpecModal(codexId) {
+    const spec = CONTENT_DATA.codex.find(c => c.id === codexId);
+    if (!spec) return;
+
+    document.getElementById("modal-spec-cat").textContent = spec.category;
+    document.getElementById("codex-modal-title").textContent = spec.name;
+    document.getElementById("modal-spec-subline").textContent = spec.subline;
+    document.getElementById("modal-spec-glass").textContent = spec.glass;
+    document.getElementById("modal-spec-method").textContent = spec.method;
+    document.getElementById("modal-spec-ice").textContent = spec.ice;
+    document.getElementById("modal-spec-garnish").textContent = spec.garnish;
+    document.getElementById("modal-spec-formula").innerText = spec.formula || "N/A";
+    document.getElementById("modal-spec-tip").textContent = spec.tip || "";
+    document.getElementById("modal-spec-lore").textContent = spec.lore || "";
+
+    document.getElementById("modal-codex-spec").classList.remove("hidden");
+  },
+
+  bindVault() {
+    document.querySelectorAll(".filter-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.activeFilter = btn.dataset.filter;
+        this.renderPuzzlesVault();
+      });
+    });
+  },
+
+  renderPuzzlesVault() {
+    const list = document.getElementById("puzzles-list");
+    if (!list) return;
+    list.innerHTML = "";
+
+    const puzzles = CONTENT_DATA.puzzles.filter(p => this.activeFilter === "all" || p.tier === this.activeFilter);
+
+    puzzles.forEach(p => {
+      const isSolved = GameState.solvedPuzzleIds.has(p.id);
+      const article = document.createElement("article");
+      article.className = "daily-spotlight-card"; 
+      article.style.marginBottom = "16px";
+      
+      article.innerHTML = `
+        <div class="daily-badge-row">
+          <span class="badge tier-badge ${p.tier}">${p.tier.toUpperCase()}</span>
+          ${isSolved ? '<span class="badge gold-badge" style="margin-left:auto;">SOLVED</span>' : ''}
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.blurb}</p>
+        <div class="daily-cta-row">
+          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" type="button">${isSolved ? 'Replay' : 'Solve'}</button>
+          <span class="daily-reward-text">${p.gridSize.rows}×${p.gridSize.cols} GRID</span>
+        </div>
+      `;
+      list.appendChild(article);
+    });
+
+    document.querySelectorAll(".vault-play-btn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        SoundEngine.playClick();
+        CrosswordEngine.loadPuzzle(e.target.dataset.id);
+        this.switchTab("play");
+      });
+    });
+
+    const featured = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
+    const dailyTitle = document.getElementById("daily-title");
+    const dailyBlurb = document.getElementById("daily-blurb");
+    const dailyDateLabel = document.getElementById("daily-date-label");
+    const btnPlayDaily = document.getElementById("btn-play-daily");
+    
+    if (dailyTitle) dailyTitle.textContent = featured.title;
+    if (dailyBlurb) dailyBlurb.textContent = featured.blurb;
+    if (dailyDateLabel) {
+      const index = CONTENT_DATA.puzzles.findIndex(p => p.id === featured.id) + 1;
+      dailyDateLabel.textContent = `SERVICE ${index} OF 5`;
+    }
+    if (btnPlayDaily) {
+      btnPlayDaily.onclick = () => {
+        SoundEngine.playClick();
+        CrosswordEngine.loadPuzzle(featured.id);
+        this.switchTab("play");
+      };
+    }
+  },
+
+  bindCodex() {
+    document.querySelectorAll(".codex-filter").forEach(btn => {
+      btn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.querySelectorAll(".codex-filter").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        this.activeCodexCat = btn.dataset.cat;
+        this.renderCodex();
+      });
+    });
+
+    const searchInput = document.getElementById("codex-search");
+    if (searchInput) {
+      searchInput.addEventListener("input", e => this.renderCodex(e.target.value.toLowerCase()));
+    }
+  },
+
+  renderCodex(searchQuery = "") {
+    const grid = document.getElementById("codex-grid");
+    const countLabel = document.getElementById("codex-unlocked-count");
+    if (!grid) return;
+
+    if (countLabel) {
+      countLabel.textContent = `Unlocked: ${GameState.unlockedCodex.size} / ${CONTENT_DATA.codex.length} Records`;
+    }
+
+    grid.innerHTML = "";
+    
+    const filtered = CONTENT_DATA.codex.filter(c => {
+      const catMatch = this.activeCodexCat === "all" || c.category === this.activeCodexCat;
+      const searchMatch = !searchQuery || 
+        c.name.toLowerCase().includes(searchQuery) || 
+        c.category.toLowerCase().includes(searchQuery) || 
+        c.subline.toLowerCase().includes(searchQuery);
+      return catMatch && searchMatch;
+    });
+
+    filtered.forEach(c => {
+      const isUnlocked = GameState.unlockedCodex.has(c.id);
+      const card = document.createElement("div");
+      card.className = "codex-card " + (isUnlocked ? "unlocked" : "locked");
+      
+      if (isUnlocked) {
+        card.innerHTML = `
+          <span class="cat-tag">${c.category}</span>
+          <h4 style="margin: 8px 0 4px; font-size: 1.1rem; color: #f0e6d2;">${c.name}</h4>
+          <p style="margin: 0; font-size: 0.85rem; color: #a49688;">${c.subline}</p>
+        `;
+        card.addEventListener("click", () => {
+          SoundEngine.playClick();
+          this.openSpecModal(c.id);
+        });
+      } else {
+        card.innerHTML = `
+          <div style="font-size: 1.5rem; margin-bottom: 8px;">🔒</div>
+          <h4 style="margin: 0 0 4px; color: #5a4f47;">Classified</h4>
+          <p style="margin: 0; font-size: 0.85rem; color: #5a4f47;">Solve puzzles to unlock</p>
+        `;
+      }
+      grid.appendChild(card);
+    });
+  },
+
+  renderMastery() {
+    const { current, next } = GameState.getCurrentRank();
+    
+    document.getElementById("profile-rank-icon").textContent = current.icon;
+    document.getElementById("profile-rank-title").textContent = current.title;
+    document.getElementById("profile-rank-sub").textContent = `Level ${current.level} • ${GameState.xp} XP`;
+    
+    const progress = next.level === current.level ? 100 : 
+      ((GameState.xp - current.xpRequired) / (next.xpRequired - current.xpRequired)) * 100;
+    document.getElementById("profile-xp-fill").style.width = `${Math.min(100, Math.max(0, progress))}%`;
+
+    document.getElementById("stat-puzzles-solved").textContent = `${GameState.puzzlesSolvedCount} / 5`;
+    document.getElementById("stat-words-unlocked").textContent = GameState.unlockedCodex.size.toString();
+    document.getElementById("stat-clean-sweeps").textContent = GameState.cleanSweepsCount.toString();
+    document.getElementById("stat-streak-high").textContent = GameState.streak.toString();
+    document.getElementById("streak-count").textContent = GameState.streak.toString();
+
+    const domainBars = document.getElementById("domain-bars");
+    if (domainBars) {
+      domainBars.innerHTML = "";
+      CONTENT_DATA.domains.forEach(d => {
+        const domainItems = CONTENT_DATA.codex.filter(c => c.category === d.keyCat);
+        const unlockedItems = domainItems.filter(c => GameState.unlockedCodex.has(c.id));
+        const pct = domainItems.length ? (unlockedItems.length / domainItems.length) * 100 : 0;
+        
+        domainBars.innerHTML += `
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; color: #d0c4b4;">
+              <span>${d.name}</span>
+              <span>${unlockedItems.length}/${domainItems.length}</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+              <div style="width: ${pct}%; height: 100%; background: #d4af37; transition: width 0.4s ease;"></div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    const badgesGrid = document.getElementById("achievements-grid");
+    if (badgesGrid) {
+      badgesGrid.innerHTML = "";
+      CONTENT_DATA.achievements.forEach(a => {
+        const earned = GameState.unlockedBadges.has(a.id);
+        badgesGrid.innerHTML += `
+          <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; text-align: center; opacity: ${earned ? 1 : 0.4}; border: 1px solid ${earned ? 'rgba(212,175,55,0.3)' : 'transparent'};">
+            <div style="font-size: 2rem; margin-bottom: 8px;">${earned ? a.icon : '🔒'}</div>
+            <div style="font-size: 0.9rem; font-weight: bold; color: #f0e6d2; margin-bottom: 4px;">${a.name}</div>
+            <div style="font-size: 0.75rem; color: #a49688;">${a.desc}</div>
+          </div>
+        `;
+      });
+    }
+  },
+
+  bindResize() {
+    window.addEventListener("resize", () => {
+      if (this.activeTab === "play") CrosswordEngine.renderGrid();
+    });
+  },
+
+  showToast(msg, type = "info") {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.className = `toast-message ${type} show`;
+    setTimeout(() => toast.classList.remove("show"), 2500);
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  UIController.init();
+});
