@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Cocktail Crossword — Main • Midi • Mini</title>
+  <meta name="description" content="A masterclass cocktail and mixology crossword game. Test your knowledge of classic cocktails, rare spirits, bar techniques, glassware, and speakeasy lore.">
+  <meta name="theme-color" content="#18110D">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Atmospheric Audio Context & Accessibility Announcement -->
+  <div id="aria-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Primary Application Wrapper -->
+  <div id="app" class="app-root">
+    
+    <!-- Top Global Header -->
+    <header class="app-header" role="banner">
+      <div class="header-left">
+        <button id="btn-back-hub" class="btn-icon header-back hidden" aria-label="Return to Puzzle Hub" title="Return to Hub">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="brand-group" id="brand-link" role="button" tabindex="0" title="Cocktail Crossword Hub">
+          <div class="brand-mark">
+            <svg class="icon-coupe" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 7h20c0 7-4.5 12-10 12S6 14 6 7z" fill="rgba(216, 154, 61, 0.15)"/>
+              <path d="M16 19v8M11 27h10"/>
+              <line x1="16" y1="7" x2="16" y2="12" stroke="#D89A3D" stroke-width="1.5"/>
+              <circle cx="16" cy="13" r="1.5" fill="#C65A27"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">COCKTAIL CROSSWORD</span>
+            <span class="brand-edition" id="brand-subtitle">THE MIXOLOGIST'S GAZETTE</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-open-codex" class="header-pill" aria-label="Open Mixology Codex" title="The Bartender's Codex">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <line x1="8" y1="6" x2="16" y2="6"></line>
+            <line x1="8" y1="10" x2="14" y2="10"></line>
+          </svg>
+          <span class="pill-label">Codex</span>
+          <span class="pill-badge" id="header-codex-count">0</span>
+        </button>
+
+        <button id="btn-open-stats" class="header-pill" aria-label="View Mastery & Statistics" title="Career Statistics">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 20V10M12 20V4M6 20v-6"></path>
+          </svg>
+          <span class="pill-label">Stats</span>
+        </button>
+
+        <button id="btn-toggle-sound" class="btn-icon" aria-label="Toggle Sound Effects" title="Sound Muted / Active">
+          <svg id="icon-sound-on" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg id="icon-sound-off" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main View Switcher Container -->
+    <main class="main-viewport" role="main">
+      
+      <!-- SCREEN 1: THE PUZZLE HUB -->
+      <section id="screen-hub" class="screen-view active-view" aria-label="Puzzle Hub">
+        
+        <!-- Daily Feature Banner -->
+        <div class="daily-hero-card">
+          <div class="daily-tag-row">
+            <span class="badge-gold">DAILY SPECIFICATION</span>
+            <span class="streak-tracker" id="hub-streak-pill">
+              <svg class="icon-flame" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2c1 3 4 4.5 4 8a6 6 0 0 1-12 0c0-4 3.5-5.5 4-8 1 2 2 3 4 0z"></path>
+              </svg>
+              <span id="hub-streak-count">0</span> Day Streak
+            </span>
+          </div>
+          <div class="daily-body">
+            <div class="daily-info">
+              <h1 class="daily-title" id="daily-puzzle-title">The Daily Speakeasy</h1>
+              <p class="daily-desc" id="daily-puzzle-desc">A refreshing 5×5 morning solve to sharpen your bartending instincts, spirits lore, and recipe specs.</p>
+              <div class="daily-meta">
+                <span class="meta-item"><strong id="daily-puzzle-size">5×5</strong> Grid</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-item" id="daily-puzzle-diff">Beginner Bartender</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-item" id="daily-puzzle-clues">8 Clues</span>
+              </div>
+            </div>
+            <button id="btn-play-daily" class="btn-primary btn-gold-shimmer" aria-label="Solve Today's Daily Crossword">
+              <span>SOLVE DAILY</span>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Catalog Tabs -->
+        <div class="catalog-section">
+          <div class="catalog-header">
+            <h2 class="section-heading">Crossword Editions</h2>
+            <div class="tabs-nav" role="tablist">
+              <button class="tab-pill active" data-tier="all" role="tab" aria-selected="true">All Editions</button>
+              <button class="tab-pill" data-tier="mini" role="tab" aria-selected="false">Mini (4–5)</button>
+              <button class="tab-pill" data-tier="midi" role="tab" aria-selected="false">Midi (6–7)</button>
+              <button class="tab-pill" data-tier="main" role="tab" aria-selected="false">Main (8–9)</button>
+            </div>
+          </div>
+
+          <!-- Puzzle Cards Grid -->
+          <div id="puzzles-grid" class="puzzles-grid">
+            <!-- Rendered programmatically via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SCREEN 2: ACTIVE PUZZLE SOLVING TABLE -->
+      <section id="screen-play" class="screen-view hidden" aria-label="Active Puzzle Board">
+        
+        <!-- Play Bar: Title, Timer, Assist Controls -->
+        <div class="play-statusbar">
+          <div class="status-left">
+            <div class="puzzle-crumbs">
+              <span class="crumb-tier" id="play-tier-badge">MINI</span>
+              <h2 class="crumb-title" id="play-puzzle-name">The Aperitivo Hour</h2>
+            </div>
+          </div>
+
+          <div class="status-center">
+            <div class="solve-timer" id="play-timer-container" title="Elapsed Time">
+              <svg class="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span id="timer-display">00:00</span>
+            </div>
+          </div>
+
+          <div class="status-right">
+            <!-- Hint Menu Dropdown Trigger -->
+            <div class="dropdown-wrap">
+              <button id="btn-hint-menu" class="btn-control" aria-haspopup="true" aria-expanded="false" title="Assistance & Hints">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+                </svg>
+                <span class="btn-text">Assist</span>
+              </button>
+              <div id="hint-dropdown" class="control-dropdown hidden" role="menu">
+                <button class="dropdown-item" id="btn-hint-letter" role="menuitem">
+                  <strong>Reveal Square</strong>
+                  <span class="desc">Reveals letter at cursor</span>
+                </button>
+                <button class="dropdown-item" id="btn-hint-word" role="menuitem">
+                  <strong>Reveal Word</strong>
+                  <span class="desc">Solves currently active clue</span>
+                </button>
+                <button class="dropdown-item" id="btn-hint-codex" role="menuitem">
+                  <strong>Codex Insight</strong>
+                  <span class="desc">Reveals historical/bartender clue context</span>
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" id="btn-check-grid" role="menuitem">
+                  <strong>Validate Board</strong>
+                  <span class="desc">Marks correct vs conflicting entries</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Clear / Reset button -->
+            <button id="btn-clear-board" class="btn-control btn-icon-only" aria-label="Clear Board Entries" title="Reset Grid">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Main Solving Area: Board + Clue Panel Layout -->
+        <div class="play-layout">
+          
+          <!-- Board Column -->
+          <div class="board-column">
+            
+            <!-- Active Clue Strip (Directly over the grid for effortless reading) -->
+            <div class="active-clue-bar" id="active-clue-pill" role="region" aria-label="Current Clue">
+              <button class="clue-nav-btn" id="btn-prev-clue" aria-label="Previous Clue" title="Previous Clue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <div class="active-clue-content" id="active-clue-text-container" tabindex="0">
+                <div class="clue-tag-row">
+                  <span class="active-clue-id" id="active-clue-badge">1 ACROSS</span>
+                  <span class="active-clue-cat" id="active-clue-category">Technique</span>
+                </div>
+                <p class="active-clue-body" id="active-clue-text">Select any square on the board to begin reading clues.</p>
+              </div>
+              <button class="clue-nav-btn" id="btn-next-clue" aria-label="Next Clue" title="Next Clue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+
+            <!-- The Crossword Grid Frame -->
+            <div class="grid-wrapper" id="grid-wrapper">
+              <div class="crossword-grid" id="crossword-grid" role="grid" aria-label="Cocktail Crossword Board">
+                <!-- Grid Cells injected programmatically -->
+              </div>
+            </div>
+
+            <!-- Ergonomic Virtual Keyboard for Touch & Mobile -->
+            <div class="virtual-keyboard" id="touch-keyboard" aria-label="Touch Keyboard">
+              <div class="kb-row">
+                <button class="kb-key" data-key="Q">Q</button>
+                <button class="kb-key" data-key="W">W</button>
+                <button class="kb-key" data-key="E">E</button>
+                <button class="kb-key" data-key="R">R</button>
+                <button class="kb-key" data-key="T">T</button>
+                <button class="kb-key" data-key="Y">Y</button>
+                <button class="kb-key" data-key="U">U</button>
+                <button class="kb-key" data-key="I">I</button>
+                <button class="kb-key" data-key="O">O</button>
+                <button class="kb-key" data-key="P">P</button>
+              </div>
+              <div class="kb-row">
+                <button class="kb-key" data-key="A">A</button>
+                <button class="kb-key" data-key="S">S</button>
+                <button class="kb-key" data-key="D">D</button>
+                <button class="kb-key" data-key="F">F</button>
+                <button class="kb-key" data-key="G">G</button>
+                <button class="kb-key" data-key="H">H</button>
+                <button class="kb-key" data-key="J">J</button>
+                <button class="kb-key" data-key="K">K</button>
+                <button class="kb-key" data-key="L">L</button>
+              </div>
+              <div class="kb-row">
+                <button class="kb-key kb-action" id="kb-btn-dir" aria-label="Toggle Input Direction">
+                  <span id="kb-dir-label">DIR ⇄</span>
+                </button>
+                <button class="kb-key" data-key="Z">Z</button>
+                <button class="kb-key" data-key="X">X</button>
+                <button class="kb-key" data-key="C">C</button>
+                <button class="kb-key" data-key="V">V</button>
+                <button class="kb-key" data-key="B">B</button>
+                <button class="kb-key" data-key="N">N</button>
+                <button class="kb-key" data-key="M">M</button>
+                <button class="kb-key kb-action" id="kb-btn-backspace" aria-label="Backspace">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                    <line x1="18" y1="9" x2="12" y2="15"></line>
+                    <line x1="12" y1="9" x2="18" y2="15"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Dual Clue Drawer / Ledger (Visible on desktop & expandable on mobile) -->
+          <div class="clues-ledger" id="clues-ledger">
+            <div class="clue-ledger-column" id="ledger-across">
+              <h3 class="ledger-heading">
+                <span>ACROSS</span>
+                <span class="ledger-count" id="count-across">0</span>
+              </h3>
+              <ul class="clues-list" id="clues-list-across" role="list"></ul>
+            </div>
+            <div class="clue-ledger-column" id="ledger-down">
+              <h3 class="ledger-heading">
+                <span>DOWN</span>
+                <span class="ledger-count" id="count-down">0</span>
+              </h3>
+              <ul class="clues-list" id="clues-list-down" role="list"></ul>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- MODAL: VICTORY & COCKTAIL KNOWLEDGE UNLOCK -->
+    <div id="modal-victory" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="victory-title">
+      <div class="modal-card victory-card">
+        <div class="victory-seal">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" stroke="#D89A3D" stroke-width="2" stroke-dasharray="3 3"/>
+            <circle cx="24" cy="24" r="18" fill="rgba(216, 154, 61, 0.15)"/>
+            <path d="M16 24l5 5 11-11" stroke="#D89A3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <h2 id="victory-title" class="victory-headline">PERFECT SPECIFICATION</h2>
+        <p class="victory-sub" id="victory-puzzle-name">The Aperitivo Hour Complete</p>
+
+        <div class="victory-stats-banner">
+          <div class="v-stat">
+            <span class="v-label">Time</span>
+            <span class="v-val" id="victory-time">01:42</span>
+          </div>
+          <div class="v-stat">
+            <span class="v-label">Hints Used</span>
+            <span class="v-val" id="victory-hints">0</span>
+          </div>
+          <div class="v-stat">
+            <span class="v-label">Mastery</span>
+            <span class="v-val text-gold" id="victory-stars">★★★</span>
+          </div>
+        </div>
+
+        <!-- Mixologist Knowledge Reveal Card -->
+        <div class="unlocked-knowledge-box">
+          <div class="knowledge-header">
+            <span class="knowledge-tag">DISCOVERED IN THE CODEX</span>
+            <h3 class="knowledge-title" id="unlocked-drink-title">The Negroni (1919)</h3>
+          </div>
+          <p class="knowledge-spec" id="unlocked-drink-spec">1 oz London Dry Gin • 1 oz Campari • 1 oz Sweet Vermouth</p>
+          <p class="knowledge-narrative" id="unlocked-drink-desc">
+            Legend holds that Count Camillo Negroni requested a stiffer version of his Americano at Caffè Casoni in Florence, substituting gin for soda water. Stirred over a dense hand-carved ice block and expressed with orange peel.
+          </p>
+          <div class="knowledge-footer">
+            <span class="knowledge-badge" id="unlocked-drink-family">Family: Bitter-Sweet Aperitivo</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-victory-codex" class="btn-secondary">Open Codex</button>
+          <button id="btn-victory-next" class="btn-primary">Next Puzzle</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: THE BARTENDER'S CODEX -->
+    <div id="modal-codex" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="codex-title">
+      <div class="modal-card codex-card">
+        <div class="modal-top">
+          <div class="modal-title-group">
+            <h2 id="codex-title" class="modal-title">The Mixologist's Codex</h2>
+            <p class="modal-subtitle">Curated library of classic cocktails, bar techniques, glassware & speakeasy history</p>
+          </div>
+          <button class="btn-close-modal" id="btn-close-codex" aria-label="Close Codex">&times;</button>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="codex-controls">
+          <div class="search-wrap">
+            <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="codex-search-input" class="search-input" placeholder="Search drinks, spirits, glassware, methods..." autocomplete="off">
+          </div>
+          <div class="codex-filter-pills" id="codex-filter-pills">
+            <button class="filter-pill active" data-cat="all">All</button>
+            <button class="filter-pill" data-cat="cocktail">Cocktails</button>
+            <button class="filter-pill" data-cat="spirit">Spirits</button>
+            <button class="filter-pill" data-cat="glass">Glassware</button>
+            <button class="filter-pill" data-cat="method">Techniques</button>
+            <button class="filter-pill" data-cat="lore">History & Lore</button>
+          </div>
+        </div>
+
+        <!-- Codex Entries Container -->
+        <div class="codex-scroll-area" id="codex-entries-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: STATISTICS & MASTERY MAP -->
+    <div id="modal-stats" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+      <div class="modal-card stats-card">
+        <div class="modal-top">
+          <div class="modal-title-group">
+            <h2 id="stats-title" class="modal-title">Career Bartender Log</h2>
+            <p class="modal-subtitle">Your tracked solves, streak record, and mixological domain mastery</p>
+          </div>
+          <button class="btn-close-modal" id="btn-close-stats" aria-label="Close Statistics">&times;</button>
+        </div>
+
+        <!-- Core Metric Counters -->
+        <div class="stats-counter-grid">
+          <div class="stat-box">
+            <span class="stat-number text-gold" id="stat-puzzles-solved">0</span>
+            <span class="stat-caption">Puzzles Solved</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="stat-current-streak">0</span>
+            <span class="stat-caption">Current Streak</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="stat-best-time">--:--</span>
+            <span class="stat-caption">Fastest Solve</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="stat-codex-unlocked">0</span>
+            <span class="stat-caption">Codex Entries</span>
+          </div>
+        </div>
+
+        <!-- Knowledge Domain Mastery Bars -->
+        <div class="mastery-section">
+          <h3 class="section-heading-sm">Mixology Domain Mastery</h3>
+          
+          <div class="mastery-bars">
+            <div class="mastery-row">
+              <div class="mastery-meta">
+                <span>Classic Cocktails</span>
+                <span id="pct-cocktails">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="bar-cocktails" style="width: 0%"></div></div>
+            </div>
+
+            <div class="mastery-row">
+              <div class="mastery-meta">
+                <span>Spirits & Liqueurs</span>
+                <span id="pct-spirits">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="bar-spirits" style="width: 0%"></div></div>
+            </div>
+
+            <div class="mastery-row">
+              <div class="mastery-meta">
+                <span>Glassware & Tools</span>
+                <span id="pct-tools">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="bar-tools" style="width: 0%"></div></div>
+            </div>
+
+            <div class="mastery-row">
+              <div class="mastery-meta">
+                <span>Techniques & Service</span>
+                <span id="pct-methods">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="bar-methods" style="width: 0%"></div></div>
+            </div>
+
+            <div class="mastery-row">
+              <div class="mastery-meta">
+                <span>History & Speakeasy Lore</span>
+                <span id="pct-lore">0%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="bar-lore" style="width: 0%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-footer">
+          <button id="btn-reset-stats" class="btn-text-danger">Reset Local Progress</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS CONTAINER -->
+    <div id="toast-container" class="toast-shelf" aria-live="assertive"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
