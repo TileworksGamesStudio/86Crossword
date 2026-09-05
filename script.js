@@ -1,14 +1,3 @@
-javascript
-/**
- * COCKTAIL CROSSWORD • COMPLETE ENGINE & REFINED CONTROLLER
- * Architecture: Self-Contained Vanilla JS Application
- * Includes: 5 Complete Playable Crossword Services, Robust LocalStorage Persistence,
- * Dynamic Screen-Fitting Grid, Audio/Haptics & Unified Navigation Hub
- */
-
-/* ==========================================================================
-   1. IN-SCRIPT DATASET (5 PLAYABLE SERVICES + 16 CODEX RECIPES)
-   ========================================================================== */
 const CONTENT_DATA = {
   puzzles: [
     {
