@@ -5,9 +5,6 @@
 
 const CONTENT_DATA = {
   puzzles: [
-    /* =========================================================================
-       MINI PUZZLES (15 TOTAL) — Quick, punchy, dense, 3x3 to 4x4 grids
-       ========================================================================= */
     {
       id: "puzzle-1-italian-hour",
       tier: "mini",
@@ -605,10 +602,6 @@ const CONTENT_DATA = {
         { id: "5D", num: 5, dir: "down", row: 0, col: 4, answer: "ERLNH", clue: "Early 20th-century European salons where cocktail culture flourished", cat: "History & Lore", codexId: "bar" }
       ]
     },
-
-    /* =========================================================================
-       MAIN PUZZLES (12 TOTAL) — Expanded 6x6 to 8x8 grids, advanced bar craft
-       ========================================================================= */
     {
       id: "puzzle-5-masters-service",
       tier: "main",
@@ -846,10 +839,6 @@ const CONTENT_DATA = {
     }
   ]
 };
-
-  /* =========================================================================
-     BARTENDER'S CODEX SPECIFICATIONS (ALL 34 ORIGINAL + 42 NEW ADDITIONS)
-     ========================================================================= */
   codex: [
     /* 1. Core Classics & Originals */
     { id: "neat", name: "NEAT SERVICE", category: "Methods & Tools", subline: "Unadulterated room-temperature spirit", glass: "Glencairn / Rocks", method: "Direct Pour", ice: "None (Ambient)", garnish: "None (Water side)", formula: "2.0 oz (60 ml) Premium Single Malt, Mezcal, or Bourbon", tip: "Serve with a small pipette of neutral spring water to bloom aromatics.", lore: "The oldest and purest way to inspect distillation quality without thermal masking." },
