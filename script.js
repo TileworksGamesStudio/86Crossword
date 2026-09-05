@@ -1,11 +1,13 @@
+javascript
 /**
- * COCKTAIL CROSSWORD • COMPLETE ENGINE & CONTENT REPOSITORY
- * Architecture: Clean Vanilla JS Data-Driven Application
- * Self-Contained: Exactly 5 Playable Crossword Services (Mini, Midi, Main)
+ * COCKTAIL CROSSWORD • COMPLETE ENGINE & REFINED CONTROLLER
+ * Architecture: Self-Contained Vanilla JS Application
+ * Includes: 5 Complete Playable Crossword Services, Robust LocalStorage Persistence,
+ * Dynamic Screen-Fitting Grid, Audio/Haptics & Unified Navigation Hub
  */
 
 /* ==========================================================================
-   1. IN-SCRIPT CONTENT DATASET (EXACTLY 5 PLAYABLE PUZZLE EXAMPLES)
+   1. IN-SCRIPT DATASET (5 PLAYABLE SERVICES + 16 CODEX RECIPES)
    ========================================================================== */
 const CONTENT_DATA = {
   puzzles: [
@@ -13,7 +15,7 @@ const CONTENT_DATA = {
       id: "puzzle-1-italian-hour",
       tier: "mini",
       title: "The Italian Hour",
-      blurb: "Step into the aperitivo counter for bittersweet Italian herbal pours, proper expressions, and bar essentials.",
+      blurb: "Aperitivo counter herbal pours, proper expressions, and bar essentials.",
       gridSize: { rows: 5, cols: 5 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "NEAT", clue: "Spirit served unchilled without ice or dilution", cat: "Methods & Tools", codexId: "neat" },
@@ -29,7 +31,7 @@ const CONTENT_DATA = {
       id: "puzzle-2-agave-sunset",
       tier: "mini",
       title: "Agave Sunset",
-      blurb: "Saline borders, rested tequila reposado, and frothy citrus shaken under the desert sun.",
+      blurb: "Saline borders, rested tequila reposado, and frothy citrus under desert sun.",
       gridSize: { rows: 5, cols: 5 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "ICES", clue: "Chills glassware and shaker tins with cubes", cat: "Methods & Tools", codexId: "ices" },
@@ -45,7 +47,7 @@ const CONTENT_DATA = {
       id: "puzzle-3-highball-express",
       tier: "midi",
       title: "Highball Express",
-      blurb: "Whisky, crisp bubbles, and crystal clear ice spears in the Japanese highball tradition.",
+      blurb: "Whisky, crisp bubbles, and crystal clear ice spears in the highball tradition.",
       gridSize: { rows: 6, cols: 6 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "MINT", clue: "Fragrant herb slapped to bloom aromatic top notes", cat: "Methods & Tools", codexId: "mint" },
@@ -54,17 +56,17 @@ const CONTENT_DATA = {
         { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "MAS", clue: "Historic cocktail root term behind the Mint Smash", cat: "History & Lore", codexId: "mas" },
         { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "NOD", clue: "The silent hospitality cue welcoming a regular guest", cat: "History & Lore", codexId: "nod" },
         { id: "3D", num: 3, dir: "down", row: 2, col: 0, answer: "SIP", clue: "To savor a balanced cocktail slowly across the palate", cat: "Methods & Tools", codexId: "sip" },
-        { id: "4D", num: 4, dir: "down", row: 2, col: 2, answer: "DUO", clue: "Spirit plus single modifier drink category", cat: "Cocktails", codexId: "duo" }
+        { id: "4D", num: 4, dir: "down", row: 2, col: 2, answer: "DUO", clue: "Spirit plus single modifier drink category", cat: "Methods & Tools", codexId: "duo" }
       ]
     },
     {
       id: "puzzle-4-speakeasy-secret",
       tier: "midi",
       title: "Speakeasy Secret",
-      blurb: "Spirit-forward standards, Bottled-in-Bond whiskies, and secret cellar service.",
+      blurb: "Spirit-forward standards, Bottled-in-Bond whiskies, and cellar service.",
       gridSize: { rows: 6, cols: 6 },
       words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "BITE", clue: "Pleasing ethanol kick balancing a cocktail", cat: "Cocktails", codexId: "bite" },
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "BITE", clue: "Pleasing ethanol kick balancing a cocktail", cat: "Spirits", codexId: "bite" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "BOND", clue: "Bottled-in-___: 100-proof government purity guarantee", cat: "Spirits", codexId: "bond" },
         { id: "5A", num: 5, dir: "across", row: 4, col: 0, answer: "RYES", clue: "Spicy grain spirits powering classic Manhattans", cat: "Spirits", codexId: "ryes" },
         { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "BIB", clue: "Industry acronym for Bottled in Bond", cat: "History & Lore", codexId: "bib" },
@@ -77,7 +79,7 @@ const CONTENT_DATA = {
       id: "puzzle-5-masters-service",
       tier: "main",
       title: "The Master’s Service",
-      blurb: "Shaken Daiquiris, elegant stemware, and sensory appreciation from nose to wash line.",
+      blurb: "Stemware, shaken Daiquiris, and sensory evaluation from nose to wash line.",
       gridSize: { rows: 7, cols: 7 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "COUPE", clue: "Stemmed glass curved to hold cocktails served up", cat: "Glassware", codexId: "coupe" },
@@ -92,22 +94,22 @@ const CONTENT_DATA = {
   ],
 
   codex: [
-    { id: "neat", name: "NEAT SERVICE", category: "Methods & Tools", subline: "Unadulterated room-temperature spirit", glass: "Glencairn / Rocks", method: "Direct Pour", ice: "None (Ambient)", garnish: "None (Water side)", formula: "2.0 oz (60 ml) Premium Single Malt, Mezcal, or Bourbon", tip: "Serve with a small pipette of neutral spring water to allow the guest to drop water and bloom aromatics at will.", lore: "The oldest and purest way to inspect distillation quality without thermal masking." },
-    { id: "peel", name: "CITRUS PEEL", category: "Methods & Tools", subline: "Expressed essential oil garnish", glass: "Coupe or Nick & Nora", method: "Express & Discard", ice: "According to build", garnish: "Wide orange, lemon, or grapefruit swath", formula: "1 wide swath cut without white bitter pith", tip: "Pinch skin side facing the glass at a 45-degree angle over the drink surface so micro-droplets mist the surface tension.", lore: "Originated in 19th-century punches where citrus peel oils (oleo saccharum) provided the core aroma." },
-    { id: "pour", name: "JIGGER POUR", category: "Methods & Tools", subline: "Accurate liquid balance measuring", glass: "Any vessel", method: "Meniscus fill & dump", ice: "Not applicable", garnish: "None", formula: "Precise measurements: 0.25 oz to 2.0 oz increments", tip: "Fill jiggers until an upward convex meniscus forms at the absolute top rim before tipping cleanly into the tin.", lore: "Named for the 19th-century 'jigger boss' who dispensed small spirit rations to canal and rail workers." },
-    { id: "nip", name: "THE NIP / DRAM", category: "History & Lore", subline: "Historic small spirit measure", glass: "Small copita or dram glass", method: "Hand pour", ice: "None", garnish: "None", formula: "1.0 oz (30 ml) Spirit", tip: "Ideal for hospitality welcomes, bar guest handshakes, and distiller tastings.", lore: "Derived from 'nipperkin', an old English vessel containing under a half-pint of strong ale or cordial." },
-    { id: "ale", name: "GINGER ALE", category: "Mixers", subline: "Effervescent sweetened ginger soda", glass: "Collins / Highball", method: "Built gently over ice", ice: "Clear Ice Spear or Cubes", garnish: "Lime wedge or candied ginger", formula: "4.0 oz Ginger Ale\n2.0 oz Whiskey or Brandy", tip: "Pour carbonated mixers down the twisted spiral shaft of a bar spoon to protect carbonation bubbles from bursting.", lore: "Invented in Belfast in the 1850s, later perfected into the pale dry style in Canada in 1904." },
-    { id: "pop", name: "CHAMPAGNE POP", category: "History & Lore", subline: "Sparkling cellar tradition", glass: "Flute or Tulip", method: "Slow twist uncorking", ice: "Chilled to 45°F", garnish: "None", formula: "Traditional method sparkling wine under 6 atmospheres of pressure", tip: "Keep your thumb over the cork at all times while untwisting the wire cage, then turn the bottle base rather than the cork.", lore: "English scientist Christopher Merret documented intentional secondary in-bottle carbonation back in 1662." },
-    { id: "eau", name: "EAU-DE-VIE", category: "Spirits", subline: "Clear unaged fruit brandy", glass: "Tulip / Grappa Glass", method: "Chilled or ambient neat", ice: "None", garnish: "None", formula: "Pure fermented and distilled fruit (pear, cherry, plum, apple)", tip: "Serve at 55°F (12°C). Never over-chill, or fragile fruit esters will lock up and hide from the nose.", lore: "Translates to 'Water of Life' in French, traditionally distilled across Alsace, Germany, and Switzerland." },
-    { id: "ices", name: "BAR ICE SCIENCE", category: "Methods & Tools", subline: "Thermal dilution control", glass: "Mixing glass / Shaker tin", method: "Directional freezing", ice: "Dense clear block ice", garnish: "None", formula: "0°F to 28°F solid frozen density", tip: "Shake drinks with solid, dry, cold cubes. Wet melting ice over-dilutes the wash line before chilling is achieved.", lore: "Frederic Tudor sparked the 19th-century cocktail revolution by shipping fresh New England pond ice worldwide." },
-    { id: "aged", name: "BARREL AGING", category: "Spirits", subline: "Charred white oak maturation", glass: "Glencairn", method: "Cask resting", ice: "Optional single cube", garnish: "None", formula: "Spirit extraction, oxidation, and wood subtraction across seasons", tip: "White oak barrels contribute vanillin, lactones (coconut notes), and wood sugars through charred interior staves.", lore: "Charring barrels was originally adopted to sanitize fish and pickle barrels before shipping frontier whiskey." },
-    { id: "edge", name: "SALT RIM / CRUSTA", category: "Glassware", subline: "Contrast border application", glass: "Coupe / Rocks", method: "Half-rim swipe", ice: "Fresh cold cubes", garnish: "Flaky sea salt or spiced sugar", formula: "Lime cheek wipe + flaky kosher salt rim", tip: "Salt only half the exterior rim so guests can alternate between salted and clean sips.", lore: "Joseph Santini invented the brandy Crusta in 1850s New Orleans, the direct ancestor of modern salted rims." },
-    { id: "egg", name: "ALBUMEN FOAM", category: "Methods & Tools", subline: "Silky cocktail foam texture", glass: "Coupe or Sour Glass", method: "Dry shake, then wet shake", ice: "Strained off ice", garnish: "Angostura bitters drop art", tip: "Dry shake (without ice) for 15 seconds to emulsify egg proteins, then add ice and shake hard to chill and aerate.", lore: "Bartenders began emulsifying egg whites into spirit sours in the 1880s to soften harsh frontier spirits." },
-    { id: "mint", name: "MINT SERVICE", category: "Methods & Tools", subline: "Aromatic herb crown handling", glass: "Julep Cup / Highball", method: "Gentle slap expression", ice: "Crushed pebble ice", garnish: "Bouquet of fresh mint sprigs", tip: "Never pulverize mint leaves with a toothed muddler; tearing releases bitter plant chlorophyll. Press gently or clap.", lore: "The Mint Julep was Virginia's morning eye-opener in the early 1800s before turning into a Kentucky Derby icon." },
-    { id: "soda", name: "CLUB SODA", category: "Mixers", subline: "Mineralized carbonated lengthener", glass: "Highball", method: "Gently top and lift with barspoon", ice: "Clear spear", garnish: "Citrus twist", formula: "Carbonated water + sodium bicarbonate / potassium sulfate", tip: "Keep club soda bottles stored near 33°F (1°C). Colder liquid holds dissolved CO2 gas with far higher tenacity.", lore: "Joseph Priestley discovered how to carbonate water in Leeds in 1767 by suspending water over beer vats." },
-    { id: "proof", name: "PROOF SYSTEM", category: "Spirits", subline: "Ethanol concentration metric", glass: "Any vessel", method: "Hydrometer measurement", ice: "Not applicable", garnish: "None", formula: "Proof = ABV% × 2 (US Standard)", tip: "Higher proof spirits (100+ proof) resist ice dilution longer and carry delicate herbal modifiers with greater backbone.", lore: "British Navy gunpowder would still ignite when soaked in rum tested at 57.1% ABV ('Navy Proof')." },
-    { id: "coupe", name: "COUPE GLASS", category: "Glassware", subline: "Classic stemmed cocktail vessel", glass: "5.5 oz (160 ml) Coupe", method: "Pre-chill in freezer", ice: "Served 'Up' (No ice in glass)", garnish: "Twist or Brandied Cherry", formula: "Ideal capacity: 5 to 6 oz with 0.5 oz wash line wash headroom", tip: "Always hold a coupe by the stem; holding the bowl transfers body heat from your palm directly into the cold drink.", lore: "Debunking the myth: the coupe was designed for sparkling wine in England around 1663, not Marie Antoinette." },
-    { id: "nose", name: "THE COCKTAIL NOSE", category: "Methods & Tools", subline: "Aroma bouquet appreciation", glass: "Fluted or stemmed", method: "Olfactory inspection", ice: "Properly rested", garnish: "Aromatic citrus or botanical", formula: "Over 80% of perceived flavor is retronasal and orthonasal aroma", tip: "Encourage guests to smell the drink with their mouth slightly open to avoid olfactory fatigue from ethanol fumes.", lore: "Jerry Thomas crowned early cocktails with seasonal berry and citrus tops specifically to charm the nose." }
+    { id: "neat", name: "NEAT SERVICE", category: "Methods & Tools", subline: "Unadulterated room-temperature spirit", glass: "Glencairn / Rocks", method: "Direct Pour", ice: "None (Ambient)", garnish: "None (Water side)", formula: "2.0 oz (60 ml) Premium Single Malt, Mezcal, or Bourbon", tip: "Serve with a small pipette of neutral spring water to bloom aromatics.", lore: "The oldest and purest way to inspect distillation quality without thermal masking." },
+    { id: "peel", name: "CITRUS PEEL", category: "Methods & Tools", subline: "Expressed essential oil garnish", glass: "Coupe or Nick & Nora", method: "Express & Discard", ice: "Per build", garnish: "Wide orange or lemon swath", formula: "1 wide swath cut without white bitter pith", tip: "Pinch skin side at a 45° angle over the drink surface so micro-droplets mist evenly.", lore: "Originated in 19th-century punches where citrus peel oils provided the core aroma." },
+    { id: "pour", name: "JIGGER POUR", category: "Methods & Tools", subline: "Accurate liquid balance measuring", glass: "Any vessel", method: "Meniscus fill & tip", ice: "N/A", garnish: "None", formula: "Precise measures: 0.25 oz to 2.0 oz increments", tip: "Fill jiggers until an upward convex meniscus forms at the absolute top rim.", lore: "Named for the 19th-century 'jigger boss' who dispensed small spirit rations." },
+    { id: "nip", name: "THE NIP / DRAM", category: "History & Lore", subline: "Historic small spirit measure", glass: "Small copita or dram glass", method: "Hand pour", ice: "None", garnish: "None", formula: "1.0 oz (30 ml) Spirit", tip: "Ideal for hospitality welcomes and bar guest handshakes.", lore: "Derived from 'nipperkin', an old English vessel containing under a half-pint." },
+    { id: "ale", name: "GINGER ALE", category: "Mixers", subline: "Effervescent sweetened ginger soda", glass: "Collins / Highball", method: "Built over ice", ice: "Clear Ice Spear", garnish: "Lime wedge", formula: "4.0 oz Ginger Ale\n2.0 oz Whiskey or Brandy", tip: "Pour carbonated mixers down the spiral shaft of a barspoon to preserve fizz.", lore: "Invented in Belfast in the 1850s, perfected into the pale dry style in 1904." },
+    { id: "pop", name: "CHAMPAGNE POP", category: "History & Lore", subline: "Sparkling cellar tradition", glass: "Flute or Tulip", method: "Slow twist uncorking", ice: "Chilled to 45°F", garnish: "None", formula: "Traditional method sparkling wine under 6 bars of pressure", tip: "Keep your thumb over the cork at all times, turning the bottle base rather than the cork.", lore: "Christopher Merret documented intentional in-bottle carbonation back in 1662." },
+    { id: "eau", name: "EAU-DE-VIE", category: "Spirits", subline: "Clear unaged fruit brandy", glass: "Tulip / Grappa Glass", method: "Ambient neat", ice: "None", garnish: "None", formula: "Pure fermented and distilled fruit (pear, cherry, plum, apple)", tip: "Serve at 55°F (12°C). Never over-chill, or fragile fruit esters will lock up.", lore: "Translates to 'Water of Life' in French, traditionally distilled in Alsace." },
+    { id: "ices", name: "BAR ICE SCIENCE", category: "Methods & Tools", subline: "Thermal dilution control", glass: "Mixing glass / Shaker", method: "Directional freezing", ice: "Dense clear block ice", garnish: "None", formula: "0°F to 28°F solid frozen density", tip: "Shake drinks with solid, dry cubes. Wet melting ice over-dilutes the wash line.", lore: "Frederic Tudor sparked the cocktail revolution shipping pond ice worldwide in 1806." },
+    { id: "aged", name: "BARREL AGING", category: "Spirits", subline: "Charred white oak maturation", glass: "Glencairn", method: "Cask resting", ice: "Optional single cube", garnish: "None", formula: "Spirit extraction, oxidation, and wood subtraction across seasons", tip: "White oak barrels contribute vanillin, lactones, and wood sugars.", lore: "Charring barrels was originally adopted to sanitize fish and pickle barrels." },
+    { id: "edge", name: "SALT RIM / CRUSTA", category: "Glassware", subline: "Contrast border application", glass: "Coupe / Rocks", method: "Half-rim swipe", ice: "Fresh cubes", garnish: "Flaky sea salt", formula: "Lime cheek wipe + flaky kosher salt rim", tip: "Salt only half the exterior rim so guests can alternate between salted and clean sips.", lore: "Joseph Santini invented the brandy Crusta in 1850s New Orleans." },
+    { id: "egg", name: "ALBUMEN FOAM", category: "Methods & Tools", subline: "Silky cocktail foam texture", glass: "Coupe or Sour Glass", method: "Dry shake, then wet shake", ice: "Strained off ice", garnish: "Bitters drops", formula: "0.75 oz Egg White or Aquafaba\n2.0 oz Spirit\n0.75 oz Lemon\n0.75 oz Simple", tip: "Dry shake for 15 seconds to emulsify proteins, then add ice and shake hard.", lore: "Bartenders began emulsifying egg whites into spirit sours in the 1880s." },
+    { id: "mint", name: "MINT SERVICE", category: "Methods & Tools", subline: "Aromatic herb crown handling", glass: "Julep Cup / Highball", method: "Gentle slap expression", ice: "Crushed pebble ice", garnish: "Bouquet of fresh mint", tip: "Never pulverize mint leaves; tearing releases bitter plant chlorophyll. Clap gently.", lore: "The Mint Julep was Virginia's morning eye-opener in the early 1800s." },
+    { id: "soda", name: "CLUB SODA", category: "Mixers", subline: "Mineralized carbonated lengthener", glass: "Highball", method: "Gently top and lift", ice: "Clear spear", garnish: "Citrus twist", formula: "Carbonated water + sodium bicarbonate", tip: "Keep soda bottles stored near 33°F (1°C). Colder liquid holds dissolved CO2 tighter.", lore: "Joseph Priestley discovered how to carbonate water in Leeds in 1767." },
+    { id: "proof", name: "PROOF SYSTEM", category: "Spirits", subline: "Ethanol concentration metric", glass: "Any vessel", method: "Hydrometer measurement", ice: "N/A", garnish: "None", formula: "Proof = ABV% × 2 (US Standard)", tip: "Higher proof spirits resist ice dilution longer and hold delicate modifiers.", lore: "British Navy gunpowder would still ignite when soaked in 57.1% ABV rum ('Navy Proof')." },
+    { id: "coupe", name: "COUPE GLASS", category: "Glassware", subline: "Classic stemmed cocktail vessel", glass: "5.5 oz (160 ml) Coupe", method: "Pre-chill in freezer", ice: "Served 'Up' (No ice)", garnish: "Twist or Cherry", formula: "Ideal capacity: 5 to 6 oz with 0.5 oz wash line headroom", tip: "Always hold a coupe by the stem to avoid transferring body heat into the drink.", lore: "Designed for sparkling wine in England around 1663, not Marie Antoinette." },
+    { id: "nose", name: "THE COCKTAIL NOSE", category: "Methods & Tools", subline: "Aroma bouquet appreciation", glass: "Stemmed glass", method: "Olfactory inspection", ice: "Properly rested", garnish: "Aromatic botanical", formula: "Over 80% of perceived flavor is retronasal and orthonasal aroma", tip: "Smell cocktails with your mouth slightly open to avoid olfactory fatigue from ethanol.", lore: "Jerry Thomas crowned early cocktails with seasonal berry and citrus tops for aroma." }
   ],
 
   ranks: [
@@ -127,63 +129,20 @@ const CONTENT_DATA = {
   ],
 
   achievements: [
-    { id: "first_solve", icon: "🍸", name: "First Service", desc: "Solve your first cocktail crossword" },
-    { id: "clean_sweep", icon: "✨", name: "Clean Sweep", desc: "Complete a puzzle with zero hints or errors" },
-    { id: "vault_master", icon: "🏆", name: "Vault Master", desc: "Solve all five puzzle editions" },
+    { id: "first_solve", icon: "🍸", name: "First Shift", desc: "Complete your first mixology crossword service" },
+    { id: "clean_sweep", icon: "✨", name: "Clean Sweep", desc: "Complete any service with zero hints or errors" },
+    { id: "vault_master", icon: "🏆", name: "Vault Master", desc: "Solve all five curated puzzle services" },
     { id: "scholar", icon: "📖", name: "Codex Scholar", desc: "Unlock 8 or more bartender codex cards" },
-    { id: "speedy", icon: "⚡", name: "Fast Service", desc: "Solve any puzzle in under 2 minutes" },
+    { id: "speedy", icon: "⚡", name: "Swift Pour", desc: "Solve any service in under 2 minutes" },
     { id: "craft_master", icon: "👑", name: "Master of Spirits", desc: "Achieve Level 5 Hospitality Rank" }
   ]
 };
 
 /* ==========================================================================
-   2. CONTENT VALIDATION ENGINE
-   ========================================================================== */
-const ContentValidator = {
-  validate(data) {
-    if (!data || !Array.isArray(data.puzzles) || data.puzzles.length !== 5) {
-      console.warn("Content warning: Expected exactly 5 playable puzzle entries.");
-    }
-    const puzzleIds = new Set();
-    data.puzzles.forEach((p, idx) => {
-      if (!p.id) throw new Error(`Puzzle at index ${idx} is missing an ID.`);
-      if (puzzleIds.has(p.id)) throw new Error(`Duplicate puzzle ID detected: ${p.id}`);
-      puzzleIds.add(p.id);
-
-      if (!p.gridSize || typeof p.gridSize.rows !== "number" || typeof p.gridSize.cols !== "number") {
-        throw new Error(`Puzzle ${p.id} has invalid gridSize.`);
-      }
-
-      // Orthographic intersection validation
-      const charMap = new Map();
-      p.words.forEach(w => {
-        const len = w.answer.length;
-        for (let i = 0; i < len; i++) {
-          const r = w.dir === "across" ? w.row : w.row + i;
-          const c = w.dir === "across" ? w.col + i : w.col;
-          const key = `${r},${c}`;
-          const letter = w.answer[i].toUpperCase();
-          if (charMap.has(key)) {
-            const existing = charMap.get(key);
-            if (existing !== letter) {
-              throw new Error(`Letter mismatch in puzzle ${p.id} at (${r},${c}): "${existing}" vs "${letter}"`);
-            }
-          } else {
-            charMap.set(key, letter);
-          }
-        }
-      });
-    });
-    return true;
-  }
-};
-
-/* ==========================================================================
-   3. SOUND & HAPTIC ENGINE
+   2. SOUND & HAPTIC ENGINE
    ========================================================================== */
 const SoundEngine = (() => {
   let ctx = null;
-  let muted = false;
 
   const initCtx = () => {
     if (!ctx) {
@@ -196,7 +155,7 @@ const SoundEngine = (() => {
   };
 
   const playTone = (freq, type, duration, gainVal, rampTo = null) => {
-    if (muted) return;
+    if (!GameState.settings.sound) return;
     initCtx();
     if (!ctx) return;
     try {
@@ -216,79 +175,73 @@ const SoundEngine = (() => {
     } catch (e) {}
   };
 
-  const playClick = () => {
-    playTone(520, "sine", 0.03, 0.07, 240);
-    if (navigator.vibrate) try { navigator.vibrate(8); } catch (e) {}
+  const triggerHaptic = (pattern) => {
+    if (!GameState.settings.haptics) return;
+    if (navigator.vibrate) {
+      try { navigator.vibrate(pattern); } catch (e) {}
+    }
   };
 
-  const playChime = () => {
-    if (muted) return;
-    initCtx();
-    if (!ctx) return;
-    try {
-      const now = ctx.currentTime;
-      [587.33, 880].forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-        gain.gain.setValueAtTime(0.12, now + idx * 0.06);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.25);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now + idx * 0.06);
-        osc.stop(now + idx * 0.06 + 0.26);
-      });
-    } catch (e) {}
-    if (navigator.vibrate) try { navigator.vibrate(15); } catch (e) {}
+  return {
+    playClick() {
+      playTone(520, "sine", 0.03, 0.06, 240);
+      triggerHaptic(6);
+    },
+    playChime() {
+      if (!GameState.settings.sound) return;
+      initCtx();
+      if (!ctx) return;
+      try {
+        const now = ctx.currentTime;
+        [587.33, 880].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.1, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.23);
+        });
+      } catch (e) {}
+      triggerHaptic(12);
+    },
+    playFanfare() {
+      if (!GameState.settings.sound) return;
+      initCtx();
+      if (!ctx) return;
+      try {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        const now = ctx.currentTime;
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.12, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.36);
+        });
+      } catch (e) {}
+      triggerHaptic([20, 30, 40]);
+    },
+    playError() {
+      playTone(180, "sawtooth", 0.1, 0.08, 110);
+      triggerHaptic([12, 10, 12]);
+    }
   };
-
-  const playFanfare = () => {
-    if (muted) return;
-    initCtx();
-    if (!ctx) return;
-    try {
-      const notes = [523.25, 659.25, 783.99, 1046.5];
-      const now = ctx.currentTime;
-      notes.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now + idx * 0.09);
-        gain.gain.setValueAtTime(0.14, now + idx * 0.09);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.38);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now + idx * 0.09);
-        osc.stop(now + idx * 0.09 + 0.4);
-      });
-    } catch (e) {}
-    if (navigator.vibrate) try { navigator.vibrate([20, 30, 40]); } catch (e) {}
-  };
-
-  const playError = () => {
-    playTone(180, "sawtooth", 0.12, 0.09, 110);
-    if (navigator.vibrate) try { navigator.vibrate([12, 10, 12]); } catch (e) {}
-  };
-
-  const toggleMute = () => {
-    muted = !muted;
-    try { localStorage.setItem("cc_muted", muted ? "1" : "0"); } catch (e) {}
-    return muted;
-  };
-
-  const initMute = () => {
-    try { muted = localStorage.getItem("cc_muted") === "1"; } catch (e) { muted = false; }
-  };
-
-  const isMuted = () => muted;
-
-  return { playClick, playChime, playFanfare, playError, toggleMute, initMute, isMuted };
 })();
 
 /* ==========================================================================
-   4. CENTRAL GAME STATE & PERSISTENCE
+   3. CENTRAL PERSISTENT GAME STATE
    ========================================================================== */
+const STORAGE_KEY = "cocktail_crossword_save_v1";
+
 const GameState = {
   currentPuzzle: null,
   activeCell: { r: 0, c: 0 },
@@ -302,6 +255,8 @@ const GameState = {
   isSolved: false,
   hintsUsed: 0,
   errorsCount: 0,
+
+  // Persistent user records
   unlockedCodex: new Set(),
   streak: 1,
   xp: 0,
@@ -309,50 +264,98 @@ const GameState = {
   cleanSweepsCount: 0,
   solvedPuzzleIds: new Set(),
   unlockedBadges: new Set(),
+  lastPlayedDate: null,
+  activePuzzleId: "puzzle-1-italian-hour",
+  savedGrids: {}, // puzzleId -> { grid, time, hints, errors, revealed }
+
+  settings: {
+    sound: true,
+    haptics: true,
+    skipFilled: true
+  },
 
   init() {
-    SoundEngine.initMute();
     this.loadPersistence();
+    this.checkDailyStreak();
   },
 
   loadPersistence() {
     try {
-      const savedUnlocked = localStorage.getItem("cc_unlocked");
-      if (savedUnlocked) this.unlockedCodex = new Set(JSON.parse(savedUnlocked));
-
-      const savedSolvedIds = localStorage.getItem("cc_solved_ids");
-      if (savedSolvedIds) this.solvedPuzzleIds = new Set(JSON.parse(savedSolvedIds));
-
-      const savedBadges = localStorage.getItem("cc_badges");
-      if (savedBadges) this.unlockedBadges = new Set(JSON.parse(savedBadges));
-
-      const savedXp = localStorage.getItem("cc_xp");
-      if (savedXp) this.xp = parseInt(savedXp, 10) || 0;
-
-      const savedSolved = localStorage.getItem("cc_solved_count");
-      if (savedSolved) this.puzzlesSolvedCount = parseInt(savedSolved, 10) || 0;
-
-      const savedSweeps = localStorage.getItem("cc_clean_sweeps");
-      if (savedSweeps) this.cleanSweepsCount = parseInt(savedSweeps, 10) || 0;
-
-      const savedStreak = localStorage.getItem("cc_streak");
-      if (savedStreak) this.streak = parseInt(savedStreak, 10) || 1;
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data && typeof data === "object") {
+        if (Array.isArray(data.unlockedCodex)) this.unlockedCodex = new Set(data.unlockedCodex);
+        if (Array.isArray(data.solvedPuzzleIds)) this.solvedPuzzleIds = new Set(data.solvedPuzzleIds);
+        if (Array.isArray(data.unlockedBadges)) this.unlockedBadges = new Set(data.unlockedBadges);
+        if (typeof data.xp === "number") this.xp = data.xp;
+        if (typeof data.puzzlesSolvedCount === "number") this.puzzlesSolvedCount = data.puzzlesSolvedCount;
+        if (typeof data.cleanSweepsCount === "number") this.cleanSweepsCount = data.cleanSweepsCount;
+        if (typeof data.streak === "number") this.streak = Math.max(1, data.streak);
+        if (data.lastPlayedDate) this.lastPlayedDate = data.lastPlayedDate;
+        if (data.activePuzzleId) this.activePuzzleId = data.activePuzzleId;
+        if (data.savedGrids && typeof data.savedGrids === "object") this.savedGrids = data.savedGrids;
+        if (data.settings && typeof data.settings === "object") {
+          this.settings = { ...this.settings, ...data.settings };
+        }
+      }
     } catch (e) {
-      console.warn("Storage read error:", e);
+      console.warn("Storage load warning:", e);
     }
   },
 
   savePersistence() {
     try {
-      localStorage.setItem("cc_unlocked", JSON.stringify([...this.unlockedCodex]));
-      localStorage.setItem("cc_solved_ids", JSON.stringify([...this.solvedPuzzleIds]));
-      localStorage.setItem("cc_badges", JSON.stringify([...this.unlockedBadges]));
-      localStorage.setItem("cc_xp", this.xp.toString());
-      localStorage.setItem("cc_solved_count", this.puzzlesSolvedCount.toString());
-      localStorage.setItem("cc_clean_sweeps", this.cleanSweepsCount.toString());
-      localStorage.setItem("cc_streak", this.streak.toString());
+      // Save current active puzzle state if solving
+      if (this.currentPuzzle && !this.isSolved) {
+        this.savedGrids[this.currentPuzzle.id] = {
+          userGrid: this.userGrid,
+          timerSeconds: this.timerSeconds,
+          hintsUsed: this.hintsUsed,
+          errorsCount: this.errorsCount,
+          revealedCells: [...this.revealedCells]
+        };
+      } else if (this.currentPuzzle && this.isSolved) {
+        delete this.savedGrids[this.currentPuzzle.id];
+      }
+
+      const bundle = {
+        version: 1,
+        unlockedCodex: [...this.unlockedCodex],
+        solvedPuzzleIds: [...this.solvedPuzzleIds],
+        unlockedBadges: [...this.unlockedBadges],
+        xp: this.xp,
+        puzzlesSolvedCount: this.puzzlesSolvedCount,
+        cleanSweepsCount: this.cleanSweepsCount,
+        streak: this.streak,
+        lastPlayedDate: this.lastPlayedDate,
+        activePuzzleId: this.activePuzzleId,
+        savedGrids: this.savedGrids,
+        settings: this.settings
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bundle));
     } catch (e) {
-      console.warn("Storage write error:", e);
+      console.warn("Storage save error:", e);
+    }
+  },
+
+  checkDailyStreak() {
+    const today = new Date().toISOString().slice(0, 10);
+    if (!this.lastPlayedDate) {
+      this.lastPlayedDate = today;
+      return;
+    }
+    if (this.lastPlayedDate !== today) {
+      const last = new Date(this.lastPlayedDate);
+      const now = new Date(today);
+      const diffDays = Math.round((now - last) / (1000 * 60 * 60 * 24));
+      if (diffDays === 1) {
+        this.streak += 1;
+      } else if (diffDays > 1) {
+        this.streak = 1;
+      }
+      this.lastPlayedDate = today;
+      this.savePersistence();
     }
   },
 
@@ -367,27 +370,52 @@ const GameState = {
     const currentIndex = ranks.indexOf(current);
     const next = ranks[currentIndex + 1] || current;
     return { current, next };
+  },
+
+  resetAllData() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+    this.unlockedCodex = new Set();
+    this.solvedPuzzleIds = new Set();
+    this.unlockedBadges = new Set();
+    this.xp = 0;
+    this.puzzlesSolvedCount = 0;
+    this.cleanSweepsCount = 0;
+    this.streak = 1;
+    this.savedGrids = {};
+    this.savePersistence();
   }
 };
 
 /* ==========================================================================
-   5. CROSSWORD SOLVING & BOARD ENGINE
+   4. CROSSWORD SOLVING & BOARD ENGINE
    ========================================================================== */
 const CrosswordEngine = {
   boardMap: {},
 
   loadPuzzle(puzzleId) {
     const puzzle = CONTENT_DATA.puzzles.find(p => p.id === puzzleId) || CONTENT_DATA.puzzles[0];
-    if (!puzzle) return;
-
     GameState.currentPuzzle = puzzle;
-    GameState.userGrid = {};
-    GameState.revealedCells = new Set();
-    GameState.isSolved = false;
+    GameState.activePuzzleId = puzzle.id;
+    GameState.isSolved = GameState.solvedPuzzleIds.has(puzzle.id);
     GameState.isPaused = false;
-    GameState.hintsUsed = 0;
-    GameState.errorsCount = 0;
-    GameState.timerSeconds = 0;
+
+    // Restore saved in-progress board if present
+    const saved = GameState.savedGrids[puzzle.id];
+    if (saved && !GameState.isSolved) {
+      GameState.userGrid = { ...saved.userGrid };
+      GameState.timerSeconds = saved.timerSeconds || 0;
+      GameState.hintsUsed = saved.hintsUsed || 0;
+      GameState.errorsCount = saved.errorsCount || 0;
+      GameState.revealedCells = new Set(saved.revealedCells || []);
+    } else {
+      GameState.userGrid = {};
+      GameState.timerSeconds = 0;
+      GameState.hintsUsed = 0;
+      GameState.errorsCount = 0;
+      GameState.revealedCells = new Set();
+    }
 
     this.buildBoardMap(puzzle);
 
@@ -401,7 +429,18 @@ const CrosswordEngine = {
     this.updateClueBar();
     this.highlightActiveCells();
     this.updateProgress();
-    this.startTimer();
+
+    if (!GameState.isSolved) {
+      this.startTimer();
+    } else {
+      this.stopTimer();
+      // If already solved, fill whole grid correctly for review
+      Object.keys(this.boardMap).forEach(key => {
+        if (this.boardMap[key]) GameState.userGrid[key] = this.boardMap[key].letter;
+      });
+      this.renderGrid();
+      this.updateProgress();
+    }
   },
 
   buildBoardMap(puzzle) {
@@ -460,13 +499,13 @@ const CrosswordEngine = {
     if (!gridEl || !stage || !GameState.currentPuzzle) return;
 
     const { rows, cols } = GameState.currentPuzzle.gridSize;
-    const availWidth = Math.max(260, stage.clientWidth - 16);
-    const availHeight = Math.max(220, stage.clientHeight - 16);
+    const availWidth = Math.max(220, stage.clientWidth - 12);
+    const availHeight = Math.max(180, stage.clientHeight - 12);
 
-    const cellByWidth = Math.floor(availWidth / cols);
-    const cellByHeight = Math.floor(availHeight / rows);
-    const rawSize = Math.min(cellByWidth, cellByHeight);
-    const cellSize = Math.min(Math.max(34, rawSize), 58);
+    const cellByW = Math.floor(availWidth / cols);
+    const cellByH = Math.floor(availHeight / rows);
+    const rawSize = Math.min(cellByW, cellByH);
+    const cellSize = Math.min(Math.max(30, rawSize), 52);
 
     gridEl.innerHTML = "";
     gridEl.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
@@ -489,7 +528,7 @@ const CrosswordEngine = {
         } else {
           cell.setAttribute("role", "gridcell");
           cell.setAttribute("tabindex", "-1");
-          cell.setAttribute("aria-label", `Row ${r + 1}, Column ${c + 1}`);
+          cell.setAttribute("aria-label", `Row ${r + 1}, Col ${c + 1}`);
 
           if (cellData.num) {
             const numEl = document.createElement("span");
@@ -525,7 +564,6 @@ const CrosswordEngine = {
     SoundEngine.playClick();
 
     if (GameState.activeCell.r === r && GameState.activeCell.c === c) {
-      // Toggle orientation if alternate direction exists at this intersection
       const otherDir = GameState.activeDirection === "across" ? "down" : "across";
       if (cellData.words[otherDir]) {
         GameState.activeDirection = otherDir;
@@ -536,9 +574,9 @@ const CrosswordEngine = {
       if (cellData.words[GameState.activeDirection]) {
         GameState.activeWord = cellData.words[GameState.activeDirection];
       } else {
-        const availableDir = Object.keys(cellData.words)[0];
-        GameState.activeDirection = availableDir;
-        GameState.activeWord = cellData.words[availableDir];
+        const fallback = Object.keys(cellData.words)[0];
+        GameState.activeDirection = fallback;
+        GameState.activeWord = cellData.words[fallback];
       }
     }
 
@@ -614,6 +652,7 @@ const CrosswordEngine = {
     const parent = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"]`);
     if (parent) parent.classList.remove("error-cell");
 
+    GameState.savePersistence();
     this.advanceActiveCell(1);
     this.updateProgress();
     this.checkPuzzleCompletion();
@@ -639,6 +678,7 @@ const CrosswordEngine = {
         if (prevEl) prevEl.textContent = "";
       }
     }
+    GameState.savePersistence();
     this.updateProgress();
   },
 
@@ -651,7 +691,19 @@ const CrosswordEngine = {
       ? GameState.activeCell.c - word.col
       : GameState.activeCell.r - word.row;
 
-    const nextOffset = offset + step;
+    let nextOffset = offset + step;
+
+    // Optional Skip filled cells setting when advancing forward
+    if (step > 0 && GameState.settings.skipFilled) {
+      while (nextOffset < len) {
+        const testR = word.dir === "across" ? word.row : word.row + nextOffset;
+        const testC = word.dir === "across" ? word.col + nextOffset : word.col;
+        const testKey = `${testR},${testC}`;
+        if (!GameState.userGrid[testKey]) break;
+        nextOffset++;
+      }
+    }
+
     if (nextOffset >= 0 && nextOffset < len) {
       const nextR = word.dir === "across" ? word.row : word.row + nextOffset;
       const nextC = word.dir === "across" ? word.col + nextOffset : word.col;
@@ -715,6 +767,7 @@ const CrosswordEngine = {
     }
 
     SoundEngine.playChime();
+    GameState.savePersistence();
     this.advanceActiveCell(1);
     this.updateProgress();
     this.checkPuzzleCompletion();
@@ -742,17 +795,17 @@ const CrosswordEngine = {
         GameState.errorsCount++;
         if (cell) {
           cell.classList.add("error-cell");
-          setTimeout(() => cell.classList.remove("error-cell"), 1600);
+          setTimeout(() => cell.classList.remove("error-cell"), 1500);
         }
       }
     }
 
     if (hasMistake) {
       SoundEngine.playError();
-      UIController.showToast("Mistakes flagged in red.", "error");
+      UIController.showToast("Mistakes flagged in red", "error");
     } else {
       SoundEngine.playChime();
-      UIController.showToast("Current word is correct!", "success");
+      UIController.showToast("Word is looking sharp!", "success");
     }
   },
 
@@ -775,8 +828,9 @@ const CrosswordEngine = {
         if (letterEl) letterEl.textContent = "";
       }
     }
+    GameState.savePersistence();
     this.updateProgress();
-    UIController.showToast("Cleared active word.");
+    UIController.showToast("Word cleared");
   },
 
   updateProgress() {
@@ -805,7 +859,7 @@ const CrosswordEngine = {
       this.handlePuzzleVictory();
     } else {
       SoundEngine.playError();
-      UIController.showToast("Grid is filled, but some letters need adjustment.", "error");
+      UIController.showToast("Grid is filled with some errors", "error");
     }
   },
 
@@ -822,17 +876,14 @@ const CrosswordEngine = {
     const isClean = GameState.hintsUsed === 0 && GameState.errorsCount === 0;
     if (isClean) GameState.cleanSweepsCount++;
 
-    // Calculate XP
     const baseReward = puzzle.tier === "mini" ? 100 : (puzzle.tier === "midi" ? 150 : 250);
-    const earnedXp = isFirstSolve ? baseReward : Math.round(baseReward * 0.4);
+    const earnedXp = isFirstSolve ? baseReward : Math.round(baseReward * 0.35);
     GameState.xp += earnedXp;
 
-    // Unlock codex records
     puzzle.words.forEach(w => {
       if (w.codexId) GameState.unlockedCodex.add(w.codexId);
     });
 
-    // Check achievements
     if (GameState.puzzlesSolvedCount >= 1) GameState.unlockedBadges.add("first_solve");
     if (isClean) GameState.unlockedBadges.add("clean_sweep");
     if (GameState.solvedPuzzleIds.size >= 5) GameState.unlockedBadges.add("vault_master");
@@ -842,7 +893,6 @@ const CrosswordEngine = {
 
     GameState.savePersistence();
 
-    // Populate victory dialog
     const modal = document.getElementById("modal-victory");
     const vTitle = document.getElementById("victory-puzzle-name");
     const vTime = document.getElementById("vic-time");
@@ -853,7 +903,7 @@ const CrosswordEngine = {
     if (vTime) vTime.textContent = this.formatTime(GameState.timerSeconds);
     if (vHints) vHints.textContent = GameState.hintsUsed.toString();
     if (vAcc) {
-      const accuracy = Math.max(70, 100 - (GameState.errorsCount * 4 + GameState.hintsUsed * 8));
+      const accuracy = Math.max(65, 100 - (GameState.errorsCount * 4 + GameState.hintsUsed * 8));
       vAcc.textContent = `${accuracy}%`;
     }
 
@@ -869,6 +919,7 @@ const CrosswordEngine = {
     }
 
     if (modal) modal.classList.remove("hidden");
+    UIController.refreshMenuStats();
   },
 
   startTimer() {
@@ -915,57 +966,67 @@ const CrosswordEngine = {
 };
 
 /* ==========================================================================
-   6. UI CONTROLLER & VIEW NAVIGATION
+   5. UI CONTROLLER & VIEW NAVIGATION
    ========================================================================== */
 const UIController = {
-  activeTab: "play",
+  activeTab: "menu",
   activeFilter: "all",
   activeCodexCat: "all",
 
   init() {
-    ContentValidator.validate(CONTENT_DATA);
     GameState.init();
 
     this.bindMasthead();
     this.bindTabs();
+    this.bindMenuActions();
     this.bindToolbar();
     this.bindKeyboard();
     this.bindModals();
+    this.bindSettings();
     this.bindVault();
     this.bindCodex();
     this.bindResize();
 
-    // Start with the first of exactly five challenges
-    CrosswordEngine.loadPuzzle(CONTENT_DATA.puzzles[0].id);
-    this.renderMastery();
+    // Start on Menu
+    this.refreshMenuStats();
+    this.switchTab("menu");
   },
 
   bindMasthead() {
     const soundBtn = document.getElementById("btn-sound");
     const soundIcon = document.getElementById("sound-icon");
+    const menuToggle = document.getElementById("btn-menu-toggle");
+    const settingsBtn = document.getElementById("btn-settings-open");
 
-    const updateSoundIcon = () => {
-      const muted = SoundEngine.isMuted();
-      if (soundIcon) soundIcon.textContent = muted ? "🔇" : "🔊";
-      if (soundBtn) {
-        soundBtn.setAttribute("aria-label", muted ? "Unmute sound effects" : "Mute sound effects");
-      }
+    const updateSoundUI = () => {
+      const active = GameState.settings.sound;
+      if (soundIcon) soundIcon.textContent = active ? "🔊" : "🔇";
+      if (soundBtn) soundBtn.setAttribute("aria-label", active ? "Mute audio" : "Unmute audio");
     };
-    updateSoundIcon();
+    updateSoundUI();
 
     if (soundBtn) {
       soundBtn.addEventListener("click", () => {
-        SoundEngine.toggleMute();
-        updateSoundIcon();
+        GameState.settings.sound = !GameState.settings.sound;
+        GameState.savePersistence();
+        updateSoundUI();
         SoundEngine.playClick();
+        const toggleEl = document.getElementById("setting-toggle-sound");
+        if (toggleEl) toggleEl.checked = GameState.settings.sound;
       });
     }
 
-    const quickStatsBtn = document.getElementById("btn-quick-stats");
-    if (quickStatsBtn) {
-      quickStatsBtn.addEventListener("click", () => {
+    if (menuToggle) {
+      menuToggle.addEventListener("click", () => {
         SoundEngine.playClick();
-        this.switchTab("mastery");
+        this.switchTab("menu");
+      });
+    }
+
+    if (settingsBtn) {
+      settingsBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-settings").classList.remove("hidden");
       });
     }
   },
@@ -977,6 +1038,13 @@ const UIController = {
         const target = tab.dataset.tab;
         SoundEngine.playClick();
         this.switchTab(target);
+      });
+    });
+
+    document.querySelectorAll(".btn-return-menu").forEach(btn => {
+      btn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        this.switchTab("menu");
       });
     });
   },
@@ -995,7 +1063,12 @@ const UIController = {
     if (targetView) targetView.classList.add("active");
 
     if (tabName === "play") {
-      setTimeout(() => CrosswordEngine.renderGrid(), 30);
+      if (!GameState.currentPuzzle) {
+        CrosswordEngine.loadPuzzle(GameState.activePuzzleId || CONTENT_DATA.puzzles[0].id);
+      }
+      setTimeout(() => CrosswordEngine.renderGrid(), 40);
+    } else if (tabName === "menu") {
+      this.refreshMenuStats();
     } else if (tabName === "puzzles") {
       this.renderPuzzlesVault();
     } else if (tabName === "codex") {
@@ -1005,13 +1078,64 @@ const UIController = {
     }
   },
 
+  bindMenuActions() {
+    const primaryBtn = document.getElementById("btn-menu-primary-action");
+    const vaultCard = document.getElementById("menu-btn-vault");
+    const codexCard = document.getElementById("menu-btn-codex");
+    const masteryCard = document.getElementById("menu-btn-mastery");
+
+    if (primaryBtn) {
+      primaryBtn.addEventListener("click", () => {
+        SoundEngine.playClick();
+        const target = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
+        CrosswordEngine.loadPuzzle(target.id);
+        this.switchTab("play");
+      });
+    }
+
+    if (vaultCard) vaultCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("puzzles"); });
+    if (codexCard) codexCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("codex"); });
+    if (masteryCard) masteryCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("mastery"); });
+  },
+
+  refreshMenuStats() {
+    const nextUnsolved = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
+    const featTier = document.getElementById("menu-featured-tier");
+    const featTitle = document.getElementById("menu-featured-title");
+    const featDesc = document.getElementById("menu-featured-desc");
+    const primaryActionText = document.getElementById("menu-primary-action-text");
+
+    if (featTier) featTier.textContent = nextUnsolved.tier.toUpperCase();
+    if (featTitle) featTitle.textContent = nextUnsolved.title;
+    if (featDesc) featDesc.textContent = nextUnsolved.blurb;
+    if (primaryActionText) {
+      primaryActionText.textContent = GameState.solvedPuzzleIds.has(nextUnsolved.id) ? "Replay Service" : "Solve Featured Shift";
+    }
+
+    const vaultProg = document.getElementById("menu-vault-progress");
+    if (vaultProg) vaultProg.textContent = `${GameState.solvedPuzzleIds.size}/5 Services Solved`;
+
+    const codexProg = document.getElementById("menu-codex-progress");
+    if (codexProg) codexProg.textContent = `${GameState.unlockedCodex.size}/16 Specs Unlocked`;
+
+    const rankTitle = document.getElementById("menu-rank-title");
+    if (rankTitle) rankTitle.textContent = GameState.getCurrentRank().current.title;
+
+    const streakCount = document.getElementById("streak-count");
+    if (streakCount) streakCount.textContent = GameState.streak.toString();
+
+    document.getElementById("menu-stat-xp").textContent = GameState.xp.toString();
+    document.getElementById("menu-stat-cleans").textContent = GameState.cleanSweepsCount.toString();
+    document.getElementById("menu-stat-solved").textContent = `${GameState.solvedPuzzleIds.size}/5`;
+  },
+
   bindToolbar() {
     const prevBtn = document.getElementById("clue-prev");
     const nextBtn = document.getElementById("clue-next");
     const pauseBtn = document.getElementById("btn-pause-play");
     const restartBtn = document.getElementById("btn-restart-play");
     const resumeBtn = document.getElementById("btn-resume-play");
-    const pausedRestartBtn = document.getElementById("btn-restart-paused");
+    const menuFromPauseBtn = document.getElementById("btn-menu-from-pause");
     const hintBtn = document.getElementById("tool-reveal-letter");
     const checkBtn = document.getElementById("tool-check-word");
     const clearBtn = document.getElementById("tool-clear-word");
@@ -1023,24 +1147,26 @@ const UIController = {
     if (pauseBtn) pauseBtn.addEventListener("click", () => CrosswordEngine.togglePause());
     if (resumeBtn) resumeBtn.addEventListener("click", () => CrosswordEngine.togglePause());
 
-    const doRestart = () => {
-      if (confirm("Restart this puzzle from the beginning?")) {
-        SoundEngine.playClick();
-        const pauseModal = document.getElementById("pause-overlay");
-        if (pauseModal) pauseModal.classList.add("hidden");
-        CrosswordEngine.loadPuzzle(GameState.currentPuzzle.id);
-      }
-    };
-    if (restartBtn) restartBtn.addEventListener("click", doRestart);
-    if (pausedRestartBtn) pausedRestartBtn.addEventListener("click", doRestart);
+    if (menuFromPauseBtn) {
+      menuFromPauseBtn.addEventListener("click", () => {
+        CrosswordEngine.togglePause();
+        this.switchTab("menu");
+      });
+    }
+
+    if (restartBtn) {
+      restartBtn.addEventListener("click", () => {
+        if (confirm("Restart this puzzle service from the beginning?")) {
+          SoundEngine.playClick();
+          CrosswordEngine.loadPuzzle(GameState.currentPuzzle.id);
+        }
+      });
+    }
 
     if (hintBtn) hintBtn.addEventListener("click", () => CrosswordEngine.revealActiveLetter());
     if (checkBtn) checkBtn.addEventListener("click", () => CrosswordEngine.checkActiveWord());
     if (clearBtn) clearBtn.addEventListener("click", () => CrosswordEngine.clearActiveWord());
-
-    if (clueMain) {
-      clueMain.addEventListener("click", () => CrosswordEngine.toggleDirection());
-    }
+    if (clueMain) clueMain.addEventListener("click", () => CrosswordEngine.toggleDirection());
 
     if (inspectBtn) {
       inspectBtn.addEventListener("click", () => {
@@ -1125,9 +1251,7 @@ const UIController = {
         document.getElementById("modal-victory").classList.add("hidden");
         const puzzle = GameState.currentPuzzle;
         const firstWord = puzzle?.words.find(w => w.codexId);
-        if (firstWord) {
-          this.openSpecModal(firstWord.codexId);
-        }
+        if (firstWord) this.openSpecModal(firstWord.codexId);
         this.switchTab("codex");
       });
     }
@@ -1143,6 +1267,61 @@ const UIController = {
       closeSpecBtn.addEventListener("click", () => {
         SoundEngine.playClick();
         document.getElementById("modal-codex-spec").classList.add("hidden");
+      });
+    }
+  },
+
+  bindSettings() {
+    const closeSettings = document.getElementById("btn-close-settings");
+    const toggleSound = document.getElementById("setting-toggle-sound");
+    const toggleHaptics = document.getElementById("setting-toggle-haptics");
+    const toggleSkip = document.getElementById("setting-toggle-skip-filled");
+    const resetDataBtn = document.getElementById("btn-reset-data");
+
+    if (closeSettings) {
+      closeSettings.addEventListener("click", () => {
+        SoundEngine.playClick();
+        document.getElementById("modal-settings").classList.add("hidden");
+      });
+    }
+
+    if (toggleSound) {
+      toggleSound.checked = GameState.settings.sound;
+      toggleSound.addEventListener("change", e => {
+        GameState.settings.sound = e.target.checked;
+        GameState.savePersistence();
+        const soundIcon = document.getElementById("sound-icon");
+        if (soundIcon) soundIcon.textContent = e.target.checked ? "🔊" : "🔇";
+      });
+    }
+
+    if (toggleHaptics) {
+      toggleHaptics.checked = GameState.settings.haptics;
+      toggleHaptics.addEventListener("change", e => {
+        GameState.settings.haptics = e.target.checked;
+        GameState.savePersistence();
+      });
+    }
+
+    if (toggleSkip) {
+      toggleSkip.checked = GameState.settings.skipFilled;
+      toggleSkip.addEventListener("change", e => {
+        GameState.settings.skipFilled = e.target.checked;
+        GameState.savePersistence();
+      });
+    }
+
+    if (resetDataBtn) {
+      resetDataBtn.addEventListener("click", () => {
+        if (confirm("Reset all saved progress, records, and unlocks?")) {
+          GameState.resetAllData();
+          this.refreshMenuStats();
+          this.renderMastery();
+          this.renderCodex();
+          this.renderPuzzlesVault();
+          document.getElementById("modal-settings").classList.add("hidden");
+          this.showToast("All progress reset");
+        }
       });
     }
   },
@@ -1187,18 +1366,17 @@ const UIController = {
     puzzles.forEach(p => {
       const isSolved = GameState.solvedPuzzleIds.has(p.id);
       const article = document.createElement("article");
-      article.className = "daily-spotlight-card"; 
-      article.style.marginBottom = "16px";
-      
+      article.className = "daily-spotlight-card";
+
       article.innerHTML = `
         <div class="daily-badge-row">
           <span class="badge tier-badge ${p.tier}">${p.tier.toUpperCase()}</span>
-          ${isSolved ? '<span class="badge gold-badge" style="margin-left:auto;">SOLVED</span>' : ''}
+          ${isSolved ? '<span class="badge gold-badge">SOLVED</span>' : '<span class="daily-reward-text">+100 XP</span>'}
         </div>
         <h3>${p.title}</h3>
         <p>${p.blurb}</p>
         <div class="daily-cta-row">
-          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" type="button">${isSolved ? 'Replay' : 'Solve'}</button>
+          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" type="button">${isSolved ? 'Replay' : 'Solve Service'}</button>
           <span class="daily-reward-text">${p.gridSize.rows}×${p.gridSize.cols} GRID</span>
         </div>
       `;
@@ -1212,26 +1390,6 @@ const UIController = {
         this.switchTab("play");
       });
     });
-
-    const featured = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
-    const dailyTitle = document.getElementById("daily-title");
-    const dailyBlurb = document.getElementById("daily-blurb");
-    const dailyDateLabel = document.getElementById("daily-date-label");
-    const btnPlayDaily = document.getElementById("btn-play-daily");
-    
-    if (dailyTitle) dailyTitle.textContent = featured.title;
-    if (dailyBlurb) dailyBlurb.textContent = featured.blurb;
-    if (dailyDateLabel) {
-      const index = CONTENT_DATA.puzzles.findIndex(p => p.id === featured.id) + 1;
-      dailyDateLabel.textContent = `SERVICE ${index} OF 5`;
-    }
-    if (btnPlayDaily) {
-      btnPlayDaily.onclick = () => {
-        SoundEngine.playClick();
-        CrosswordEngine.loadPuzzle(featured.id);
-        this.switchTab("play");
-      };
-    }
   },
 
   bindCodex() {
@@ -1261,12 +1419,12 @@ const UIController = {
     }
 
     grid.innerHTML = "";
-    
+
     const filtered = CONTENT_DATA.codex.filter(c => {
       const catMatch = this.activeCodexCat === "all" || c.category === this.activeCodexCat;
-      const searchMatch = !searchQuery || 
-        c.name.toLowerCase().includes(searchQuery) || 
-        c.category.toLowerCase().includes(searchQuery) || 
+      const searchMatch = !searchQuery ||
+        c.name.toLowerCase().includes(searchQuery) ||
+        c.category.toLowerCase().includes(searchQuery) ||
         c.subline.toLowerCase().includes(searchQuery);
       return catMatch && searchMatch;
     });
@@ -1275,12 +1433,12 @@ const UIController = {
       const isUnlocked = GameState.unlockedCodex.has(c.id);
       const card = document.createElement("div");
       card.className = "codex-card " + (isUnlocked ? "unlocked" : "locked");
-      
+
       if (isUnlocked) {
         card.innerHTML = `
           <span class="cat-tag">${c.category}</span>
-          <h4 style="margin: 8px 0 4px; font-size: 1.1rem; color: #f0e6d2;">${c.name}</h4>
-          <p style="margin: 0; font-size: 0.85rem; color: #a49688;">${c.subline}</p>
+          <h4 style="margin: 6px 0 2px; font-size: 1.05rem; color: #f0e6d2;">${c.name}</h4>
+          <p style="margin: 0; font-size: 0.8rem; color: #a49688;">${c.subline}</p>
         `;
         card.addEventListener("click", () => {
           SoundEngine.playClick();
@@ -1288,9 +1446,9 @@ const UIController = {
         });
       } else {
         card.innerHTML = `
-          <div style="font-size: 1.5rem; margin-bottom: 8px;">🔒</div>
-          <h4 style="margin: 0 0 4px; color: #5a4f47;">Classified</h4>
-          <p style="margin: 0; font-size: 0.85rem; color: #5a4f47;">Solve puzzles to unlock</p>
+          <div style="font-size: 1.2rem; margin-bottom: 4px;">🔒</div>
+          <h4 style="margin: 0 0 2px; color: #726257; font-size: 0.95rem;">Locked Craft Record</h4>
+          <p style="margin: 0; font-size: 0.8rem; color: #5a4f47;">Solve crossword entry to inspect</p>
         `;
       }
       grid.appendChild(card);
@@ -1299,16 +1457,16 @@ const UIController = {
 
   renderMastery() {
     const { current, next } = GameState.getCurrentRank();
-    
+
     document.getElementById("profile-rank-icon").textContent = current.icon;
     document.getElementById("profile-rank-title").textContent = current.title;
     document.getElementById("profile-rank-sub").textContent = `Level ${current.level} • ${GameState.xp} XP`;
-    
-    const progress = next.level === current.level ? 100 : 
+
+    const progress = next.level === current.level ? 100 :
       ((GameState.xp - current.xpRequired) / (next.xpRequired - current.xpRequired)) * 100;
     document.getElementById("profile-xp-fill").style.width = `${Math.min(100, Math.max(0, progress))}%`;
 
-    document.getElementById("stat-puzzles-solved").textContent = `${GameState.puzzlesSolvedCount} / 5`;
+    document.getElementById("stat-puzzles-solved").textContent = `${GameState.solvedPuzzleIds.size} / 5`;
     document.getElementById("stat-words-unlocked").textContent = GameState.unlockedCodex.size.toString();
     document.getElementById("stat-clean-sweeps").textContent = GameState.cleanSweepsCount.toString();
     document.getElementById("stat-streak-high").textContent = GameState.streak.toString();
@@ -1320,16 +1478,16 @@ const UIController = {
       CONTENT_DATA.domains.forEach(d => {
         const domainItems = CONTENT_DATA.codex.filter(c => c.category === d.keyCat);
         const unlockedItems = domainItems.filter(c => GameState.unlockedCodex.has(c.id));
-        const pct = domainItems.length ? (unlockedItems.length / domainItems.length) * 100 : 0;
-        
+        const pct = domainItems.length ? Math.round((unlockedItems.length / domainItems.length) * 100) : 0;
+
         domainBars.innerHTML += `
-          <div style="margin-bottom: 12px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px; color: #d0c4b4;">
+          <div style="margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 2px; color: #d0c4b4;">
               <span>${d.name}</span>
-              <span>${unlockedItems.length}/${domainItems.length}</span>
+              <span>${unlockedItems.length}/${domainItems.length} (${pct}%)</span>
             </div>
-            <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
-              <div style="width: ${pct}%; height: 100%; background: #d4af37; transition: width 0.4s ease;"></div>
+            <div style="background: rgba(255,255,255,0.05); height: 5px; border-radius: 3px; overflow: hidden;">
+              <div style="width: ${pct}%; height: 100%; background: #dfae52; transition: width 0.3s ease;"></div>
             </div>
           </div>
         `;
@@ -1342,10 +1500,10 @@ const UIController = {
       CONTENT_DATA.achievements.forEach(a => {
         const earned = GameState.unlockedBadges.has(a.id);
         badgesGrid.innerHTML += `
-          <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; text-align: center; opacity: ${earned ? 1 : 0.4}; border: 1px solid ${earned ? 'rgba(212,175,55,0.3)' : 'transparent'};">
-            <div style="font-size: 2rem; margin-bottom: 8px;">${earned ? a.icon : '🔒'}</div>
-            <div style="font-size: 0.9rem; font-weight: bold; color: #f0e6d2; margin-bottom: 4px;">${a.name}</div>
-            <div style="font-size: 0.75rem; color: #a49688;">${a.desc}</div>
+          <div style="background: rgba(255,255,255,0.03); padding: 8px; border-radius: 6px; text-align: center; opacity: ${earned ? 1 : 0.4}; border: 1px solid ${earned ? 'rgba(223,174,82,0.4)' : 'transparent'};">
+            <div style="font-size: 1.5rem; margin-bottom: 2px;">${earned ? a.icon : '🔒'}</div>
+            <div style="font-size: 0.8rem; font-weight: bold; color: #f0e6d2; margin-bottom: 2px;">${a.name}</div>
+            <div style="font-size: 0.7rem; color: #a49688;">${a.desc}</div>
           </div>
         `;
       });
@@ -1363,7 +1521,7 @@ const UIController = {
     if (!toast) return;
     toast.textContent = msg;
     toast.className = `toast-message ${type} show`;
-    setTimeout(() => toast.classList.remove("show"), 2500);
+    setTimeout(() => toast.classList.remove("show"), 2200);
   }
 };
 
