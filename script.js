@@ -882,8 +882,7 @@ const CONTENT_DATA = {
         { id: "6D", num: 6, dir: "down", row: 2, col: 5, answer: "OAK", clue: "Barrel wood staves imparting lactones, vanillin, and wood sugars", cat: "Spirits", codexId: "aged" }
       ]
     }
-  ]
-};
+  ];
   codex: [
     /* 1. Core Classics & Originals */
     { id: "neat", name: "NEAT SERVICE", category: "Methods & Tools", subline: "Unadulterated room-temperature spirit", glass: "Glencairn / Rocks", method: "Direct Pour", ice: "None (Ambient)", garnish: "None (Water side)", formula: "2.0 oz (60 ml) Premium Single Malt, Mezcal, or Bourbon", tip: "Serve with a small pipette of neutral spring water to bloom aromatics.", lore: "The oldest and purest way to inspect distillation quality without thermal masking." },
