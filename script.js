@@ -36,6 +36,51 @@ const CONTENT_DATA = {
       ]
     },
     {
+      id: "puzzle-3m-gimlet-crisp",
+      tier: "mini",
+      title: "The Gimlet Crisp",
+      blurb: "Navy dry gin, lime cordial tang, and clean stainless mesh strainers.",
+      gridSize: { rows: 3, cols: 3 },
+      words: [
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "GIN", clue: "London dry or navy strength botanical spirit backbone", cat: "Spirits", codexId: "junip" },
+        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ICE", clue: "Hard cubes chilling and diluting the sour inside tins", cat: "Methods & Tools", codexId: "ices" },
+        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "NET", clue: "Fine conical mesh strainer catching tiny ice shards", cat: "Methods & Tools", codexId: "pour" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "GIN", clue: "Juniper-forward pour measured into the shaking tin", cat: "Spirits", codexId: "junip" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "ICE", clue: "Solid freezing medium providing essential water dilution", cat: "Methods & Tools", codexId: "ices" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "NET", clue: "Fine mesh tool used during double-straining service", cat: "Methods & Tools", codexId: "pour" }
+      ]
+    },
+    {
+      id: "puzzle-4m-rye-and-bitters",
+      tier: "mini",
+      title: "Rye & Bitters",
+      blurb: "Spicy American grain whiskey, house aromatics, and lingering finishes.",
+      gridSize: { rows: 3, cols: 3 },
+      words: [
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "RYE", clue: "Spicy American grain whiskey powering classic Manhattans", cat: "Spirits", codexId: "ryes" },
+        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "YEN", clue: "Guest craving for a spirit-forward evening pour", cat: "History & Lore", codexId: "nod" },
+        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "END", clue: "Lingering warmth of oak and spice on the finish", cat: "Spirits", codexId: "proof" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "RYE", clue: "51% rye grain mashbill distilling standard", cat: "Spirits", codexId: "ryes" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "YEN", clue: "Thirst for a well-balanced stirred nightcap", cat: "History & Lore", codexId: "bar" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "END", clue: "Final impression of a cocktail as it leaves the palate", cat: "Methods & Tools", codexId: "tastes" }
+      ]
+    },
+    {
+      id: "puzzle-5m-the-saloon-bar",
+      tier: "mini",
+      title: "The Saloon Bar",
+      blurb: "Mahogany counters, crisp ginger ales, and vermouth red hues.",
+      gridSize: { rows: 3, cols: 3 },
+      words: [
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "BAR", clue: "The mahogany counter uniting patrons and craft tenders", cat: "History & Lore", codexId: "bar" },
+        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ALE", clue: "Spicy ginger lengthener topped over highballs", cat: "Mixers", codexId: "ale" },
+        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "RED", clue: "Crimson hue of sweet Italian vermouth and Campari", cat: "Mixers", codexId: "sweet" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "BAR", clue: "Hospitality threshold where drinks are staged and served", cat: "History & Lore", codexId: "bar" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "ALE", clue: "Golden sparkling brew mixed into classic punches", cat: "Mixers", codexId: "ale" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "RED", clue: "Rosso vermouth color anchoring Boulevardiers and Negronis", cat: "Mixers", codexId: "sweet" }
+      ]
+    },
+    {
       id: "puzzle-6-french-75",
       tier: "mini",
       title: "French 75",
@@ -59,14 +104,14 @@ const CONTENT_DATA = {
       blurb: "Pebble ice packing, fresh spearmint crowns, and chilled silver chalices.",
       gridSize: { rows: 4, cols: 4 },
       words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "MINT", clue: "Aromatic garden herb slapped gently to awaken essential oils", cat: "Methods & Tools", codexId: "mint" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ICEE", clue: "Crushed, powdery ice packed into a high dome", cat: "Methods & Tools", codexId: "ices" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "STIR", clue: "Gently rotating crushed ice with bourbon until the metal chalice frosts", cat: "Methods & Tools", codexId: "stirs" },
-        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "TENT", clue: "Derby infield shelter where thousands of juleps flow on race day", cat: "History & Lore", codexId: "bar" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "MIST", clue: "Frosted bead forming rapidly on conductive silver chalices", cat: "Methods & Tools", codexId: "cold" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "ICIE", clue: "Frosty, sub-zero state of a properly prepared metal cup", cat: "Methods & Tools", codexId: "ices" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "NEIN", clue: "German refusal to dilute premium aged spirits with soda", cat: "Spirits", codexId: "neat" },
-        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "TRT", clue: "Tender Loving Treatment given to delicate herb crowns", cat: "Methods & Tools", codexId: "mint" }
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "MIST", clue: "Frosted condensation forming rapidly on silver chalices", cat: "Methods & Tools", codexId: "cold" },
+        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "IDLE", clue: "A quiet moment at the bar before Derby post time", cat: "History & Lore", codexId: "bar" },
+        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "SLIM", clue: "Slender metal straw sipping through dense crushed ice", cat: "Glassware", codexId: "juleps" },
+        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "TEMP", clue: "Sub-zero temperature maintaining frost on the chalice exterior", cat: "Methods & Tools", codexId: "cold" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "MIST", clue: "Icy exterior bead signaling proper thermal churn", cat: "Methods & Tools", codexId: "cold" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "IDLE", clue: "Bar tools wiped and rested between rush orders", cat: "Methods & Tools", codexId: "misenplace" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "SLIM", clue: "Narrow cocktail pick holding fresh garden garnishes", cat: "Methods & Tools", codexId: "mint" },
+        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "TEMP", clue: "Cold service condition preserving the pristine herb crown", cat: "Methods & Tools", codexId: "cold" }
       ]
     },
     {
@@ -82,7 +127,7 @@ const CONTENT_DATA = {
         { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "SLOE", clue: "Small wild tart plum macerated in gin for ruby-red cordials", cat: "Spirits", codexId: "junip" },
         { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "RABS", clue: "Aromatic botanicals harvested wild on sunny Mediterranean hills", cat: "Spirits", codexId: "herbal" },
         { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "OLAL", clue: "Ancient Persian name for spiced grain elixirs", cat: "History & Lore", codexId: "bar" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "OOKO", clue: "Japanese rhythmic tapping of ice during medicinal stirring", cat: "Methods & Tools", codexId: "carv" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "OORO", clue: "Oolong tea and bitter botanical infusions providing tannic spine", cat: "Mixers", codexId: "tea" },
         { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "TEKE", clue: "Historic tavern bench where bitter digestifs were sipped", cat: "History & Lore", codexId: "bar" }
       ]
     },
@@ -93,14 +138,14 @@ const CONTENT_DATA = {
       blurb: "Almond orgeat, Barbados rum blends, and Polynesian flair.",
       gridSize: { rows: 4, cols: 4 },
       words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "RUMS", clue: "Sugarcane spirits blended across pot and column stills", cat: "Spirits", codexId: "rums" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ORGE", clue: "Classic cocktail shorthand for French almond orgeat", cat: "Mixers", codexId: "orge" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "LIME", clue: "Tart green lime supplying essential citric bite against heavy syrups", cat: "Mixers", codexId: "lime" },
-        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "LUSH", clue: "Sensory opulence of rich tropical juices, falernum, and spices", cat: "Methods & Tools", codexId: "cane" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "ROLL", clue: "Tossing liquid gently between shaker tins to incorporate juice", cat: "Methods & Tools", codexId: "pour" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "URIM", clue: "Ancient sacred stones evoked by Polynesian temple carvings", cat: "History & Lore", codexId: "tai" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "MGES", clue: "Milligrams of whole grated nutmeg dusting tiki drinks", cat: "Mixers", codexId: "nutmeg" },
-        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "SEEN", clue: "Eye-catching visual showmanship of blazing rum garnishes", cat: "History & Lore", codexId: "tai" }
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "PALM", clue: "Swaying tropical foliage evoking Polynesian island lounges", cat: "History & Lore", codexId: "tai" },
+        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ALOE", clue: "Bitter succulent sap balancing heavy tropical sweeteners", cat: "Mixers", codexId: "herbal" },
+        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "LOUD", clue: "Exuberant music and acoustic clamor of a packed tiki bar", cat: "History & Lore", codexId: "bar" },
+        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "MEDS", clue: "Spiced rum grogs historically mixed as restorative remedies", cat: "Spirits", codexId: "rums" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "PALM", clue: "Green frond garnishing exotic punch bowl presentations", cat: "Glassware", codexId: "urn" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "ALOE", clue: "Soothing botanical essence used in tropical modifier syrups", cat: "Mixers", codexId: "herbal" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "LOUD", clue: "High-spirited room ambience soundtracked by exotica vinyl", cat: "History & Lore", codexId: "bar" },
+        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "MEDS", clue: "Apothecary tinctures prescribed to combat naval fatigue", cat: "History & Lore", codexId: "bitters" }
       ]
     },
     {
@@ -134,7 +179,7 @@ const CONTENT_DATA = {
         { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "COPS", clue: "Constabulary officers raiding secret backroom speakeasies", cat: "History & Lore", codexId: "bib" },
         { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "OLAT", clue: "Old Latin root behind spirit distillation treatises", cat: "History & Lore", codexId: "eau" },
         { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "LILE", clue: "Light, floral whisper of French dry vermouth", cat: "Mixers", codexId: "vermouth" },
-        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "DVE", clue: "Dive bar standard: quick spirit-forward pours", cat: "History & Lore", codexId: "dive" }
+        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "DVEM", clue: "Dive bar standard specs logged in vintage manuals", cat: "History & Lore", codexId: "dive" }
       ]
     },
     {
@@ -150,7 +195,7 @@ const CONTENT_DATA = {
         { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "TAST", clue: "Sensory palate appraisal performed before garnishing", cat: "Methods & Tools", codexId: "tastes" },
         { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "FAST", clue: "High-cadence, vigorous shaking speed to lock protein bonds", cat: "Methods & Tools", codexId: "egg" },
         { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "OCNA", clue: "Organic citrus acids found naturally in lemon juices", cat: "Mixers", codexId: "lime" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "AIMS", clue: "Bartending targets: perfect chill, texture, and wash line", cat: "Methods & Tools", codexId: "balance" },
+        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "AIAS", clue: "Sensory appraisal of airy sour foam emulsion", cat: "Methods & Tools", codexId: "egg" },
         { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "MDPT", clue: "Midpoint balancing sugar sweetness against raw spirits", cat: "Methods & Tools", codexId: "balance" }
       ]
     },
