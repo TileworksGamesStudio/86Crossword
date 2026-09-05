@@ -1,3 +1,8 @@
+/* ==========================================================================
+   COCKTAIL CROSSWORD — SCRIPT.JS
+   Complete Architecture, Data, Sound Engine, Game Logic & UI Controller
+   ========================================================================== */
+
 const CONTENT_DATA = {
   puzzles: [
     {
@@ -5,7 +10,7 @@ const CONTENT_DATA = {
       tier: "mini",
       title: "The Italian Hour",
       blurb: "Aperitivo counter herbal pours, proper expressions, and bar essentials.",
-      gridSize: { rows: 5, cols: 5 },
+      gridSize: { rows: 5, cols: 4 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "NEAT", clue: "Spirit served unchilled without ice or dilution", cat: "Methods & Tools", codexId: "neat" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "PEEL", clue: "Citrus skin strip expressed over a cocktail", cat: "Methods & Tools", codexId: "peel" },
@@ -21,13 +26,13 @@ const CONTENT_DATA = {
       tier: "mini",
       title: "Agave Sunset",
       blurb: "Saline borders, rested tequila reposado, and frothy citrus under desert sun.",
-      gridSize: { rows: 5, cols: 5 },
+      gridSize: { rows: 5, cols: 4 },
       words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "ICES", clue: "Chills glassware and shaker tins with cubes", cat: "Methods & Tools", codexId: "ices" },
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "ICES", clue: "Chills glassware and shaker tins with solid cubes", cat: "Methods & Tools", codexId: "ices" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "AGED", clue: "Rested in charred oak casks for mellow vanilla depth", cat: "Spirits", codexId: "aged" },
         { id: "5A", num: 5, dir: "across", row: 4, col: 0, answer: "EDGE", clue: "The rim of a Margarita coupe salted for contrast", cat: "Glassware", codexId: "edge" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "IPA", clue: "Bitter hoppy beer style paired with a shot", cat: "Mixers", codexId: "ipa" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "EYE", clue: "Glass dropper used for saline solution measures", cat: "Methods & Tools", codexId: "eye" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "IPA", clue: "Bitter hoppy beer style paired with a shot or boilermaker", cat: "Mixers", codexId: "ipa" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "EYE", clue: "Glass dropper used for precise saline solution measures", cat: "Methods & Tools", codexId: "eye" },
         { id: "3D", num: 3, dir: "down", row: 2, col: 0, answer: "ALE", clue: "Malted brew providing effervescence in beer cocktails", cat: "Mixers", codexId: "ale" },
         { id: "4D", num: 4, dir: "down", row: 2, col: 2, answer: "EGG", clue: "Albumen foam source that yields silky velvet texture", cat: "Methods & Tools", codexId: "egg" }
       ]
@@ -37,7 +42,7 @@ const CONTENT_DATA = {
       tier: "midi",
       title: "Highball Express",
       blurb: "Whisky, crisp bubbles, and crystal clear ice spears in the highball tradition.",
-      gridSize: { rows: 6, cols: 6 },
+      gridSize: { rows: 5, cols: 5 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "MINT", clue: "Fragrant herb slapped to bloom aromatic top notes", cat: "Methods & Tools", codexId: "mint" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "SODA", clue: "Effervescent club water that lifts spirit aromatics", cat: "Mixers", codexId: "soda" },
@@ -53,13 +58,13 @@ const CONTENT_DATA = {
       tier: "midi",
       title: "Speakeasy Secret",
       blurb: "Spirit-forward standards, Bottled-in-Bond whiskies, and cellar service.",
-      gridSize: { rows: 6, cols: 6 },
+      gridSize: { rows: 5, cols: 4 },
       words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "BITE", clue: "Pleasing ethanol kick balancing a cocktail", cat: "Spirits", codexId: "bite" },
+        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "BITE", clue: "Pleasing ethanol heat and structure balancing a cocktail", cat: "Spirits", codexId: "bite" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "BOND", clue: "Bottled-in-___: 100-proof government purity guarantee", cat: "Spirits", codexId: "bond" },
         { id: "5A", num: 5, dir: "across", row: 4, col: 0, answer: "RYES", clue: "Spicy grain spirits powering classic Manhattans", cat: "Spirits", codexId: "ryes" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "BIB", clue: "Industry acronym for Bottled in Bond", cat: "History & Lore", codexId: "bib" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "TAN", clue: "Charred barrel hue infused into resting whiskey", cat: "Spirits", codexId: "tan" },
+        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "BIB", clue: "Industry acronym for Bottled in Bond Act spirits", cat: "History & Lore", codexId: "bib" },
+        { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "TAN", clue: "Charred barrel tannin infused into resting whiskey", cat: "Spirits", codexId: "tan" },
         { id: "3D", num: 3, dir: "down", row: 2, col: 0, answer: "BAR", clue: "The historic counter across which hospitality thrives", cat: "History & Lore", codexId: "bar" },
         { id: "4D", num: 4, dir: "down", row: 2, col: 2, answer: "NYE", clue: "New Year's Eve: the busiest bar shift on the calendar", cat: "History & Lore", codexId: "nye" }
       ]
@@ -69,7 +74,7 @@ const CONTENT_DATA = {
       tier: "main",
       title: "The Master’s Service",
       blurb: "Stemware, shaken Daiquiris, and sensory evaluation from nose to wash line.",
-      gridSize: { rows: 7, cols: 7 },
+      gridSize: { rows: 6, cols: 6 },
       words: [
         { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "COUPE", clue: "Stemmed glass curved to hold cocktails served up", cat: "Glassware", codexId: "coupe" },
         { id: "3A", num: 3, dir: "across", row: 2, col: 0, answer: "PINTS", clue: "16-ounce tavern glasses used for beer and mixing", cat: "Glassware", codexId: "pints" },
@@ -93,11 +98,29 @@ const CONTENT_DATA = {
     { id: "ices", name: "BAR ICE SCIENCE", category: "Methods & Tools", subline: "Thermal dilution control", glass: "Mixing glass / Shaker", method: "Directional freezing", ice: "Dense clear block ice", garnish: "None", formula: "0°F to 28°F solid frozen density", tip: "Shake drinks with solid, dry cubes. Wet melting ice over-dilutes the wash line.", lore: "Frederic Tudor sparked the cocktail revolution shipping pond ice worldwide in 1806." },
     { id: "aged", name: "BARREL AGING", category: "Spirits", subline: "Charred white oak maturation", glass: "Glencairn", method: "Cask resting", ice: "Optional single cube", garnish: "None", formula: "Spirit extraction, oxidation, and wood subtraction across seasons", tip: "White oak barrels contribute vanillin, lactones, and wood sugars.", lore: "Charring barrels was originally adopted to sanitize fish and pickle barrels." },
     { id: "edge", name: "SALT RIM / CRUSTA", category: "Glassware", subline: "Contrast border application", glass: "Coupe / Rocks", method: "Half-rim swipe", ice: "Fresh cubes", garnish: "Flaky sea salt", formula: "Lime cheek wipe + flaky kosher salt rim", tip: "Salt only half the exterior rim so guests can alternate between salted and clean sips.", lore: "Joseph Santini invented the brandy Crusta in 1850s New Orleans." },
+    { id: "ipa", name: "IPA BEER COCKTAILS", category: "Mixers", subline: "Hoppy ale lengthener", glass: "Highball or Pint", method: "Topped over ice", ice: "Fresh Cubes", garnish: "Grapefruit twist", formula: "3.0 oz IPA Ale\n1.5 oz London Dry Gin\n0.75 oz Grapefruit\n0.5 oz Honey", tip: "Hop bitterness (IBUs) in IPAs balances citrus acidity and provides floral humulone aromas.", lore: "British brewers heavily hopped pale ales destined for India in the 1700s." },
+    { id: "eye", name: "DROPPER & SALINE", category: "Methods & Tools", subline: "Calibrated micro-dosing", glass: "Boston Shaker", method: "Pipette drop", ice: "N/A", garnish: "None", formula: "20% Saline Solution (20g sea salt in 80g water)", tip: "3 to 5 drops of saline solution suppresses perceived bitterness and boosts citrus aromatics.", lore: "Modern mixologists borrowed saline pipettes from sensory cuisine to elevate drink balance." },
     { id: "egg", name: "ALBUMEN FOAM", category: "Methods & Tools", subline: "Silky cocktail foam texture", glass: "Coupe or Sour Glass", method: "Dry shake, then wet shake", ice: "Strained off ice", garnish: "Bitters drops", formula: "0.75 oz Egg White or Aquafaba\n2.0 oz Spirit\n0.75 oz Lemon\n0.75 oz Simple", tip: "Dry shake for 15 seconds to emulsify proteins, then add ice and shake hard.", lore: "Bartenders began emulsifying egg whites into spirit sours in the 1880s." },
-    { id: "mint", name: "MINT SERVICE", category: "Methods & Tools", subline: "Aromatic herb crown handling", glass: "Julep Cup / Highball", method: "Gentle slap expression", ice: "Crushed pebble ice", garnish: "Bouquet of fresh mint", tip: "Never pulverize mint leaves; tearing releases bitter plant chlorophyll. Clap gently.", lore: "The Mint Julep was Virginia's morning eye-opener in the early 1800s." },
+    { id: "mint", name: "MINT SERVICE", category: "Methods & Tools", subline: "Aromatic herb crown handling", glass: "Julep Cup / Highball", method: "Gentle slap expression", ice: "Crushed pebble ice", garnish: "Bouquet of fresh mint", formula: "8-10 fresh spearmint leaves", tip: "Never pulverize mint leaves; tearing releases bitter plant chlorophyll. Clap gently.", lore: "The Mint Julep was Virginia's morning eye-opener in the early 1800s." },
     { id: "soda", name: "CLUB SODA", category: "Mixers", subline: "Mineralized carbonated lengthener", glass: "Highball", method: "Gently top and lift", ice: "Clear spear", garnish: "Citrus twist", formula: "Carbonated water + sodium bicarbonate", tip: "Keep soda bottles stored near 33°F (1°C). Colder liquid holds dissolved CO2 tighter.", lore: "Joseph Priestley discovered how to carbonate water in Leeds in 1767." },
     { id: "proof", name: "PROOF SYSTEM", category: "Spirits", subline: "Ethanol concentration metric", glass: "Any vessel", method: "Hydrometer measurement", ice: "N/A", garnish: "None", formula: "Proof = ABV% × 2 (US Standard)", tip: "Higher proof spirits resist ice dilution longer and hold delicate modifiers.", lore: "British Navy gunpowder would still ignite when soaked in 57.1% ABV rum ('Navy Proof')." },
+    { id: "mas", name: "THE SMASH", category: "History & Lore", subline: "Seasonal crushed fruit & herb cousin", glass: "Rocks Glass", method: "Muddle & shake", ice: "Crushed Ice", garnish: "Herb sprig & berries", formula: "2.0 oz Bourbon\n0.75 oz Simple Syrup\n6 Mint Leaves\n3 Citrus Wedges", tip: "The Smash is an adaptable seasonal sister of the Julep featuring muddled seasonal citrus.", lore: "Celebrated in Jerry Thomas's 1862 guide as the ultimate summer tavern refresher." },
+    { id: "nod", name: "THE BARTENDER'S NOD", category: "History & Lore", subline: "Unspoken hospitality law", glass: "Any vessel", method: "Eye contact acknowledgment", ice: "N/A", garnish: "None", formula: "1 direct eye-contact nod within 15 seconds of guest arrival", tip: "Even 4-deep on a busy night, catching a guest's eye resets their wait perception timer.", lore: "The cornerstone of hospitality etiquette across historical speakeasies and grand salons." },
+    { id: "sip", name: "SENSORY SIP EVALUATION", category: "Methods & Tools", subline: "Palate assessment technique", glass: "Tasting stemware", method: "Straw draw & palate roll", ice: "Controlled temp", garnish: "Aromatic botanical", formula: "3-tier check: Nose bouquet, Mid-palate balance, Finish length", tip: "Roll liquid across the lateral edges of the tongue to evaluate acid brightness and spirit warmth.", lore: "Standardized by spirits guilds and guild sommeliers to evaluate structural integrity." },
+    { id: "duo", name: "THE DUO CATEGORY", category: "Methods & Tools", subline: "Spirit + modifier drink family", glass: "Rocks Glass", method: "Stirred over large block", ice: "Large rock", garnish: "Twist or none", formula: "2.0 oz Spirit + 1.0 oz Liqueur (e.g. Rusty Nail, Black Russian)", tip: "Simple two-ingredient pairings require high-quality ingredients and cold dilution balance.", lore: "Formally classified by David Embury in 1948 in 'The Fine Art of Mixing Drinks'." },
+    { id: "bite", name: "ETHANOL BITE", category: "Spirits", subline: "Pleasing spirit heat & backbone", glass: "Rocks or Glencairn", method: "Proof balancing", ice: "Dilution regulated", garnish: "None", formula: "Ethanol sensory threshold (typically 40% to 55% ABV)", tip: "A clean ethanol bite provides backbone to stop sweet modifiers from making drinks flabby.", lore: "Master blenders balance raw ethanol heat with oak aging and barrel sugars." },
+    { id: "bond", name: "BOTTLED-IN-BOND", category: "Spirits", subline: "100-Proof historic guarantee", glass: "Rocks Glass", method: "Neat or Old Fashioned base", ice: "Single cube", garnish: "Lemon twist", formula: "100 Proof (50% ABV), 1 Distiller, 1 Season, Aged 4+ Years", tip: "The 100-proof standard guarantees intense grain character that won't get lost in cocktails.", lore: "America's first consumer protection statute (1897) to ban adulterated spirits." },
+    { id: "ryes", name: "RYE GRAIN WHISKEY", category: "Spirits", subline: "Spicy American distilling standard", glass: "Coupe or Rocks", method: "Stirred Manhattan build", ice: "Strained off ice", garnish: "Brandied cherry", formula: "Minimum 51% rye grain mashbill aged in charred new oak", tip: "Rye's peppery, baking spice profile balances sweet Italian vermouth far cleaner than bourbon.", lore: "The dominant pre-Prohibition American whiskey powering original 1870s Manhattans." },
+    { id: "bib", name: "1897 BIB ACT", category: "History & Lore", subline: "Treasury bonded warehouse law", glass: "N/A", method: "Government seal verification", ice: "N/A", garnish: "Green tax strip", formula: "Aged in federally bonded warehouses under US Treasury lock and key", tip: "Look for the emerald green tax stamp across the bottle neck as an authentic historical seal.", lore: "Championed by Colonel E.H. Taylor Jr. to combat rectifiers using tobacco juice and iodine." },
+    { id: "tan", name: "BARREL TANNINS", category: "Spirits", subline: "Wood extraction astringency", glass: "Snifter or Glencairn", method: "Oak cask maturation", ice: "None", garnish: "None", formula: "Ellagic and gallic tannins extracted during summer cask expansion", tip: "Tannins give structural dryness on the finish, cleansing the palate for subsequent sips.", lore: "Coopers realized white oak yielded the perfect balance of drying tannins and sweet vanillin." },
+    { id: "bar", name: "THE BAR COUNTER", category: "History & Lore", subline: "The sacred hospitality threshold", glass: "Any vessel", method: "Craft staging", ice: "Full ice well", garnish: "Clean caddy", formula: "42-inch height ergonomic hospitality line", tip: "The physical barrier that unites rather than separates, maintaining sanctuary on both sides.", lore: "Originated in 18th-century coaching inns as a wooden rail separating cask storage from patrons." },
+    { id: "nye", name: "NEW YEAR'S SERVICE", category: "History & Lore", subline: "Peak volume speed craft", glass: "Flute / Coupe / Rocks", method: "Pre-batched execution", ice: "Deep reserve", garnish: "Speed expressions", formula: "4× normal volume speed rack execution", tip: "Batch spirit-forward cocktails and pre-chill glassware to keep standards high under pressure.", lore: "The ultimate industry shift where mise-en-place and teamwork determine survival." },
     { id: "coupe", name: "COUPE GLASS", category: "Glassware", subline: "Classic stemmed cocktail vessel", glass: "5.5 oz (160 ml) Coupe", method: "Pre-chill in freezer", ice: "Served 'Up' (No ice)", garnish: "Twist or Cherry", formula: "Ideal capacity: 5 to 6 oz with 0.5 oz wash line headroom", tip: "Always hold a coupe by the stem to avoid transferring body heat into the drink.", lore: "Designed for sparkling wine in England around 1663, not Marie Antoinette." },
+    { id: "pints", name: "PINT & MIXING GLASS", category: "Glassware", subline: "Heavy gauge service & mixing", glass: "16 oz Shaker Pint", method: "Draft pour or Boston tin mate", ice: "Cubes", garnish: "Citrus wedge", formula: "16 fl oz capacity (US Standard) / 20 fl oz (Imperial)", tip: "Use heavy tempered mixing glasses when shaking to prevent thermal shock fractures.", lore: "The universal American tavern glass since the repeal of Prohibition." },
+    { id: "tastes", name: "STRAW TASTING", category: "Methods & Tools", subline: "Quality assurance technique", glass: "Mixing tin or glass", method: "Atmospheric finger seal", ice: "Pre-strain", garnish: "None", formula: "2-3 drops drawn up through a clean straw", tip: "Dip straw, seal finger over top to trap liquid, lift to mouth and release to verify balance.", lore: "The professional mixologist's quality control checkpoint before serving a cocktail." },
+    { id: "cap", name: "COBBLER SHAKER CAP", category: "Methods & Tools", subline: "Three-piece shaker vacuum seal", glass: "Cobbler Shaker", method: "Remove cap first to break vacuum", ice: "Cubes", garnish: "None", formula: "3-piece system: Tin base, built-in strainer top, sealing cap", tip: "Always pull the small top cap off BEFORE trying to remove the strainer lid to break thermal vacuum.", lore: "Patented in 1884 by Edward Hauck, popular in Japanese bartending for hard shakes." },
+    { id: "urn", name: "PUNCH BOWL & URN", category: "Glassware", subline: "Communal celebratory vessel", glass: "Punch Bowl or Heated Urn", method: "Oleo-saccharum batching", ice: "Large clear block", garnish: "Nutmeg & citrus wheels", formula: "1 of Sour, 2 of Sweet, 3 of Strong, 4 of Weak (Classic rhyme)", tip: "The foundation of all cocktail history; communal bowls fostered fellowship in 1700s taverns.", lore: "Derived from Sanskrit 'pañc' meaning five ingredients: spirit, citrus, sugar, water, spice." },
+    { id: "pot", name: "POT STILL SPIRITS", category: "Spirits", subline: "Batch copper distillation", glass: "Glencairn or Tulip", method: "Discontinuous batch boiling", ice: "None", garnish: "None", formula: "Direct boiling in copper swan neck kettle", tip: "Pot stills retain aromatic congeners and heavy esters, creating deeply rich rums and whiskeys.", lore: "Perfected in Middle Ages copper alembics, the historic soul of single malt and mezcal." },
     { id: "nose", name: "THE COCKTAIL NOSE", category: "Methods & Tools", subline: "Aroma bouquet appreciation", glass: "Stemmed glass", method: "Olfactory inspection", ice: "Properly rested", garnish: "Aromatic botanical", formula: "Over 80% of perceived flavor is retronasal and orthonasal aroma", tip: "Smell cocktails with your mouth slightly open to avoid olfactory fatigue from ethanol.", lore: "Jerry Thomas crowned early cocktails with seasonal berry and citrus tops for aroma." }
   ],
 
@@ -121,7 +144,7 @@ const CONTENT_DATA = {
     { id: "first_solve", icon: "🍸", name: "First Shift", desc: "Complete your first mixology crossword service" },
     { id: "clean_sweep", icon: "✨", name: "Clean Sweep", desc: "Complete any service with zero hints or errors" },
     { id: "vault_master", icon: "🏆", name: "Vault Master", desc: "Solve all five curated puzzle services" },
-    { id: "scholar", icon: "📖", name: "Codex Scholar", desc: "Unlock 8 or more bartender codex cards" },
+    { id: "scholar", icon: "📖", name: "Codex Scholar", desc: "Unlock 12 or more bartender codex cards" },
     { id: "speedy", icon: "⚡", name: "Swift Pour", desc: "Solve any service in under 2 minutes" },
     { id: "craft_master", icon: "👑", name: "Master of Spirits", desc: "Achieve Level 5 Hospitality Rank" }
   ]
@@ -255,7 +278,7 @@ const GameState = {
   unlockedBadges: new Set(),
   lastPlayedDate: null,
   activePuzzleId: "puzzle-1-italian-hour",
-  savedGrids: {}, // puzzleId -> { grid, time, hints, errors, revealed }
+  savedGrids: {}, // puzzleId -> { userGrid, timerSeconds, hintsUsed, errorsCount, revealedCells }
 
   settings: {
     sound: true,
@@ -304,8 +327,6 @@ const GameState = {
           errorsCount: this.errorsCount,
           revealedCells: [...this.revealedCells]
         };
-      } else if (this.currentPuzzle && this.isSolved) {
-        delete this.savedGrids[this.currentPuzzle.id];
       }
 
       const bundle = {
@@ -373,6 +394,7 @@ const GameState = {
     this.cleanSweepsCount = 0;
     this.streak = 1;
     this.savedGrids = {};
+    this.currentPuzzle = null;
     this.savePersistence();
   }
 };
@@ -383,27 +405,34 @@ const GameState = {
 const CrosswordEngine = {
   boardMap: {},
 
-  loadPuzzle(puzzleId) {
+  loadPuzzle(puzzleId, isReplay = false) {
     const puzzle = CONTENT_DATA.puzzles.find(p => p.id === puzzleId) || CONTENT_DATA.puzzles[0];
     GameState.currentPuzzle = puzzle;
     GameState.activePuzzleId = puzzle.id;
-    GameState.isSolved = GameState.solvedPuzzleIds.has(puzzle.id);
+    GameState.isSolved = isReplay ? false : GameState.solvedPuzzleIds.has(puzzle.id);
     GameState.isPaused = false;
 
-    // Restore saved in-progress board if present
-    const saved = GameState.savedGrids[puzzle.id];
+    // Restore saved in-progress board if present and not replaying fresh
+    const saved = !isReplay ? GameState.savedGrids[puzzle.id] : null;
     if (saved && !GameState.isSolved) {
       GameState.userGrid = { ...saved.userGrid };
       GameState.timerSeconds = saved.timerSeconds || 0;
       GameState.hintsUsed = saved.hintsUsed || 0;
       GameState.errorsCount = saved.errorsCount || 0;
       GameState.revealedCells = new Set(saved.revealedCells || []);
+    } else if (GameState.isSolved && !isReplay) {
+      GameState.userGrid = {};
+      GameState.timerSeconds = 0;
+      GameState.hintsUsed = 0;
+      GameState.errorsCount = 0;
+      GameState.revealedCells = new Set();
     } else {
       GameState.userGrid = {};
       GameState.timerSeconds = 0;
       GameState.hintsUsed = 0;
       GameState.errorsCount = 0;
       GameState.revealedCells = new Set();
+      delete GameState.savedGrids[puzzle.id];
     }
 
     this.buildBoardMap(puzzle);
@@ -423,7 +452,7 @@ const CrosswordEngine = {
       this.startTimer();
     } else {
       this.stopTimer();
-      // If already solved, fill whole grid correctly for review
+      // If already solved and not explicitly replaying, fill whole grid for review
       Object.keys(this.boardMap).forEach(key => {
         if (this.boardMap[key]) GameState.userGrid[key] = this.boardMap[key].letter;
       });
@@ -455,12 +484,16 @@ const CrosswordEngine = {
             c,
             letter: word.answer[i].toUpperCase(),
             num: i === 0 ? word.num : null,
-            words: {}
+            words: [word]
           };
-        } else if (i === 0 && !this.boardMap[key].num) {
-          this.boardMap[key].num = word.num;
+        } else {
+          if (i === 0 && !this.boardMap[key].num) {
+            this.boardMap[key].num = word.num;
+          }
+          if (!this.boardMap[key].words.includes(word)) {
+            this.boardMap[key].words.push(word);
+          }
         }
-        this.boardMap[key].words[word.dir] = word;
       }
     });
   },
@@ -488,13 +521,13 @@ const CrosswordEngine = {
     if (!gridEl || !stage || !GameState.currentPuzzle) return;
 
     const { rows, cols } = GameState.currentPuzzle.gridSize;
-    const availWidth = Math.max(220, stage.clientWidth - 12);
-    const availHeight = Math.max(180, stage.clientHeight - 12);
+    const availWidth = Math.max(180, stage.clientWidth - 8);
+    const availHeight = Math.max(160, stage.clientHeight - 8);
 
-    const cellByW = Math.floor(availWidth / cols);
-    const cellByH = Math.floor(availHeight / rows);
-    const rawSize = Math.min(cellByW, cellByH);
-    const cellSize = Math.min(Math.max(30, rawSize), 52);
+    const gap = 2;
+    const cellByW = Math.floor((availWidth - (cols - 1) * gap) / cols);
+    const cellByH = Math.floor((availHeight - (rows - 1) * gap) / rows);
+    const cellSize = Math.max(24, Math.min(cellByW, cellByH, 54));
 
     gridEl.innerHTML = "";
     gridEl.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
@@ -545,28 +578,25 @@ const CrosswordEngine = {
   },
 
   handleCellClick(r, c) {
-    if (GameState.isSolved || GameState.isPaused) return;
+    if (GameState.isPaused) return;
     const key = `${r},${c}`;
     const cellData = this.boardMap[key];
-    if (!cellData) return;
+    if (!cellData || !cellData.words || cellData.words.length === 0) return;
 
     SoundEngine.playClick();
 
     if (GameState.activeCell.r === r && GameState.activeCell.c === c) {
-      const otherDir = GameState.activeDirection === "across" ? "down" : "across";
-      if (cellData.words[otherDir]) {
-        GameState.activeDirection = otherDir;
-        GameState.activeWord = cellData.words[otherDir];
-      }
+      // Cycle through words passing through this cell
+      const currentIdx = cellData.words.findIndex(w => w.id === GameState.activeWord?.id);
+      const nextIdx = (currentIdx + 1) % cellData.words.length;
+      GameState.activeWord = cellData.words[nextIdx];
+      GameState.activeDirection = GameState.activeWord.dir;
     } else {
       GameState.activeCell = { r, c };
-      if (cellData.words[GameState.activeDirection]) {
-        GameState.activeWord = cellData.words[GameState.activeDirection];
-      } else {
-        const fallback = Object.keys(cellData.words)[0];
-        GameState.activeDirection = fallback;
-        GameState.activeWord = cellData.words[fallback];
-      }
+      // Prefer word in current active direction, otherwise take first word of cell
+      const matchingWord = cellData.words.find(w => w.dir === GameState.activeDirection) || cellData.words[0];
+      GameState.activeWord = matchingWord;
+      GameState.activeDirection = matchingWord.dir;
     }
 
     this.updateClueBar();
@@ -595,8 +625,8 @@ const CrosswordEngine = {
     const key = `${active.r},${active.c}`;
     const currentData = this.boardMap[key];
 
-    const crossWord = currentData ?
-      (GameState.activeDirection === "across" ? currentData.words.down : currentData.words.across) : null;
+    // Intersecting cross words
+    const crossWords = currentData ? currentData.words.filter(w => w.id !== activeWord?.id) : [];
 
     cells.forEach(cell => {
       const r = parseInt(cell.dataset.row, 10);
@@ -609,7 +639,7 @@ const CrosswordEngine = {
         cell.classList.add("active-cell");
       } else if (activeWord && this.isCellInWord(r, c, activeWord)) {
         cell.classList.add("word-highlight");
-      } else if (crossWord && this.isCellInWord(r, c, crossWord)) {
+      } else if (crossWords.some(cw => this.isCellInWord(r, c, cw))) {
         cell.classList.add("cross-highlight");
       }
     });
@@ -702,19 +732,19 @@ const CrosswordEngine = {
   },
 
   toggleDirection() {
-    SoundEngine.playClick();
     const { r, c } = GameState.activeCell;
-    const key = `${r},${c}`;
-    const cellData = this.boardMap[key];
-    if (!cellData) return;
-
-    const targetDir = GameState.activeDirection === "across" ? "down" : "across";
-    if (cellData.words[targetDir]) {
-      GameState.activeDirection = targetDir;
-      GameState.activeWord = cellData.words[targetDir];
-      this.updateClueBar();
-      this.highlightActiveCells();
+    const cellData = this.boardMap[`${r},${c}`];
+    if (!cellData || cellData.words.length <= 1) {
+      this.navigateClue(1);
+      return;
     }
+    SoundEngine.playClick();
+    const currentIdx = cellData.words.findIndex(w => w.id === GameState.activeWord?.id);
+    const nextIdx = (currentIdx + 1) % cellData.words.length;
+    GameState.activeWord = cellData.words[nextIdx];
+    GameState.activeDirection = GameState.activeWord.dir;
+    this.updateClueBar();
+    this.highlightActiveCells();
   },
 
   navigateClue(step = 1) {
@@ -876,7 +906,7 @@ const CrosswordEngine = {
     if (GameState.puzzlesSolvedCount >= 1) GameState.unlockedBadges.add("first_solve");
     if (isClean) GameState.unlockedBadges.add("clean_sweep");
     if (GameState.solvedPuzzleIds.size >= 5) GameState.unlockedBadges.add("vault_master");
-    if (GameState.unlockedCodex.size >= 8) GameState.unlockedBadges.add("scholar");
+    if (GameState.unlockedCodex.size >= 12) GameState.unlockedBadges.add("scholar");
     if (GameState.timerSeconds < 120) GameState.unlockedBadges.add("speedy");
     if (GameState.getCurrentRank().current.level >= 5) GameState.unlockedBadges.add("craft_master");
 
@@ -1105,7 +1135,7 @@ const UIController = {
     if (vaultProg) vaultProg.textContent = `${GameState.solvedPuzzleIds.size}/5 Services Solved`;
 
     const codexProg = document.getElementById("menu-codex-progress");
-    if (codexProg) codexProg.textContent = `${GameState.unlockedCodex.size}/16 Specs Unlocked`;
+    if (codexProg) codexProg.textContent = `${GameState.unlockedCodex.size}/34 Specs Unlocked`;
 
     const rankTitle = document.getElementById("menu-rank-title");
     if (rankTitle) rankTitle.textContent = GameState.getCurrentRank().current.title;
@@ -1147,7 +1177,7 @@ const UIController = {
       restartBtn.addEventListener("click", () => {
         if (confirm("Restart this puzzle service from the beginning?")) {
           SoundEngine.playClick();
-          CrosswordEngine.loadPuzzle(GameState.currentPuzzle.id);
+          CrosswordEngine.loadPuzzle(GameState.currentPuzzle.id, true);
         }
       });
     }
@@ -1230,7 +1260,11 @@ const UIController = {
       nextBtn.addEventListener("click", () => {
         SoundEngine.playClick();
         document.getElementById("modal-victory").classList.add("hidden");
-        this.switchTab("puzzles");
+        const currId = GameState.currentPuzzle?.id;
+        const currIdx = CONTENT_DATA.puzzles.findIndex(p => p.id === currId);
+        const nextIdx = (currIdx + 1) % CONTENT_DATA.puzzles.length;
+        CrosswordEngine.loadPuzzle(CONTENT_DATA.puzzles[nextIdx].id);
+        this.switchTab("play");
       });
     }
 
@@ -1365,7 +1399,7 @@ const UIController = {
         <h3>${p.title}</h3>
         <p>${p.blurb}</p>
         <div class="daily-cta-row">
-          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" type="button">${isSolved ? 'Replay' : 'Solve Service'}</button>
+          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" data-replay="${isSolved ? 'true' : 'false'}" type="button">${isSolved ? 'Replay' : 'Solve Service'}</button>
           <span class="daily-reward-text">${p.gridSize.rows}×${p.gridSize.cols} GRID</span>
         </div>
       `;
@@ -1375,7 +1409,9 @@ const UIController = {
     document.querySelectorAll(".vault-play-btn").forEach(btn => {
       btn.addEventListener("click", e => {
         SoundEngine.playClick();
-        CrosswordEngine.loadPuzzle(e.target.dataset.id);
+        const id = e.target.dataset.id;
+        const isReplay = e.target.dataset.replay === "true";
+        CrosswordEngine.loadPuzzle(id, isReplay);
         this.switchTab("play");
       });
     });

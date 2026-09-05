@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="app-container">
-    <!-- TOP MASTHEAD (Appears across views or in gameplay) -->
+    <!-- TOP MASTHEAD -->
     <header id="masthead">
       <div class="masthead-left">
         <button id="btn-menu-toggle" class="icon-btn" type="button" aria-label="Open main menu" title="Menu">
@@ -66,35 +66,35 @@
     <!-- MAIN VIEW CONTAINERS -->
     <main id="views-container">
       
-      <!-- 1. MAIN MENU / HUB SCREEN (First Landing Experience) -->
+      <!-- 1. MAIN MENU HUB -->
       <section id="view-menu" class="app-view active" role="tabpanel" aria-labelledby="tab-menu">
         <div class="menu-content-wrapper">
           <div class="menu-hero-card">
             <div class="hero-brand-emblem" aria-hidden="true">🍸</div>
             <h2 class="hero-title">SPEAKEASY SERVICE</h2>
-            <p class="hero-subtitle">Solve classic mixology crosswords, unlock master specs, and master the craft behind the stick.</p>
+            <p class="hero-subtitle">Solve mixology crosswords, unlock cocktail specs, and master the craft behind the stick.</p>
             
             <div class="quick-resume-card" id="quick-resume-card">
               <div class="qr-meta">
-                <span class="badge gold-badge" id="menu-featured-tier">MINI</span>
+                <span class="badge tier-badge mini" id="menu-featured-tier">MINI</span>
                 <span class="qr-status" id="menu-featured-status">Featured Shift</span>
               </div>
               <h3 class="qr-title" id="menu-featured-title">The Italian Hour</h3>
-              <p class="qr-desc" id="menu-featured-desc">Aperitivo bitters, vermouth craft, and citrus expressions.</p>
+              <p class="qr-desc" id="menu-featured-desc">Aperitivo counter herbal pours, proper expressions, and bar essentials.</p>
               <button class="btn btn-primary btn-block" id="btn-menu-primary-action" type="button">
                 <span aria-hidden="true">▶</span>
-                <span id="menu-primary-action-text">Start Featured Shift</span>
+                <span id="menu-primary-action-text">Solve Featured Shift</span>
               </button>
             </div>
           </div>
 
-          <!-- PRIMARY MODES GRID -->
+          <!-- PRIMARY MODES -->
           <div class="menu-grid-actions">
             <button class="menu-action-card" id="menu-btn-vault" type="button">
               <div class="mac-icon" aria-hidden="true">▤</div>
               <div class="mac-info">
                 <div class="mac-title">The Vault</div>
-                <div class="mac-sub" id="menu-vault-progress">5 Services Available</div>
+                <div class="mac-sub" id="menu-vault-progress">0/5 Services Solved</div>
               </div>
               <span class="mac-arrow" aria-hidden="true">›</span>
             </button>
@@ -103,7 +103,7 @@
               <div class="mac-icon" aria-hidden="true">▥</div>
               <div class="mac-info">
                 <div class="mac-title">Bartender's Codex</div>
-                <div class="mac-sub" id="menu-codex-progress">0/16 Specs Unlocked</div>
+                <div class="mac-sub" id="menu-codex-progress">0/34 Specs Unlocked</div>
               </div>
               <span class="mac-arrow" aria-hidden="true">›</span>
             </button>
@@ -118,7 +118,7 @@
             </button>
           </div>
 
-          <!-- MINI STATS BAR -->
+          <!-- STATS SUMMARY -->
           <div class="menu-stats-bar">
             <div class="ms-item">
               <span class="ms-val" id="menu-stat-xp">0</span>
@@ -134,7 +134,7 @@
             </div>
           </div>
 
-          <!-- REQUIRED EXTERNAL HOME DESTINATION LINK (Bottom of Main Menu) -->
+          <!-- STUDIO HOME DESTINATION -->
           <div class="menu-footer-actions">
             <a href="https://tileworksgamesstudio.github.io/86/" class="home-studio-btn" id="btn-tileworks-home" target="_top" rel="noopener" aria-label="Return to Tileworks Games Studio Home">
               <span class="home-icon" aria-hidden="true">⌂</span>
@@ -148,7 +148,7 @@
         </div>
       </section>
 
-      <!-- 2. GAMEPLAY VIEW (Zero accidental scroll, perfectly fit) -->
+      <!-- 2. GAMEPLAY VIEW -->
       <section id="view-play" class="app-view" role="tabpanel" aria-labelledby="tab-play">
         <!-- SOLVING META TOP STRIP -->
         <div id="play-meta-bar">
@@ -186,7 +186,7 @@
           <button id="clue-next" class="clue-nav-btn" type="button" aria-label="Next clue">›</button>
         </div>
 
-        <!-- BOARD STAGE (Scales dynamically to available height) -->
+        <!-- BOARD STAGE -->
         <div id="board-stage" aria-label="Crossword grid container">
           <div id="grid-scaler">
             <div id="crossword-grid" role="grid" aria-label="Crossword puzzle board"></div>
@@ -298,7 +298,7 @@
         </div>
 
         <div class="codex-stats-strip">
-          <span id="codex-unlocked-count">Unlocked: 0 / 16 Records</span>
+          <span id="codex-unlocked-count">Unlocked: 0 / 34 Records</span>
           <span class="codex-hint-sub">Tap card for master sheet</span>
         </div>
 
@@ -380,7 +380,7 @@
           </div>
         </div>
 
-        <div class="victory-spotlight">
+        <div class="victory-spotlight" id="victory-spotlight-box">
           <div class="spotlight-badge">UNLOCKED CODEX SPEC</div>
           <h4 id="vic-spec-name">NEAT SERVICE</h4>
           <div class="vic-spec-family" id="vic-spec-family">Methods & Tools • Snifter or Rocks</div>
@@ -395,48 +395,50 @@
       </div>
     </div>
 
-    <!-- CODEX RECIPE SPEC MODAL -->
+    <!-- CODEX RECIPE SPEC MODAL (CONTAINED SCROLLABLE SHEET) -->
     <div id="modal-codex-spec" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="codex-modal-title">
       <div class="modal-dialog spec-sheet-dialog">
         <button class="modal-close-btn" id="btn-close-spec-modal" type="button" aria-label="Close specification">✕</button>
         <div class="spec-sheet-header">
-          <span class="spec-category-tag" id="modal-spec-cat">Cocktails</span>
-          <h2 id="codex-modal-title">NEAT</h2>
+          <span class="spec-category-tag" id="modal-spec-cat">Methods & Tools</span>
+          <h2 id="codex-modal-title">NEAT SERVICE</h2>
           <div class="spec-subline" id="modal-spec-subline">Pure unadulterated pour</div>
         </div>
 
-        <div class="spec-grid-props">
-          <div class="spec-prop">
-            <span class="sp-label">GLASSWARE</span>
-            <span class="sp-val" id="modal-spec-glass">Glencairn / Rocks</span>
+        <div class="spec-sheet-body">
+          <div class="spec-grid-props">
+            <div class="spec-prop">
+              <span class="sp-label">GLASSWARE</span>
+              <span class="sp-val" id="modal-spec-glass">Glencairn / Rocks</span>
+            </div>
+            <div class="spec-prop">
+              <span class="sp-label">METHOD</span>
+              <span class="sp-val" id="modal-spec-method">Direct Free Pour</span>
+            </div>
+            <div class="spec-prop">
+              <span class="sp-label">ICE TEMP</span>
+              <span class="sp-val" id="modal-spec-ice">No Ice / Ambient</span>
+            </div>
+            <div class="spec-prop">
+              <span class="sp-label">GARNISH</span>
+              <span class="sp-val" id="modal-spec-garnish">None / Water side</span>
+            </div>
           </div>
-          <div class="spec-prop">
-            <span class="sp-label">METHOD</span>
-            <span class="sp-val" id="modal-spec-method">Direct Free Pour</span>
-          </div>
-          <div class="spec-prop">
-            <span class="sp-label">ICE TEMP</span>
-            <span class="sp-val" id="modal-spec-ice">No Ice / Ambient</span>
-          </div>
-          <div class="spec-prop">
-            <span class="sp-label">GARNISH</span>
-            <span class="sp-val" id="modal-spec-garnish">None / Water side</span>
-          </div>
-        </div>
 
-        <div class="spec-section">
-          <h4>FORMULA & BUILD RATIOS</h4>
-          <div class="formula-box" id="modal-spec-formula">2.0 oz (60 ml) Premium Spirit</div>
-        </div>
+          <div class="spec-section">
+            <h4>FORMULA & BUILD RATIOS</h4>
+            <div class="formula-box" id="modal-spec-formula">2.0 oz (60 ml) Premium Spirit</div>
+          </div>
 
-        <div class="spec-section">
-          <h4>BARTENDER'S TECHNIQUE</h4>
-          <p class="craft-tip-text" id="modal-spec-tip">Offer room-temperature filtered water on the side to allow guests to bloom ethanol vapors at will.</p>
-        </div>
+          <div class="spec-section">
+            <h4>BARTENDER'S TECHNIQUE</h4>
+            <p class="craft-tip-text" id="modal-spec-tip">Offer room-temperature filtered water on the side to allow guests to bloom ethanol vapors at will.</p>
+          </div>
 
-        <div class="spec-section">
-          <h4>PROVENANCE & LORE</h4>
-          <p class="lore-text" id="modal-spec-lore">The oldest way to enjoy spirits — straight from the barrel without chill or dilution.</p>
+          <div class="spec-section">
+            <h4>PROVENANCE & LORE</h4>
+            <p class="lore-text" id="modal-spec-lore">The oldest way to enjoy spirits — straight from the barrel without chill or dilution.</p>
+          </div>
         </div>
       </div>
     </div>
