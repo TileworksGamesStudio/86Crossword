@@ -3,57 +3,154 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#160806">
+  <meta name="theme-color" content="#140705">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Cocktail Crossword — Mobile-first mixology crossword game with puzzle vault, bartender codex, and hospitality progression.">
+  <meta name="description" content="Cocktail Crossword — Mobile mixology crossword game with vault progression, bartender codex, and hospitality ranks.">
   <title>Cocktail Crossword</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app-container">
+    <!-- TOP MASTHEAD (Appears across views or in gameplay) -->
     <header id="masthead">
       <div class="masthead-left">
-        <button id="btn-sound" class="icon-btn" type="button" aria-label="Mute sound effects" title="Toggle audio">
+        <button id="btn-menu-toggle" class="icon-btn" type="button" aria-label="Open main menu" title="Menu">
+          <span class="btn-glyph" aria-hidden="true">☰</span>
+        </button>
+        <button id="btn-sound" class="icon-btn" type="button" aria-label="Mute audio" title="Audio">
           <span id="sound-icon" aria-hidden="true">🔊</span>
         </button>
-        <div class="streak-pill" id="streak-badge" role="status" aria-label="Daily solve streak: 1 day">
+      </div>
+
+      <div class="brand-center">
+        <h1 class="brand-title">COCKTAIL CROSSWORD</h1>
+        <div class="brand-edition" id="masthead-edition">BARTENDER'S SERVICE</div>
+      </div>
+
+      <div class="masthead-right">
+        <div class="streak-pill" id="streak-badge" role="status" aria-label="Daily solve streak">
           <span class="flame-icon" aria-hidden="true">🔥</span>
           <span id="streak-count">1</span>
         </div>
-      </div>
-      <div class="brand-center">
-        <h1 class="brand-title">COCKTAIL CROSSWORD</h1>
-        <div class="brand-edition" id="masthead-edition">MINI • 5×5 SERVICE</div>
-      </div>
-      <div class="masthead-right">
-        <button id="btn-quick-stats" class="icon-btn" type="button" aria-label="Open hospitality mastery" title="Mastery">
-          <span aria-hidden="true">★</span>
+        <button id="btn-settings-open" class="icon-btn" type="button" aria-label="Game settings" title="Settings">
+          <span class="btn-glyph" aria-hidden="true">⚙</span>
         </button>
       </div>
     </header>
 
-    <nav id="nav-tabs" role="tablist" aria-label="Game navigation sections">
-      <button class="nav-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-play" data-tab="play" id="tab-play">
+    <!-- COMPACT PRIMARY NAVIGATION TABS -->
+    <nav id="nav-tabs" role="tablist" aria-label="Primary sections">
+      <button class="nav-tab active" type="button" role="tab" aria-selected="true" aria-controls="view-menu" data-tab="menu" id="tab-menu">
+        <span class="tab-icon" aria-hidden="true">🍸</span>
+        <span class="tab-label">Menu</span>
+      </button>
+      <button class="nav-tab" type="button" role="tab" aria-selected="false" aria-controls="view-play" data-tab="play" id="tab-play">
         <span class="tab-icon" aria-hidden="true">▦</span>
-        <span>Play</span>
+        <span class="tab-label">Play</span>
       </button>
       <button class="nav-tab" type="button" role="tab" aria-selected="false" aria-controls="view-puzzles" data-tab="puzzles" id="tab-puzzles">
         <span class="tab-icon" aria-hidden="true">▤</span>
-        <span>Vault</span>
+        <span class="tab-label">Vault</span>
       </button>
       <button class="nav-tab" type="button" role="tab" aria-selected="false" aria-controls="view-codex" data-tab="codex" id="tab-codex">
         <span class="tab-icon" aria-hidden="true">▥</span>
-        <span>Codex</span>
+        <span class="tab-label">Codex</span>
       </button>
       <button class="nav-tab" type="button" role="tab" aria-selected="false" aria-controls="view-mastery" data-tab="mastery" id="tab-mastery">
         <span class="tab-icon" aria-hidden="true">✦</span>
-        <span>Mastery</span>
+        <span class="tab-label">Mastery</span>
       </button>
     </nav>
 
+    <!-- MAIN VIEW CONTAINERS -->
     <main id="views-container">
-      <section id="view-play" class="app-view active" role="tabpanel" aria-labelledby="tab-play">
+      
+      <!-- 1. MAIN MENU / HUB SCREEN (First Landing Experience) -->
+      <section id="view-menu" class="app-view active" role="tabpanel" aria-labelledby="tab-menu">
+        <div class="menu-content-wrapper">
+          <div class="menu-hero-card">
+            <div class="hero-brand-emblem" aria-hidden="true">🍸</div>
+            <h2 class="hero-title">SPEAKEASY SERVICE</h2>
+            <p class="hero-subtitle">Solve classic mixology crosswords, unlock master specs, and master the craft behind the stick.</p>
+            
+            <div class="quick-resume-card" id="quick-resume-card">
+              <div class="qr-meta">
+                <span class="badge gold-badge" id="menu-featured-tier">MINI</span>
+                <span class="qr-status" id="menu-featured-status">Featured Shift</span>
+              </div>
+              <h3 class="qr-title" id="menu-featured-title">The Italian Hour</h3>
+              <p class="qr-desc" id="menu-featured-desc">Aperitivo bitters, vermouth craft, and citrus expressions.</p>
+              <button class="btn btn-primary btn-block" id="btn-menu-primary-action" type="button">
+                <span aria-hidden="true">▶</span>
+                <span id="menu-primary-action-text">Start Featured Shift</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PRIMARY MODES GRID -->
+          <div class="menu-grid-actions">
+            <button class="menu-action-card" id="menu-btn-vault" type="button">
+              <div class="mac-icon" aria-hidden="true">▤</div>
+              <div class="mac-info">
+                <div class="mac-title">The Vault</div>
+                <div class="mac-sub" id="menu-vault-progress">5 Services Available</div>
+              </div>
+              <span class="mac-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <button class="menu-action-card" id="menu-btn-codex" type="button">
+              <div class="mac-icon" aria-hidden="true">▥</div>
+              <div class="mac-info">
+                <div class="mac-title">Bartender's Codex</div>
+                <div class="mac-sub" id="menu-codex-progress">0/16 Specs Unlocked</div>
+              </div>
+              <span class="mac-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <button class="menu-action-card" id="menu-btn-mastery" type="button">
+              <div class="mac-icon" aria-hidden="true">✦</div>
+              <div class="mac-info">
+                <div class="mac-title">Hospitality Mastery</div>
+                <div class="mac-sub" id="menu-rank-title">Barback Apprentice</div>
+              </div>
+              <span class="mac-arrow" aria-hidden="true">›</span>
+            </button>
+          </div>
+
+          <!-- MINI STATS BAR -->
+          <div class="menu-stats-bar">
+            <div class="ms-item">
+              <span class="ms-val" id="menu-stat-xp">0</span>
+              <span class="ms-label">Craft XP</span>
+            </div>
+            <div class="ms-item">
+              <span class="ms-val" id="menu-stat-cleans">0</span>
+              <span class="ms-label">Clean Sweeps</span>
+            </div>
+            <div class="ms-item">
+              <span class="ms-val" id="menu-stat-solved">0/5</span>
+              <span class="ms-label">Solved</span>
+            </div>
+          </div>
+
+          <!-- REQUIRED EXTERNAL HOME DESTINATION LINK (Bottom of Main Menu) -->
+          <div class="menu-footer-actions">
+            <a href="https://tileworksgamesstudio.github.io/86/" class="home-studio-btn" id="btn-tileworks-home" target="_top" rel="noopener" aria-label="Return to Tileworks Games Studio Home">
+              <span class="home-icon" aria-hidden="true">⌂</span>
+              <div class="home-btn-texts">
+                <span class="home-btn-main">Tileworks Games Studio</span>
+                <span class="home-btn-sub">Return to Studio Home (86)</span>
+              </div>
+              <span class="home-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. GAMEPLAY VIEW (Zero accidental scroll, perfectly fit) -->
+      <section id="view-play" class="app-view" role="tabpanel" aria-labelledby="tab-play">
+        <!-- SOLVING META TOP STRIP -->
         <div id="play-meta-bar">
           <div class="meta-left">
             <span class="badge tier-badge mini" id="puzzle-tier-badge">MINI</span>
@@ -61,58 +158,63 @@
           </div>
           <div class="meta-right">
             <div class="timer-display" id="play-timer" role="timer" aria-label="Solving time">00:00</div>
-            <button id="btn-pause-play" class="mini-tool-btn" type="button" aria-label="Pause solving" title="Pause">⏸</button>
-            <button id="btn-restart-play" class="mini-tool-btn" type="button" aria-label="Restart current puzzle" title="Restart">↻</button>
+            <button id="btn-pause-play" class="mini-tool-btn" type="button" aria-label="Pause timer" title="Pause">⏸</button>
+            <button id="btn-restart-play" class="mini-tool-btn" type="button" aria-label="Restart service" title="Restart">↻</button>
           </div>
         </div>
 
+        <!-- PROGRESS BAR -->
         <div class="progress-strip" id="progress-strip" role="status" aria-live="polite">
-          <span id="progress-text">0 / 7 words filled</span>
+          <span id="progress-text">0 / 7 words</span>
           <div class="progress-track" aria-hidden="true">
             <div id="progress-fill"></div>
           </div>
           <span id="progress-status">Solving</span>
         </div>
 
-        <div id="active-clue-bar" role="region" aria-label="Active crossword clue">
+        <!-- ACTIVE CLUE ACCORDION / BAR -->
+        <div id="active-clue-bar" role="region" aria-label="Current crossword clue">
           <button id="clue-prev" class="clue-nav-btn" type="button" aria-label="Previous clue">‹</button>
-          <button id="clue-main" type="button" aria-label="Toggle across and down orientation">
+          <button id="clue-main" type="button" aria-label="Switch clue direction across or down">
             <div class="clue-header-line">
               <span id="clue-direction-badge" class="dir-badge">ACROSS</span>
               <span id="clue-number-label">1.</span>
-              <span id="clue-category-label" class="cat-tag">Spirits</span>
+              <span id="clue-category-label" class="cat-tag">Methods</span>
             </div>
-            <span id="clue-description">Select any cell to inspect its clue.</span>
+            <span id="clue-description">Select cell to view clue.</span>
           </button>
           <button id="clue-next" class="clue-nav-btn" type="button" aria-label="Next clue">›</button>
         </div>
 
-        <div id="board-stage" aria-label="Interactive crossword grid area">
+        <!-- BOARD STAGE (Scales dynamically to available height) -->
+        <div id="board-stage" aria-label="Crossword grid container">
           <div id="grid-scaler">
-            <div id="crossword-grid" role="grid" aria-label="Cocktail crossword board"></div>
+            <div id="crossword-grid" role="grid" aria-label="Crossword puzzle board"></div>
           </div>
         </div>
 
-        <div id="solving-toolbar" role="toolbar" aria-label="Solving aids">
-          <button id="tool-reveal-letter" class="action-btn" type="button" aria-label="Reveal current cell letter">
-            <span aria-hidden="true">✦</span>
+        <!-- QUICK ASSIST TOOLBAR -->
+        <div id="solving-toolbar" role="toolbar" aria-label="Solving tools">
+          <button id="tool-reveal-letter" class="action-btn" type="button" aria-label="Reveal letter hint">
+            <span class="btn-sym" aria-hidden="true">✦</span>
             <span>Hint</span>
           </button>
-          <button id="tool-check-word" class="action-btn" type="button" aria-label="Check current word for errors">
-            <span aria-hidden="true">✓</span>
+          <button id="tool-check-word" class="action-btn" type="button" aria-label="Check current word">
+            <span class="btn-sym" aria-hidden="true">✓</span>
             <span>Check</span>
           </button>
-          <button id="tool-clear-word" class="action-btn" type="button" aria-label="Clear letters in current word">
-            <span aria-hidden="true">×</span>
+          <button id="tool-clear-word" class="action-btn" type="button" aria-label="Clear current entry">
+            <span class="btn-sym" aria-hidden="true">×</span>
             <span>Clear</span>
           </button>
-          <button id="tool-inspect-spec" class="action-btn gold-btn" type="button" aria-label="Inspect codex recipe for active entry">
-            <span aria-hidden="true">ⓘ</span>
+          <button id="tool-inspect-spec" class="action-btn gold-btn" type="button" aria-label="Inspect cocktail recipe card">
+            <span class="btn-sym" aria-hidden="true">ⓘ</span>
             <span>Codex</span>
           </button>
         </div>
 
-        <div id="virtual-keyboard" role="group" aria-label="Touch solving keyboard">
+        <!-- COMPACT TOUCH KEYBOARD -->
+        <div id="virtual-keyboard" role="group" aria-label="Crossword keyboard">
           <div class="kb-row">
             <button class="kb-key" type="button" data-key="Q">Q</button>
             <button class="kb-key" type="button" data-key="W">W</button>
@@ -137,7 +239,7 @@
             <button class="kb-key" type="button" data-key="L">L</button>
           </div>
           <div class="kb-row">
-            <button id="key-toggle-dir" class="kb-key action-key" type="button" aria-label="Switch between across and down">↕</button>
+            <button id="key-toggle-dir" class="kb-key action-key" type="button" aria-label="Toggle direction across or down">↕</button>
             <button class="kb-key" type="button" data-key="Z">Z</button>
             <button class="kb-key" type="button" data-key="X">X</button>
             <button class="kb-key" type="button" data-key="C">C</button>
@@ -145,74 +247,72 @@
             <button class="kb-key" type="button" data-key="B">B</button>
             <button class="kb-key" type="button" data-key="N">N</button>
             <button class="kb-key" type="button" data-key="M">M</button>
-            <button class="kb-key action-key" type="button" data-key="BACKSPACE" aria-label="Backspace">⌫</button>
+            <button class="kb-key action-key" type="button" data-key="BACKSPACE" aria-label="Delete letter">⌫</button>
           </div>
         </div>
       </section>
 
+      <!-- 3. PUZZLES VAULT VIEW -->
       <section id="view-puzzles" class="app-view" role="tabpanel" aria-labelledby="tab-puzzles">
         <div class="section-hero">
-          <h2>THE PUZZLE VAULT</h2>
-          <p class="subtitle">Complete the curated 5-service progression spanning Mini, Midi, and Main editions. Each puzzle unlocks practical cocktail craft records.</p>
+          <div class="hero-top-row">
+            <h2>THE PUZZLE VAULT</h2>
+            <button class="btn-return-menu" type="button" data-goto="menu">‹ Menu</button>
+          </div>
+          <p class="subtitle">Curated 5-service progression across Mini, Midi, and Main formats.</p>
         </div>
 
-        <article class="daily-spotlight-card">
-          <div class="daily-badge-row">
-            <span class="badge gold-badge">FEATURED SHIFT</span>
-            <span class="daily-date" id="daily-date-label">SERVICE 1 OF 5</span>
-          </div>
-          <h3 id="daily-title">The Italian Hour</h3>
-          <p id="daily-blurb">Step behind the aperitivo counter for bittersweet liqueurs, sparkling lengtheners, and proper citrus expressions.</p>
-          <div class="daily-cta-row">
-            <button id="btn-play-daily" class="btn btn-primary" type="button">Solve Featured</button>
-            <span class="daily-reward-text">+100 Knowledge XP</span>
-          </div>
-        </article>
-
-        <div class="puzzle-filter-tabs" role="group" aria-label="Filter puzzles by edition">
+        <div class="puzzle-filter-tabs" role="group" aria-label="Filter puzzles">
           <button class="filter-chip active" type="button" data-filter="all">All (5)</button>
-          <button class="filter-chip" type="button" data-filter="mini">Mini (2)</button>
-          <button class="filter-chip" type="button" data-filter="midi">Midi (2)</button>
-          <button class="filter-chip" type="button" data-filter="main">Main (1)</button>
+          <button class="filter-chip" type="button" data-filter="mini">Mini</button>
+          <button class="filter-chip" type="button" data-filter="midi">Midi</button>
+          <button class="filter-chip" type="button" data-filter="main">Main</button>
         </div>
 
         <div class="puzzles-grid" id="puzzles-list"></div>
       </section>
 
+      <!-- 4. BARTENDER'S CODEX VIEW -->
       <section id="view-codex" class="app-view" role="tabpanel" aria-labelledby="tab-codex">
         <div class="section-hero">
-          <h2>BARTENDER’S CODEX</h2>
-          <p class="subtitle">Professional formula cards, glassware specs, ice requirements, and historical lore unlocked by solving crossword entries.</p>
+          <div class="hero-top-row">
+            <h2>BARTENDER’S CODEX</h2>
+            <button class="btn-return-menu" type="button" data-goto="menu">‹ Menu</button>
+          </div>
+          <p class="subtitle">Standardized formulas, glassware, ice chemistry, and cocktail provenance.</p>
         </div>
 
         <div class="codex-controls">
           <div class="search-input-wrap">
             <span class="search-icon" aria-hidden="true">⌕</span>
-            <input id="codex-search" type="search" autocomplete="off" placeholder="Search drinks, spirits, glassware, methods...">
+            <input id="codex-search" type="search" autocomplete="off" placeholder="Search specs, spirits, glassware...">
           </div>
-          <div class="codex-cat-chips" role="group" aria-label="Filter codex categories">
+          <div class="codex-cat-chips" role="group" aria-label="Codex categories">
             <button class="codex-filter active" type="button" data-cat="all">All</button>
-            <button class="codex-filter" type="button" data-cat="Cocktails">Cocktails</button>
+            <button class="codex-filter" type="button" data-cat="Methods & Tools">Methods</button>
             <button class="codex-filter" type="button" data-cat="Spirits">Spirits</button>
-            <button class="codex-filter" type="button" data-cat="Methods & Tools">Methods & Tools</button>
             <button class="codex-filter" type="button" data-cat="Glassware">Glassware</button>
             <button class="codex-filter" type="button" data-cat="Mixers">Mixers</button>
-            <button class="codex-filter" type="button" data-cat="History & Lore">History & Lore</button>
+            <button class="codex-filter" type="button" data-cat="History & Lore">Lore</button>
           </div>
         </div>
 
         <div class="codex-stats-strip">
           <span id="codex-unlocked-count">Unlocked: 0 / 16 Records</span>
-          <span class="codex-hint-sub">Tap unlocked card for master spec</span>
+          <span class="codex-hint-sub">Tap card for master sheet</span>
         </div>
 
         <div class="codex-cards-grid" id="codex-grid"></div>
       </section>
 
+      <!-- 5. MASTERY & STATS VIEW -->
       <section id="view-mastery" class="app-view" role="tabpanel" aria-labelledby="tab-mastery">
         <div class="section-hero">
-          <h2>HOSPITALITY MASTERY</h2>
-          <p class="subtitle">Track your bar ranks, solving accuracy, clean sweeps, and craft domain knowledge across all five services.</p>
+          <div class="hero-top-row">
+            <h2>HOSPITALITY MASTERY</h2>
+            <button class="btn-return-menu" type="button" data-goto="menu">‹ Menu</button>
+          </div>
+          <p class="subtitle">Track your bar ranks, solving accuracy, and knowledge domains.</p>
         </div>
 
         <div class="profile-card">
@@ -229,7 +329,7 @@
         <div class="stats-overview-grid">
           <div class="stat-box">
             <div class="stat-number" id="stat-puzzles-solved">0 / 5</div>
-            <div class="stat-label">Puzzles Solved</div>
+            <div class="stat-label">Services Solved</div>
           </div>
           <div class="stat-box">
             <div class="stat-number" id="stat-words-unlocked">0</div>
@@ -246,17 +346,19 @@
         </div>
 
         <div class="domain-mastery-card">
-          <h3>KNOWLEDGE DOMAINS</h3>
+          <h3>CRAFT KNOWLEDGE DOMAINS</h3>
           <div class="domain-bars" id="domain-bars"></div>
         </div>
 
         <div class="achievements-section">
-          <h3>BAR SERVICE HONORS</h3>
+          <h3>SERVICE HONORS & BADGES</h3>
           <div class="badges-grid" id="achievements-grid"></div>
         </div>
       </section>
+
     </main>
 
+    <!-- VICTORY MODAL -->
     <div id="modal-victory" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="vic-heading">
       <div class="modal-dialog victory-card">
         <div class="seal-icon" aria-hidden="true">🏆</div>
@@ -279,20 +381,21 @@
         </div>
 
         <div class="victory-spotlight">
-          <div class="spotlight-badge">FEATURED CODEX UNLOCK</div>
-          <h4 id="vic-spec-name">NEAT</h4>
+          <div class="spotlight-badge">UNLOCKED CODEX SPEC</div>
+          <h4 id="vic-spec-name">NEAT SERVICE</h4>
           <div class="vic-spec-family" id="vic-spec-family">Methods & Tools • Snifter or Rocks</div>
-          <p class="vic-spec-desc" id="vic-spec-desc">Room-temperature spirit served with pure aroma fidelity and zero water dilution.</p>
+          <p class="vic-spec-desc" id="vic-spec-desc">Room-temperature spirit served with pure aroma fidelity and zero dilution.</p>
         </div>
 
         <div class="victory-actions">
           <button class="btn btn-primary" id="btn-next-puzzle" type="button">Next Service</button>
           <button class="btn btn-secondary" id="btn-view-in-codex" type="button">Inspect Codex</button>
-          <button class="btn btn-tertiary" id="btn-close-victory" type="button">Keep Board Open</button>
+          <button class="btn btn-tertiary" id="btn-close-victory" type="button">Close Board</button>
         </div>
       </div>
     </div>
 
+    <!-- CODEX RECIPE SPEC MODAL -->
     <div id="modal-codex-spec" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="codex-modal-title">
       <div class="modal-dialog spec-sheet-dialog">
         <button class="modal-close-btn" id="btn-close-spec-modal" type="button" aria-label="Close specification">✕</button>
@@ -322,12 +425,12 @@
         </div>
 
         <div class="spec-section">
-          <h4>SERVICE RATIOS & FORMULA</h4>
+          <h4>FORMULA & BUILD RATIOS</h4>
           <div class="formula-box" id="modal-spec-formula">2.0 oz (60 ml) Premium Spirit</div>
         </div>
 
         <div class="spec-section">
-          <h4>CRAFT TIP</h4>
+          <h4>BARTENDER'S TECHNIQUE</h4>
           <p class="craft-tip-text" id="modal-spec-tip">Offer room-temperature filtered water on the side to allow guests to bloom ethanol vapors at will.</p>
         </div>
 
@@ -338,15 +441,55 @@
       </div>
     </div>
 
-    <div id="pause-overlay" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
-      <div class="modal-dialog pause-dialog">
-        <h3 id="pause-title">Service Paused</h3>
-        <p>Timer is frozen. Your board letters and progress are intact.</p>
-        <button class="btn btn-primary" id="btn-resume-play" type="button">Resume Solving</button>
-        <button class="btn btn-tertiary" id="btn-restart-paused" type="button">Restart Service</button>
+    <!-- SETTINGS MODAL -->
+    <div id="modal-settings" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+      <div class="modal-dialog settings-dialog">
+        <button class="modal-close-btn" id="btn-close-settings" type="button" aria-label="Close settings">✕</button>
+        <h3 id="settings-modal-title">SETTINGS & CRAFT</h3>
+        
+        <div class="settings-list">
+          <label class="setting-row">
+            <div class="sr-info">
+              <span class="sr-title">Sound Effects</span>
+              <span class="sr-sub">Audio clicks, victory fanfare & chimes</span>
+            </div>
+            <input type="checkbox" id="setting-toggle-sound" class="toggle-switch" checked>
+          </label>
+
+          <label class="setting-row">
+            <div class="sr-info">
+              <span class="sr-title">Haptic Vibration</span>
+              <span class="sr-sub">Tactile feedback on key taps & solves</span>
+            </div>
+            <input type="checkbox" id="setting-toggle-haptics" class="toggle-switch" checked>
+          </label>
+
+          <label class="setting-row">
+            <div class="sr-info">
+              <span class="sr-title">Auto-Skip Filled Cells</span>
+              <span class="sr-sub">Jump filled squares when typing</span>
+            </div>
+            <input type="checkbox" id="setting-toggle-skip-filled" class="toggle-switch" checked>
+          </label>
+
+          <div class="settings-danger-zone">
+            <button class="btn btn-tertiary" id="btn-reset-data" type="button">Reset All Saved Progress</button>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- PAUSE OVERLAY -->
+    <div id="pause-overlay" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+      <div class="modal-dialog pause-dialog">
+        <h3 id="pause-title">Service Paused</h3>
+        <p>Timer frozen. Your board letters and progress are saved in localStorage.</p>
+        <button class="btn btn-primary btn-block" id="btn-resume-play" type="button">Resume Solving</button>
+        <button class="btn btn-secondary btn-block" id="btn-menu-from-pause" type="button">Back to Main Menu</button>
+      </div>
+    </div>
+
+    <!-- ACCESSIBILITY REGIONS & TOAST -->
     <div id="aria-live-region" aria-live="polite" aria-atomic="true"></div>
     <div id="toast" role="status" aria-live="polite"></div>
   </div>
