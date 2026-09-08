@@ -1,1545 +1,2336 @@
-/* ==========================================================================
-   COCKTAIL CROSSWORD — SCRIPT.JS
-   Complete Architecture, Data, Sound Engine, Game Logic & UI Controller
-   ========================================================================== */
-
-const CONTENT_DATA = {
-  puzzles: [
-    {
-      id: "puzzle-1-italian-hour",
-      tier: "mini",
-      title: "The Italian Hour",
-      blurb: "Aperitivo counter herbal pours, proper expressions, and bar essentials.",
-      gridSize: { rows: 3, cols: 3 },
-      words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "SIP", clue: "Savor a bitter aperitivo in slow, measured draws", cat: "Methods & Tools", codexId: "sip" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "ICE", clue: "Large, dense rock keeping a Spritz chilled without rapid melt", cat: "Methods & Tools", codexId: "ices" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "POP", clue: "Festive sound when releasing a wire cage on Prosecco", cat: "History & Lore", codexId: "pop" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "SIP", clue: "Tasting technique before presenting a drink to guests", cat: "Methods & Tools", codexId: "sip" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "ICO", clue: "Suffix for classic Italian aperitifs like 'Amer-___'", cat: "Spirits", codexId: "amaro" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "PEP", clue: "Lively effervescence and botanical snap", cat: "Mixers", codexId: "soda" }
-      ]
-    },
-    {
-      id: "puzzle-2-agave-sunset",
-      tier: "mini",
-      title: "Agave Sunset",
-      blurb: "Saline borders, rested reposado, and frothy citrus under the desert sun.",
-      gridSize: { rows: 3, cols: 3 },
-      words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "ALE", clue: "Crisp ginger brew topped onto Mexican mules", cat: "Mixers", codexId: "ale" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "RIM", clue: "Glassware boundary dressed with sal de gusano or Tajín", cat: "Glassware", codexId: "edge" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "MUD", clue: "Sediment in unfiltered artisanal clay-pot agave runs", cat: "Spirits", codexId: "clay" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "ARM", clue: "Physical muscle applied while shaking agave nectar", cat: "Methods & Tools", codexId: "egg" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "LIU", clue: "Historic trade port routes carrying citrus across the Pacific", cat: "History & Lore", codexId: "bar" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "EMD", clue: "Emergency measure: when a bar runs entirely out of fresh limes", cat: "Methods & Tools", codexId: "lime" }
-      ]
-    },
-    {
-      id: "puzzle-3-highball-express",
-      tier: "midi",
-      title: "Highball Express",
-      blurb: "Whisky, crisp bubbles, and crystal clear ice spears in the highball tradition.",
-      gridSize: { rows: 5, cols: 5 },
-      words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "CHILL", clue: "Deep sub-zero cooling of glassware and spirit before pouring", cat: "Methods & Tools", codexId: "cold" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "HONEY", clue: "Rich golden syrup sweetening modern highball variations", cat: "Mixers", codexId: "honey" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "ANGER", clue: "What a bartender feels when a soda siphon goes completely flat", cat: "History & Lore", codexId: "nod" },
-        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "SPEAR", clue: "Precision-cut ice prism extending the height of a Collins glass", cat: "Methods & Tools", codexId: "spea" },
-        { id: "7A", num: 7, dir: "across", row: 4, col: 0, answer: "MYTHS", clue: "Legends surrounding the exact origin of the term 'highball'", cat: "History & Lore", codexId: "bar" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "CHASM", clue: "Deep crack formed if warm soda hits un-tempered ice", cat: "Methods & Tools", codexId: "ices" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "HONPY", clue: "Dense viscous mouthfeel from high-brix syrups", cat: "Mixers", codexId: "honey" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "INGET", clue: "Metal ingot mold inspiring large-format craft ice carving", cat: "Methods & Tools", codexId: "carv" },
-        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "LEEAS", clue: "Yeast sediment resting at the bottom of cider and wine barrels", cat: "Spirits", codexId: "aged" },
-        { id: "5D", num: 5, dir: "down", row: 0, col: 4, answer: "LYRHS", clue: "Melodic cadence of carbonation fizzing against the glass rim", cat: "Mixers", codexId: "soda" }
-      ]
-    },
-    {
-      id: "puzzle-4-speakeasy-secret",
-      tier: "midi",
-      title: "Speakeasy Secret",
-      blurb: "Spirit-forward standards, Bottled-in-Bond whiskies, and cellar service.",
-      gridSize: { rows: 5, cols: 5 },
-      words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "PROOF", clue: "Twice the percentage of alcohol by volume in the US system", cat: "Spirits", codexId: "proof" },
-        { id: "4A", num: 4, dir: "across", row: 1, col: 0, answer: "RYESR", clue: "Spicy grain spirit lots aging in bonded rickhouses", cat: "Spirits", codexId: "ryes" },
-        { id: "5A", num: 5, dir: "across", row: 2, col: 0, answer: "ORDER", clue: "Ticket calling out three Manhattans and an Old Fashioned", cat: "History & Lore", codexId: "bar" },
-        { id: "6A", num: 6, dir: "across", row: 3, col: 0, answer: "OUTER", clue: "External surface of shaker tins that frosts during a hard shake", cat: "Methods & Tools", codexId: "shakers" },
-        { id: "7A", num: 7, dir: "across", row: 4, col: 0, answer: "FORKS", clue: "Bar tools with trident tips for spearing cocktail cherries", cat: "Methods & Tools", codexId: "cherr" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "PROOF", clue: "The purity benchmark guaranteed by the 1897 Bond Act", cat: "Spirits", codexId: "proof" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 1, answer: "RYOUO", clue: "Rested grain spirits savored in backroom drinking dens", cat: "Spirits", codexId: "ryes" },
-        { id: "3D", num: 3, dir: "down", row: 0, col: 2, answer: "ORDTR", clue: "Systematic order of bottles arranged in the speed rail", cat: "Methods & Tools", codexId: "misenplace" },
-        { id: "4D", num: 4, dir: "down", row: 0, col: 3, answer: "OEERK", clue: "Seasoned oak barrel staves imparting rich vanillin", cat: "Spirits", codexId: "aged" },
-        { id: "5D", num: 5, dir: "down", row: 0, col: 4, answer: "FRRSS", clue: "Fierce thermal chill produced when dry ice contacts ethanol", cat: "Methods & Tools", codexId: "cold" }
-      ]
-    },
-    {
-      id: "puzzle-5-masters-service",
-      tier: "main",
-      title: "The Master’s Service",
-      blurb: "Stemware, shaken Daiquiris, and sensory evaluation from nose to wash line.",
-      gridSize: { rows: 6, cols: 6 },
-      words: [
-        { id: "1A", num: 1, dir: "across", row: 0, col: 0, answer: "COUPE", clue: "Curved stemmed glass designed for drinks served up without ice", cat: "Glassware", codexId: "coupe" },
-        { id: "3A", num: 3, dir: "across", row: 1, col: 1, answer: "ORDER", clue: "Guest beverage request relayed during service rushes", cat: "History & Lore", codexId: "bar" },
-        { id: "4A", num: 4, dir: "across", row: 2, col: 0, answer: "PINTS", clue: "Standard 16-ounce glassware for draft pours and mixing glasses", cat: "Glassware", codexId: "pints" },
-        { id: "6A", num: 6, dir: "across", row: 3, col: 1, answer: "STILL", clue: "Copper pot producing dense, flavorful spirits", cat: "Spirits", codexId: "still" },
-        { id: "7A", num: 7, dir: "across", row: 4, col: 0, answer: "TASTES", clue: "Evaluates drink balance and dilution via bar straw drop", cat: "Methods & Tools", codexId: "tastes" },
-        { id: "8A", num: 8, dir: "across", row: 5, col: 1, answer: "SWEET", clue: "Sugar cane, agave, or liqueur balance against proof", cat: "Mixers", codexId: "cane" },
-        { id: "1D", num: 1, dir: "down", row: 0, col: 0, answer: "CAP", clue: "The snug closure capping a three-piece cobbler shaker", cat: "Methods & Tools", codexId: "cap" },
-        { id: "2D", num: 2, dir: "down", row: 0, col: 2, answer: "URN", clue: "Vessel used to batch and ladle communal hot punches", cat: "Glassware", codexId: "urn" },
-        { id: "3D", num: 3, dir: "down", row: 1, col: 4, answer: "ROSE", clue: "Pink hue or botanical water misted over vintage cocktails", cat: "Mixers", codexId: "herbal" },
-        { id: "4D", num: 4, dir: "down", row: 2, col: 0, answer: "POT", clue: "Traditional batch still retaining botanical oils and congeners", cat: "Spirits", codexId: "pot" },
-        { id: "5D", num: 5, dir: "down", row: 2, col: 3, answer: "TILT", clue: "Angle the coupe slightly when fine straining to prevent foam splash", cat: "Methods & Tools", codexId: "pour" },
-        { id: "6D", num: 6, dir: "down", row: 3, col: 1, answer: "STRAW", clue: "Tool used by craft tenders to sanitary-taste drinks before service", cat: "Methods & Tools", codexId: "tastes" }
-      ]
-    }
-  ],
-  codex: [
-    { id: "neat", name: "NEAT SERVICE", category: "Methods & Tools", subline: "Unadulterated room-temperature spirit", glass: "Glencairn / Rocks", method: "Direct Pour", ice: "None (Ambient)", garnish: "None (Water side)", formula: "2.0 oz (60 ml) Premium Single Malt, Mezcal, or Bourbon", tip: "Serve with a small pipette of neutral spring water to bloom aromatics.", lore: "The oldest and purest way to inspect distillation quality without thermal masking." },
-    { id: "peel", name: "CITRUS PEEL", category: "Methods & Tools", subline: "Expressed essential oil garnish", glass: "Coupe or Nick & Nora", method: "Express & Discard", ice: "Per build", garnish: "Wide orange or lemon swath", formula: "1 wide swath cut without white bitter pith", tip: "Pinch skin side at a 45° angle over the drink surface so micro-droplets mist evenly.", lore: "Originated in 19th-century punches where citrus peel oils provided the core aroma." },
-    { id: "pour", name: "JIGGER POUR", category: "Methods & Tools", subline: "Accurate liquid balance measuring", glass: "Any vessel", method: "Meniscus fill & tip", ice: "N/A", garnish: "None", formula: "Precise measures: 0.25 oz to 2.0 oz increments", tip: "Fill jiggers until an upward convex meniscus forms at the absolute top rim.", lore: "Named for the 19th-century 'jigger boss' who dispensed small spirit rations." },
-    { id: "ale", name: "GINGER ALE", category: "Mixers", subline: "Effervescent sweetened ginger soda", glass: "Collins / Highball", method: "Built over ice", ice: "Clear Ice Spear", garnish: "Lime wedge", formula: "4.0 oz Ginger Ale\n2.0 oz Whiskey or Brandy", tip: "Pour carbonated mixers down the spiral shaft of a barspoon to preserve fizz.", lore: "Invented in Belfast in the 1850s, perfected into the pale dry style in 1904." },
-    { id: "pop", name: "CHAMPAGNE POP", category: "History & Lore", subline: "Sparkling cellar tradition", glass: "Flute or Tulip", method: "Slow twist uncorking", ice: "Chilled to 45°F", garnish: "None", formula: "Traditional method sparkling wine under 6 bars of pressure", tip: "Keep your thumb over the cork at all times, turning the bottle base rather than the cork.", lore: "Christopher Merret documented intentional in-bottle carbonation back in 1662." },
-    { id: "ices", name: "BAR ICE SCIENCE", category: "Methods & Tools", subline: "Thermal dilution control", glass: "Mixing glass / Shaker", method: "Directional freezing", ice: "Dense clear block ice", garnish: "None", formula: "0°F to 28°F solid frozen density", tip: "Shake drinks with solid, dry cubes. Wet melting ice over-dilutes the wash line.", lore: "Frederic Tudor sparked the cocktail revolution shipping pond ice worldwide in 1806." },
-    { id: "aged", name: "BARREL AGING", category: "Spirits", subline: "Charred white oak maturation", glass: "Glencairn", method: "Cask resting", ice: "Optional single cube", garnish: "None", formula: "Spirit extraction, oxidation, and wood subtraction across seasons", tip: "White oak barrels contribute vanillin, lactones, and wood sugars.", lore: "Charring barrels was originally adopted to sanitize fish and pickle barrels." },
-    { id: "edge", name: "SALT RIM / CRUSTA", category: "Glassware", subline: "Contrast border application", glass: "Coupe / Rocks", method: "Half-rim swipe", ice: "Fresh cubes", garnish: "Flaky sea salt", formula: "Lime cheek wipe + flaky kosher salt rim", tip: "Salt only half the exterior rim so guests can alternate between salted and clean sips.", lore: "Joseph Santini invented the brandy Crusta in 1850s New Orleans." },
-    { id: "egg", name: "ALBUMEN FOAM", category: "Methods & Tools", subline: "Silky cocktail foam texture", glass: "Coupe or Sour Glass", method: "Dry shake, then wet shake", ice: "Strained off ice", garnish: "Bitters drops", formula: "0.75 oz Egg White or Aquafaba\n2.0 oz Spirit\n0.75 oz Lemon\n0.75 oz Simple", tip: "Dry shake for 15 seconds to emulsify proteins, then add ice and shake hard.", lore: "Bartenders began emulsifying egg whites into spirit sours in the 1880s." },
-    { id: "soda", name: "CLUB SODA", category: "Mixers", subline: "Mineralized carbonated lengthener", glass: "Highball", method: "Gently top and lift", ice: "Clear spear", garnish: "Citrus twist", formula: "Carbonated water + sodium bicarbonate", tip: "Keep soda bottles stored near 33°F (1°C). Colder liquid holds dissolved CO2 tighter.", lore: "Joseph Priestley discovered how to carbonate water in Leeds in 1767." },
-    { id: "proof", name: "PROOF SYSTEM", category: "Spirits", subline: "Ethanol concentration metric", glass: "Any vessel", method: "Hydrometer measurement", ice: "N/A", garnish: "None", formula: "Proof = ABV% × 2 (US Standard)", tip: "Higher proof spirits resist ice dilution longer and hold delicate modifiers.", lore: "British Navy gunpowder would still ignite when soaked in 57.1% ABV rum ('Navy Proof')." },
-    { id: "nod", name: "THE BARTENDER'S NOD", category: "History & Lore", subline: "Unspoken hospitality law", glass: "Any vessel", method: "Eye contact acknowledgment", ice: "N/A", garnish: "None", formula: "1 direct eye-contact nod within 15 seconds of guest arrival", tip: "Even 4-deep on a busy night, catching a guest's eye resets their wait perception timer.", lore: "The cornerstone of hospitality etiquette across historical speakeasies and grand salons." },
-    { id: "sip", name: "SENSORY SIP EVALUATION", category: "Methods & Tools", subline: "Palate assessment technique", glass: "Tasting stemware", method: "Straw draw & palate roll", ice: "Controlled temp", garnish: "Aromatic botanical", formula: "3-tier check: Nose bouquet, Mid-palate balance, Finish length", tip: "Roll liquid across the lateral edges of the tongue to evaluate acid brightness and spirit warmth.", lore: "Standardized by spirits guilds and sommeliers to evaluate structural integrity." },
-    { id: "ryes", name: "RYE GRAIN WHISKEY", category: "Spirits", subline: "Spicy American distilling standard", glass: "Coupe or Rocks", method: "Stirred Manhattan build", ice: "Strained off ice", garnish: "Brandied cherry", formula: "Minimum 51% rye grain mashbill aged in charred new oak", tip: "Rye's peppery, baking spice profile balances sweet Italian vermouth far cleaner than bourbon.", lore: "The dominant pre-Prohibition American whiskey powering original 1870s Manhattans." },
-    { id: "bar", name: "THE BAR COUNTER", category: "History & Lore", subline: "The sacred hospitality threshold", glass: "Any vessel", method: "Craft staging", ice: "Full ice well", garnish: "Clean caddy", formula: "42-inch height ergonomic hospitality line", tip: "The physical barrier that unites rather than separates, maintaining sanctuary on both sides.", lore: "Originated in 18th-century coaching inns as a wooden rail separating cask storage from patrons." },
-    { id: "coupe", name: "COUPE GLASS", category: "Glassware", subline: "Classic stemmed cocktail vessel", glass: "5.5 oz (160 ml) Coupe", method: "Pre-chill in freezer", ice: "Served 'Up' (No ice)", garnish: "Twist or Cherry", formula: "Ideal capacity: 5 to 6 oz with 0.5 oz wash line headroom", tip: "Always hold a coupe by the stem to avoid transferring body heat into the drink.", lore: "Designed for sparkling wine in England around 1663, not Marie Antoinette." },
-    { id: "pints", name: "PINT & MIXING GLASS", category: "Glassware", subline: "Heavy gauge service & mixing", glass: "16 oz Shaker Pint", method: "Draft pour or Boston tin mate", ice: "Cubes", garnish: "Citrus wedge", formula: "16 fl oz capacity (US Standard) / 20 fl oz (Imperial)", tip: "Use heavy tempered mixing glasses when shaking to prevent thermal shock fractures.", lore: "The universal American tavern glass since the repeal of Prohibition." },
-    { id: "tastes", name: "STRAW TASTING", category: "Methods & Tools", subline: "Quality assurance technique", glass: "Mixing tin or glass", method: "Atmospheric finger seal", ice: "Pre-strain", garnish: "None", formula: "2-3 drops drawn up through a clean straw", tip: "Dip straw, seal finger over top to trap liquid, lift to mouth and release to verify balance.", lore: "The professional mixologist's quality control checkpoint before serving a cocktail." },
-    { id: "cap", name: "COBBLER SHAKER CAP", category: "Methods & Tools", subline: "Three-piece shaker vacuum seal", glass: "Cobbler Shaker", method: "Remove cap first to break vacuum", ice: "Cubes", garnish: "None", formula: "3-piece system: Tin base, built-in strainer top, sealing cap", tip: "Always pull the small top cap off BEFORE trying to remove the strainer lid to break thermal vacuum.", lore: "Patented in 1884 by Edward Hauck, popular in Japanese bartending for hard shakes." },
-    { id: "urn", name: "PUNCH BOWL & URN", category: "Glassware", subline: "Communal celebratory vessel", glass: "Punch Bowl or Heated Urn", method: "Oleo-saccharum batching", ice: "Large clear block", garnish: "Nutmeg & citrus wheels", formula: "1 of Sour, 2 of Sweet, 3 of Strong, 4 of Weak (Classic rhyme)", tip: "The foundation of all cocktail history; communal bowls fostered fellowship in 1700s taverns.", lore: "Derived from Sanskrit 'pañc' meaning five ingredients: spirit, citrus, sugar, water, spice." },
-    { id: "pot", name: "POT STILL SPIRITS", category: "Spirits", subline: "Batch copper distillation", glass: "Glencairn or Tulip", method: "Discontinuous batch boiling", ice: "None", garnish: "None", formula: "Direct boiling in copper swan neck kettle", tip: "Pot stills retain aromatic congeners and heavy esters, creating deeply rich rums and whiskeys.", lore: "Perfected in Middle Ages copper alembics, the historic soul of single malt and mezcal." },
-    { id: "cold", name: "FREEZER GIN TECHNIQUE", category: "Methods & Tools", subline: "Sub-zero viscous dilution", glass: "Nick & Nora", method: "Freezer storage 0°F", ice: "Zero dilution or stir", garnish: "Lemon coin", formula: "Gin + 15% pre-diluted filtered water stored at 0°F (-18°C)", tip: "Cold liquid thickens and turns silky, delivering intense aromatics without thermal shock.", lore: "Pioneered by legendary London hotel bars like The Connaught and Dukes." },
-    { id: "cane", name: "PURE CANE SUGAR", category: "Spirits", subline: "Raw sucrose syrup", glass: "Prep bottle", method: "Cold dissolved", ice: "N/A", garnish: "N/A", formula: "2 parts pure cane sugar to 1 part water (Rich 2:1 syrup)", tip: "2:1 rich cane syrup has a higher sugar density that resists spoilage without boiling.", lore: "Sugarcane cultivation transformed Caribbean distillation starting in the 1640s." },
-    { id: "spea", name: "ICE SPEAR SCULPTING", category: "Methods & Tools", subline: "Monolithic highball ice", glass: "Collins Glass", method: "Carved from block", ice: "Full length spear", garnish: "Citrus ribbon", formula: "Ice pillar cut 1/4-inch shorter than the glass height", tip: "Slide the ice spear into the glass at an angle to avoid shattering the bottom.", lore: "Highball bars in Tokyo popularized single ice columns to maintain continuous chill." },
-    { id: "carv", name: "ICE CARVING CRAFT", category: "Methods & Tools", subline: "Deba knife ice sculpture", glass: "Rocks Glass", method: "Hand chiseled", ice: "Crystal clear block", garnish: "N/A", formula: "Hand-sculpted diamond facets reflecting bar lighting", tip: "Carve only tempered ice; sub-zero ice from a freezer will shatter under the blade.", lore: "Japanese barmen in Ginza transformed ice carving into a high culinary art." }
-  ],
-
-  ranks: [
-    { level: 1, title: "Barback Apprentice", xpRequired: 0, icon: "🌱" },
-    { level: 2, title: "Junior Mixologist", xpRequired: 150, icon: "🍋" },
-    { level: 3, title: "Senior Bartender", xpRequired: 400, icon: "🍹" },
-    { level: 4, title: "Head Mixologist", xpRequired: 850, icon: "🍸" },
-    { level: 5, title: "Master of Spirits", xpRequired: 1500, icon: "👑" }
-  ],
-
-  domains: [
-    { id: "spirits", name: "Spirits & Distillation", keyCat: "Spirits" },
-    { id: "methods", name: "Technique & Tools", keyCat: "Methods & Tools" },
-    { id: "glassware", name: "Glassware & Service", keyCat: "Glassware" },
-    { id: "mixers", name: "Mixers & Lengtheners", keyCat: "Mixers" },
-    { id: "lore", name: "Cocktail History & Lore", keyCat: "History & Lore" }
-  ],
-
-  achievements: [
-    { id: "first_solve", icon: "🍸", name: "First Shift", desc: "Complete your first mixology crossword service" },
-    { id: "clean_sweep", icon: "✨", name: "Clean Sweep", desc: "Complete any service with zero hints or errors" },
-    { id: "vault_master", icon: "🏆", name: "Vault Master", desc: "Solve 5 curated puzzle services" },
-    { id: "scholar", icon: "📖", name: "Codex Scholar", desc: "Unlock 12 or more bartender codex cards" },
-    { id: "speedy", icon: "⚡", name: "Swift Pour", desc: "Solve any service in under 2 minutes" },
-    { id: "craft_master", icon: "👑", name: "Master of Spirits", desc: "Achieve Level 5 Hospitality Rank" }
-  ]
-};
-
-/* ==========================================================================
-   2. SOUND & HAPTIC ENGINE
-   ========================================================================== */
-const SoundEngine = (() => {
-  let ctx = null;
-
-  const initCtx = () => {
-    if (!ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) ctx = new AudioCtx();
-    }
-    if (ctx && ctx.state === "suspended") {
-      ctx.resume().catch(() => {});
-    }
-  };
-
-  const playTone = (freq, type, duration, gainVal, rampTo = null) => {
-    if (!GameState.settings.sound) return;
-    initCtx();
-    if (!ctx) return;
-    try {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      if (rampTo) {
-        osc.frequency.exponentialRampToValueAtTime(rampTo, ctx.currentTime + duration);
-      }
-      gain.gain.setValueAtTime(gainVal, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
-    } catch (e) {}
-  };
-
-  const triggerHaptic = (pattern) => {
-    if (!GameState.settings.haptics) return;
-    if (navigator.vibrate) {
-      try { navigator.vibrate(pattern); } catch (e) {}
-    }
-  };
-
-  return {
-    playClick() {
-      playTone(560, "sine", 0.03, 0.08, 220);
-      triggerHaptic(6);
-    },
-    playChime() {
-      if (!GameState.settings.sound) return;
-      initCtx();
-      if (!ctx) return;
-      try {
-        const now = ctx.currentTime;
-        [587.33, 880].forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-          gain.gain.setValueAtTime(0.12, now + idx * 0.06);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.22);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.06);
-          osc.stop(now + idx * 0.06 + 0.23);
-        });
-      } catch (e) {}
-      triggerHaptic(12);
-    },
-    playFanfare() {
-      if (!GameState.settings.sound) return;
-      initCtx();
-      if (!ctx) return;
-      try {
-        const notes = [523.25, 659.25, 783.99, 1046.5];
-        const now = ctx.currentTime;
-        notes.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "square";
-          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-          gain.gain.setValueAtTime(0.08, now + idx * 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.32);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + idx * 0.08);
-          osc.stop(now + idx * 0.08 + 0.33);
-        });
-      } catch (e) {}
-      triggerHaptic([20, 30, 40]);
-    },
-    playError() {
-      playTone(180, "sawtooth", 0.1, 0.1, 110);
-      triggerHaptic([14, 10, 14]);
-    }
-  };
-})();
-
-/* ==========================================================================
-   3. PERSISTENT GAME STATE
-   ========================================================================== */
-const STORAGE_KEY = "cocktail_crossword_save_v1";
-
-const GameState = {
-  currentPuzzle: null,
-  activeCell: { r: 0, c: 0 },
-  activeDirection: "across",
-  activeWord: null,
-  userGrid: {},
-  revealedCells: new Set(),
-  timerSeconds: 0,
-  timerInterval: null,
-  isPaused: false,
-  isSolved: false,
-  hintsUsed: 0,
-  errorsCount: 0,
-
-  unlockedCodex: new Set(),
-  streak: 1,
-  xp: 0,
-  puzzlesSolvedCount: 0,
-  cleanSweepsCount: 0,
-  solvedPuzzleIds: new Set(),
-  unlockedBadges: new Set(),
-  lastPlayedDate: null,
-  activePuzzleId: "puzzle-1-italian-hour",
-  savedGrids: {},
-
-  settings: {
-    sound: true,
-    haptics: true,
-    skipFilled: true
-  },
+class SoundController {
+  constructor() {
+    this.ctx = null;
+    this.enabled = true;
+  }
 
   init() {
-    this.loadPersistence();
-    this.checkDailyStreak();
-  },
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
+  }
 
-  loadPersistence() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const data = JSON.parse(raw);
-      if (data && typeof data === "object") {
-        if (Array.isArray(data.unlockedCodex)) this.unlockedCodex = new Set(data.unlockedCodex);
-        if (Array.isArray(data.solvedPuzzleIds)) this.solvedPuzzleIds = new Set(data.solvedPuzzleIds);
-        if (Array.isArray(data.unlockedBadges)) this.unlockedBadges = new Set(data.unlockedBadges);
-        if (typeof data.xp === "number") this.xp = data.xp;
-        if (typeof data.puzzlesSolvedCount === "number") this.puzzlesSolvedCount = data.puzzlesSolvedCount;
-        if (typeof data.cleanSweepsCount === "number") this.cleanSweepsCount = data.cleanSweepsCount;
-        if (typeof data.streak === "number") this.streak = Math.max(1, data.streak);
-        if (data.lastPlayedDate) this.lastPlayedDate = data.lastPlayedDate;
-        if (data.activePuzzleId) this.activePuzzleId = data.activePuzzleId;
-        if (data.savedGrids && typeof data.savedGrids === "object") this.savedGrids = data.savedGrids;
-        if (data.settings && typeof data.settings === "object") {
-          this.settings = { ...this.settings, ...data.settings };
+  playBlip() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(560, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.035);
+    gain.gain.setValueAtTime(0.16, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.035);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.04);
+  }
+
+  playDelete() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(140, this.ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.055);
+  }
+
+  playToggle() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+    osc.frequency.setValueAtTime(660, this.ctx.currentTime + 0.025);
+    gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.06);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.065);
+  }
+
+  playError() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(130, this.ctx.currentTime);
+    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.14);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.145);
+  }
+
+  playWin() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
+    notes.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      const start = this.ctx.currentTime + idx * 0.07;
+      osc.frequency.setValueAtTime(freq, start);
+      gain.gain.setValueAtTime(0.001, start);
+      gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.34);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(start);
+      osc.stop(start + 0.35);
+    });
+  }
+}
+
+const sound = new SoundController();
+
+const GENERAL_DICTIONARY_CLUES = {
+  "HEART": "Core muscle or playing-card suit",
+  "EMBER": "Glowing coal from a dying fire",
+  "ABUSE": "Mistreatment or improper usage",
+  "RESIN": "Sticky substance derived from trees",
+  "TREND": "General direction or popular fad",
+  "START": "Commence or initiate action",
+  "TOWER": "Tall, free-standing structure",
+  "AWARE": "Conscious and mindful of facts",
+  "REARS": "Brings up children, or the back end",
+  "TRESS": "Long lock or plait of hair",
+  "BASES": "Foundations or baseball stations",
+  "ARENA": "Enclosed sports stadium or venue",
+  "SEDAN": "Standard four-door automobile",
+  "ENACT": "Formally pass a bill into law",
+  "SANTA": "Iconic December gift-giver",
+  "SHEER": "Completely transparent or very steep",
+  "HEAVE": "Lift or throw with considerable effort",
+  "EAVES": "Overhanging lower edges of a roof",
+  "EVENT": "Noteworthy scheduled happening",
+  "RESTS": "Pauses to recharge energy",
+  "SCOTS": "Natives of Edinburgh or Glasgow",
+  "CANOE": "Narrow watercraft with paddles",
+  "ONION": "Layered vegetable that prompts tears",
+  "TOOTS": "Short honks from a vehicle horn",
+  "SENSE": "Perception or sound practical judgment",
+  "HACK": "Clever digital shortcut or quick tip",
+  "SLAM": "Close with forceful impact",
+  "AREA": "Region or surface measurement",
+  "PALE": "Light in color; lacking vibrancy",
+  "MOST": "The greatest amount or quantity",
+  "ICED": "Chilled with frozen cubes",
+  "SPIN": "Rotate rapidly about an axis",
+  "TONE": "Vocal pitch or musical sound quality",
+  "SKIP": "Omit, or jump lightly over",
+  "STONE": "Hard mineral matter or pebble",
+  "ODOR": "Distinctive aroma or scent",
+  "UNIT": "Single individual entity or section",
+  "RARE": "Infrequently encountered or lightly cooked",
+  "NOTE": "Brief written memo or musical pitch",
+  "EYES": "Organs responsible for sight",
+  "TEES": "Support pegs used on a golf course",
+  "DRAW": "Produce a sketch or finish tied",
+  "LINE": "Continuous mark or queue of people",
+  "HOPE": "Wish or aspiration for the future",
+  "AMEN": "Traditional prayer conclusion",
+  "PENN": "Actor Sean or state founder William",
+  "TONS": "Large units of imperial weight",
+  "LEAD": "Heavy metallic element or guided path",
+  "GRIP": "Firm hold or handle surface",
+  "SWAP": "Trade one item for another",
+  "ROAR": "Loud, deep sound of a lion",
+  "HOLE": "Opening or cavity in a surface",
+  "OWNS": "Possesses lawful legal title to",
+  "BONS": "French plural for 'good'",
+  "SWEEP": "Clean a floor using a brush",
+  "PEEL": "Remove the outer skin of fruit",
+  "SHEET": "Rectangular bed linen or page",
+  "HOGLINE": "Crucial boundary line on a playing surface",
+  "HAMMER": "Hand tool used to pound nails",
+  "TAKEOUT": "Food ordered to eat at home",
+  "SWEEPER": "Cleaning device or broom user",
+  "BUTTON": "Fastener on a shirt or clickable UI element",
+  "OUTTURN": "Yield or production output",
+  "INTURNS": "Rotations or bends inward",
+  "BONUS": "Unexpected extra reward or perk",
+  "BLANK": "Empty space on a form",
+  "PEBBLE": "Small smooth rounded stone",
+  "SLIDER": "Small hamburger or sliding cursor"
+};
+
+const PUZZLE_DATA_SETS = [
+  {
+    id: "day-1",
+    dayIndex: 0,
+    theme: "Volume I: Foundations",
+    mini: {
+      title: "Mini 1",
+      type: "mini",
+      rows: 5,
+      cols: 5,
+      grid: [
+        "HEART",
+        "EMBER",
+        "ABUSE",
+        "RESIN",
+        "TREND"
+      ],
+      clues: {
+        across: {
+          1: "Core muscle or playing-card suit",
+          6: "Glowing coal from a dying fire",
+          7: "Mistreatment or improper usage",
+          8: "Sticky substance derived from pine trees",
+          9: "General direction or popular style"
+        },
+        down: {
+          1: "Core muscle or playing-card suit",
+          2: "Glowing coal from a dying fire",
+          3: "Mistreatment or improper usage",
+          4: "Sticky substance derived from pine trees",
+          5: "General direction or popular style"
         }
       }
-    } catch (e) {
-      console.warn("Storage load warning:", e);
+    },
+    midi: {
+      title: "Midi 1",
+      type: "midi",
+      rows: 9,
+      cols: 9,
+      grid: [
+        "HACK#SLAM",
+        "AREA#PALE",
+        "MOST#ICED",
+        "SPIN#TONE",
+        "###SKIP##",
+        "##STONE##",
+        "ODOR#UNIT",
+        "RARE#NOTE",
+        "EYES#TEES"
+      ],
+      clues: {
+        across: {
+          1: "Clever digital shortcut or quick tip",
+          5: "Close with forceful impact",
+          9: "Region or surface measurement",
+          10: "Light in color; lacking vibrancy",
+          11: "The greatest amount or quantity",
+          12: "Chilled with frozen water cubes",
+          13: "Rotate rapidly about an axis",
+          14: "Vocal pitch or sound quality",
+          15: "Omit, or jump lightly over",
+          16: "Hard mineral matter or pebble",
+          17: "Distinctive aroma or scent",
+          19: "Single individual entity or section",
+          21: "Infrequently encountered or lightly cooked",
+          22: "Brief written memo or musical pitch",
+          23: "Organs responsible for sight",
+          24: "Support pegs used on a golf course"
+        },
+        down: {
+          1: "Smoked meats or theatrical overactors",
+          2: "Combat zone or competition space",
+          3: "Protective winter coats or wraps",
+          4: "Patterns woven into Scottish kilts",
+          5: "Heavy hit or impact",
+          6: "Sharp cutting implement",
+          7: "Balm ingredient for soothing skin",
+          8: "Championship prize or award",
+          15: "Rapid, agile cleaning motion",
+          16: "Solid chunk of rock",
+          17: "Match event scheduled on a calendar",
+          18: "Direct path without deviations",
+          19: "Tally on a scoreboard",
+          20: "The tiny center target"
+        }
+      }
+    },
+    full: {
+      title: "Classic 1",
+      type: "full",
+      rows: 15,
+      cols: 15,
+      grid: [
+        "SHEET#HOGLINE#B",
+        "PALE#SOLO#AXE#O",
+        "ARCS#AREA#MET#N",
+        "TAKEOUT#SWEEPER",
+        "###HAMMER#EASES",
+        "SPIN#RED#DRAW##",
+        "TARE#ORES#AMBER",
+        "ORE#BUTTON#EASE",
+        "NEW#TEES#CURLS#",
+        "##LEAD#SKIP#LET",
+        "BONUS#HEATER###",
+        "OUTTURN#PEBBLED",
+        "NIL#ICE#ELS#OAR",
+        "SOU#NIL#ROA#UNE",
+        "P#WEIGHT#SECOND"
+      ],
+      clues: {
+        across: {
+          1: "Rectangular bed linen or page of paper",
+          6: "Boundary line on a sports sheet",
+          13: "Abbreviation for a major league sport",
+          14: "Light in shade; lacking deep color",
+          15: "Individual performance without accompaniment",
+          16: "Wood-chopping tool with a sharp head",
+          17: "Curved trajectories in geometry",
+          18: "Surface measurement or geographic region",
+          19: "Encountered socially for the first time",
+          20: "Restaurant food ordered to enjoy at home",
+          22: "Street cleaner or curling athlete",
+          24: "Heavy hand tool used for pounding nails",
+          26: "Relieves pain or alleviates pressure",
+          27: "Whirling rotation applied to an object",
+          30: "Primary color of rubies and strawberries",
+          31: "Produce an illustration with a pencil",
+          33: "Deduction of wrapper or vessel weight",
+          35: "Crude mineral rocks extracted from earth",
+          37: "Glowing warm golden fossil resin",
+          40: "Rock containing valuable metal elements",
+          41: "Shirt fastener or clickable interface key",
+          43: "Relaxation and comfort without strain",
+          44: "Fresh, modern, and recently crafted",
+          45: "Small supporting pegs used in golf",
+          47: "Wavy locks of hair or spiraling arcs",
+          49: "Opening position in a lineup or team",
+          51: "Captain of a team or light hop",
+          53: "Permission granted or tennis fault replay",
+          54: "Unexpected supplementary reward or perk",
+          56: "Appliance generating warmth in winter",
+          58: "Rotational delivery motion or yield",
+          61: "Surface textured with tiny frozen droplets",
+          65: "Zero points or absolute nothingness",
+          66: "Solid frozen water cubes",
+          67: "Elevated trains in Chicago",
+          68: "Hand-operated paddle for rowing a boat",
+          69: "Antique French coin of low value",
+          70: "Blank score indicator meaning zero",
+          71: "Abbreviation for roaring sound",
+          72: "French feminine article for 'one'",
+          73: "Heaviness measured on a balance scale",
+          74: "Unit of time equal to 1/60th of a minute"
+        },
+        down: {
+          1: "Brisk scrubbing action with a broom",
+          2: "Smoothly moving forward across a surface",
+          3: "Island source of fine Scottish granite",
+          4: "Suffix indicating an actor or athlete",
+          5: "Measure of movement rate and tempo",
+          6: "Foothold blocks used for push-off",
+          7: "Circular concentric target rings",
+          8: "Heavy tractor vehicle that cleans ice",
+          9: "Long seasonal cold spell in winter",
+          10: "Rubber grip material applied to footwear",
+          11: "Total count of items in a standard set",
+          12: "Final conclusion or boundary of play",
+          21: "Clean trajectory without deviations",
+          23: "Notched tally marks on a chalkboard",
+          25: "Slick synthetic sole used for gliding",
+          28: "Textured tread on athletic shoe soles",
+          29: "Opening stone thrown in a round",
+          32: "Steaming beverage enjoyed after cold weather",
+          34: "Concluding round of a tournament match",
+          36: "Protective barrier placed on defense",
+          38: "Rumble of solid granite colliding",
+          39: "Wood benches arranged along sidelines",
+          42: "Tactical hand signals from an advisor",
+          46: "Careful placement behind a shield",
+          48: "Footwear worn on a supporting foot",
+          50: "Team member who delivers crucial shots",
+          52: "Balanced athletic posture at release",
+          55: "Vigorous sweeping effort: 'Push ___!'",
+          57: "Clubhouse social gathering after matches",
+          59: "Classic Scottish plaid fabric pattern",
+          60: "Vibrant primary color indicators",
+          62: "Scenic Scottish lake or freshwater body",
+          63: "Earned score points in a frame",
+          64: "Final team deliverer who takes last shot"
+        }
+      }
     }
   },
+  {
+    id: "day-2",
+    dayIndex: 1,
+    theme: "Volume II: Precision",
+    mini: {
+      title: "Mini 2",
+      type: "mini",
+      rows: 5,
+      cols: 5,
+      grid: [
+        "START",
+        "TOWER",
+        "AWARE",
+        "REARS",
+        "TRESS"
+      ],
+      clues: {
+        across: {
+          1: "Commence or set in motion",
+          6: "Tall, slender architectural structure",
+          7: "Conscious or mindful of surroundings",
+          8: "Brings up children, or the back part",
+          9: "Long lock or braid of hair"
+        },
+        down: {
+          1: "Commence or set in motion",
+          2: "Tall, slender architectural structure",
+          3: "Conscious or mindful of surroundings",
+          4: "Brings up children, or the back part",
+          5: "Long lock or braid of hair"
+        }
+      }
+    },
+    midi: {
+      title: "Midi 2",
+      type: "midi",
+      rows: 9,
+      cols: 9,
+      grid: [
+        "DRAW#SHOT",
+        "LINE#HOPE",
+        "ICED#AMEN",
+        "PENN#TONS",
+        "###HACK##",
+        "##LEAD###",
+        "GRIP#SWAP",
+        "ROAR#HOLE",
+        "OWNS#TEES"
+      ],
+      clues: {
+        across: {
+          1: "Produce an illustration or tie a game",
+          5: "Attempt on goal or camera capture",
+          9: "Straight stroke or queue of people",
+          10: "Wish for a positive outcome",
+          11: "Chilled with frozen cubes",
+          12: "Solemn prayer ending word",
+          13: "Ivy League university in Philadelphia",
+          14: "Heavy units of imperial weight",
+          15: "Clever digital shortcut or tech tip",
+          16: "Opening player in an athletic squad",
+          17: "Firm hold on a sports handle",
+          20: "Exchange one object for another",
+          22: "Thunderous rumble of applause",
+          23: "Small cavity or opening in ground",
+          24: "Holds legal ownership of property",
+          25: "Target intersection points"
+        },
+        down: {
+          1: "Flip over or lay flat to rest",
+          2: "Arena maintenance technician",
+          3: "Athlete moving with swift glide",
+          4: "Effort and power behind a delivery",
+          5: "Protective barrier guarding a goal",
+          6: "Outer circular boundary of a target",
+          7: "Open expanse on a competition field",
+          8: "Precise measurement with a stopwatch",
+          15: "Object coming to a halt too early",
+          16: "Slick footwear piece for smooth glide",
+          17: "Traditional gathering of club members",
+          18: "Difficult maneuver called by a leader",
+          19: "Ancient iron implement used in games",
+          20: "Synthetic bristles on a cleaning brush",
+          21: "Score an upset point unexpectedly"
+        }
+      }
+    },
+    full: {
+      title: "Classic 2",
+      type: "full",
+      rows: 15,
+      cols: 15,
+      grid: [
+        "GUARD#HACKS#SPA",
+        "UNTIE#OPERA#TON",
+        "RINGS#STONE#ONE",
+        "LAY#SWEPT#DRAWN",
+        "#TEES#TEE#EERIE",
+        "###LEAD#SHEET##",
+        "BONUS#STONY#ICE",
+        "OUTTURN#INTURNS",
+        "RHO#DRAWS#NEATO",
+        "##SHAKE#PEEL###",
+        "ROARS#EAT#DEER#",
+        "HAMMER#SENSE#RA",
+        "ICE#BLANK#EXCEL",
+        "NUT#LOOSE#PEBBL",
+        "GAS#ENDED#SPOON"
+      ],
+      clues: {
+        across: {
+          1: "Protective defender or sentry",
+          6: "Clever digital tips or software hacks",
+          11: "Resort featuring thermal baths",
+          14: "Loosen shoelaces after exercise",
+          15: "Dramatic musical production with orchestra",
+          16: "Unit of weight equal to 2,000 pounds",
+          17: "Circular targets or pieces of jewelry",
+          18: "Hard natural mineral or rock",
+          19: "Single unit or indivisible integer",
+          20: "Place down gently upon a surface",
+          21: "Cleaned a floor using vigorous brush strokes",
+          23: "Rendered with pencil or pulled forward",
+          24: "Target centers or golf supporting pegs",
+          26: "The letter T spelled out or golf peg",
+          27: "Mysterious and uncanny in atmosphere",
+          28: "First position in an athletic rotation",
+          30: "Broad rectangular expanse or bed linen",
+          32: "Unexpected reward added to a salary",
+          35: "Hard and rocky like unyielding ground",
+          37: "Frozen solid water",
+          38: "Outward rotational turn or product yield",
+          40: "Inward turns or circular rotations",
+          42: "Greek letter following pi in the alphabet",
+          43: "Pencil sketches or games ending level",
+          45: "Colloquial term for excellent or cool",
+          46: "Friendly greeting via hands or tremble",
+          48: "Strip the rind from an orange",
+          50: "Loud sounds from an excited stadium crowd",
+          52: "Consume a hearty meal",
+          54: "Woodland animals with branching antlers",
+          57: "Hand tool used to drive steel nails",
+          60: "Clear practical judgment or faculties",
+          61: "Ancient Egyptian sun deity",
+          62: "Chilled playing surface",
+          63: "Unfilled space on a questionnaire",
+          65: "Perform exceptionally well in school",
+          66: "Threaded metal fastener pairing with a bolt",
+          67: "Not firmly fastened or unrestrained",
+          68: "Small rounded stone or water droplet",
+          69: "Fuel powering motor vehicles",
+          70: "Concluded an event or finished a game",
+          71: "Utensil used for sipping hot soup"
+        },
+        down: {
+          1: "Rubber gripping surface on athletic footwear",
+          2: "Navigate an awkward fork in the road",
+          3: "Chemical deicer for frozen winter walkways",
+          4: "Pleat or fold in traditional woolen kilts",
+          5: "Chalk score marks on a classroom board",
+          6: "Object launched with excessive velocity",
+          7: "Appropriate mass and kinetic energy",
+          8: "Tactical strategic plan for a team",
+          9: "High seating stools at a tavern counter",
+          10: "Carefully shielded behind a barrier",
+          11: "Storage depot for athletic gear",
+          12: "Smooth teflon sole for gliding",
+          13: "Facility manager's ice maintenance craft",
+          22: "Temperature readings in an arena",
+          25: "Smooth forward motion from a starting hack",
+          29: "Throw gently toward a target",
+          31: "Resting exactly on the central pin",
+          32: "Tournament gathering with an awards banquet",
+          33: "Final thrower on an athletic squad",
+          34: "Scoring zero intentionally for strategic gain",
+          36: "Precision timing device with a lap counter",
+          39: "Recorded score columns on a card",
+          41: "Team captain calling all tactical moves",
+          44: "Strategic placement of defensive barriers",
+          47: "Footwear worn on a stabilizing leg",
+          49: "Birthplace nation of historic curling",
+          50: "Vibrations from heavy granite in motion",
+          51: "Scenic Scottish loch famous for winter games",
+          53: "Teflon plate under a slider shoe",
+          54: "Shot that strikes target and remains in play",
+          56: "Locker room area where athletes prepare",
+          58: "Captain's greeting before a tournament",
+          59: "Score points while defending without hammer",
+          64: "Cold temperature rating on a winter rink"
+        }
+      }
+    }
+  },
+  {
+    id: "day-3",
+    dayIndex: 2,
+    theme: "Volume III: Tactics",
+    mini: {
+      title: "Mini 3",
+      type: "mini",
+      rows: 5,
+      cols: 5,
+      grid: [
+        "BASES",
+        "ARENA",
+        "SEDAN",
+        "ENACT",
+        "SANTA"
+      ],
+      clues: {
+        across: {
+          1: "Foundations or baseball corners",
+          6: "Enclosed sports stadium or venue",
+          7: "Standard four-door passenger car",
+          8: "Formally pass a bill into law",
+          9: "Iconic December gift-bringer"
+        },
+        down: {
+          1: "Foundations or baseball corners",
+          2: "Enclosed sports stadium or venue",
+          3: "Standard four-door passenger car",
+          4: "Formally pass a bill into law",
+          5: "Iconic December gift-bringer"
+        }
+      }
+    },
+    midi: {
+      title: "Midi 3",
+      type: "midi",
+      rows: 9,
+      cols: 9,
+      grid: [
+        "BONUS#ICE",
+        "SWEEP#PAD",
+        "TEES#HAUL",
+        "#WEIGHT##",
+        "###SKIP##",
+        "##STONE##",
+        "TAKE#CURL",
+        "ODOR#UNIT",
+        "PENN#ROAR"
+      ],
+      clues: {
+        across: {
+          1: "Unexpected extra reward or benefit",
+          6: "Solid frozen water surface",
+          9: "Clean thoroughly with a broom",
+          10: "Cushioned mat or mouse surface",
+          11: "Support pegs used on a golf course",
+          12: "Transport heavy cargo over distance",
+          13: "Heaviness of an object on a scale",
+          14: "Team leader or omit an item",
+          15: "Hard granite rock or pebble",
+          16: "Grasp with hands or capture",
+          18: "Spiral trajectory or ringlet of hair",
+          20: "Distinctive aroma or scent",
+          21: "Distinct single division or squad",
+          22: "Championship banner or Ivy League school",
+          23: "Loud, deep sound of a crowd"
+        },
+        down: {
+          1: "Warm winter knit toque cap",
+          2: "Landed gently on the target mark",
+          3: "Synthetic bristles on a brand-new brush",
+          4: "Throw falling short of the intended mark",
+          5: "Embroidered emblem on a team jersey",
+          6: "Stable posture and physical equilibrium",
+          7: "Sharp cutting blade on a scraper",
+          8: "Senior masters division in athletics",
+          13: "Wide shot missing the intended goal",
+          14: "Specialized footwear worn on ice",
+          15: "Vigorous sweeping team athlete",
+          17: "Granite source island in Scotland",
+          18: "Point scored without having hammer",
+          19: "Thermal underlayer for winter comfort"
+        }
+      }
+    },
+    full: {
+      title: "Classic 3",
+      type: "full",
+      rows: 15,
+      cols: 15,
+      grid: [
+        "STONE#BROOM#SPA",
+        "TOEIC#LEWIS#EON",
+        "EXACT#ANGER#END",
+        "AIR#SWEEP#TIRED",
+        "###SHAKE#HAMMER",
+        "SHEET#SCREW####",
+        "LEAD#PEBBLE#ICE",
+        "ICE#BUTTON#BEAD",
+        "DEE#ERRORS#ELSE",
+        "####DRY#SPINS##",
+        "BONUSES#OUTS###",
+        "ONCE#SLIDER#ICE",
+        "NEO#TEES#SWEEPS",
+        "SPA#ONCE#EAGLES",
+        "PEN#PAGES#STENT"
+      ],
+      clues: {
+        across: {
+          1: "Polished piece of natural granite",
+          6: "Cleaning implement with bristles",
+          11: "Resort featuring mineral hot springs",
+          14: "International English language test",
+          15: "Scottish island known for historic origins",
+          16: "Immense geological span of time",
+          17: "Completely accurate and precise",
+          18: "Frustration following an errant play",
+          19: "One frame in a match or conclusion",
+          20: "Atmosphere inhaled by athletes",
+          21: "Vigorous brushing action with brooms",
+          22: "Exhausted after many frames of play",
+          24: "Handshake of mutual sportsmanship",
+          26: "Final throw advantage in a frame",
+          27: "Long rectangular competition alley",
+          30: "Threaded metal fastener",
+          32: "Opening player in a four-person squad",
+          33: "Tiny frozen droplets on an ice surface",
+          35: "Frozen water surface",
+          36: "Solid playing ice alley",
+          37: "Tiny center ring on a target house",
+          38: "Small spherical decorative piece",
+          39: "Famous river in northern Scotland",
+          40: "Blunders or errant shots in a game",
+          41: "Otherwise alternative option",
+          42: "Low-humidity playing condition",
+          43: "Whirling rotations applied to an object",
+          45: "Unexpected additional score points",
+          48: "Stones pushed out of the field of play",
+          49: "On a single past occasion",
+          50: "Slick footwear piece for gliding",
+          52: "Solid frozen playing sheet",
+          53: "Prefix meaning modern or new",
+          54: "Target centers at both ends of a sheet",
+          55: "Vigorously brushes the ice alley",
+          56: "Hydrotherapy bath in a health club",
+          57: "At one past moment in history",
+          58: "Magnificent birds of prey or golf scores",
+          59: "Ink-writing instrument for scoring",
+          60: "Leaves in a tournament guide book",
+          61: "Medical tube inserted into an artery"
+        },
+        down: {
+          1: "Object resting behind a protective guard",
+          2: "Poisonous weed (not found on clean ice)",
+          3: "Tiebreaker round between teams",
+          4: "Traditional Scottish cap worn by skips",
+          5: "Moisture droplets inside an arena",
+          6: "Social tournament gathering with a banquet",
+          7: "Athlete who scrubs pebble with a broom",
+          8: "Granite mining quarry formation",
+          9: "Historic Scottish waterway",
+          10: "Decorative pouch worn with a traditional kilt",
+          11: "Balanced delivery posture in the hack",
+          12: "Protective placement guarding a target",
+          13: "Decorative championship pennant banner",
+          23: "Water sprayed to form a pebble surface",
+          25: "Vigorous scrubbing rhythm with a broom",
+          26: "Rubber starting footholds in an alley",
+          27: "Strategic frame ending 0-0",
+          28: "Small central circle of a target",
+          29: "Smooth forward sliding motion",
+          31: "Delivery path arching too wide",
+          33: "Pinpoint landing right on the tee line",
+          34: "Scoring an end without final rock advantage",
+          37: "Locker room bench where athletes relax",
+          44: "Deliberate scoreless frame to keep hammer",
+          45: "Vigorous sweeping team member",
+          46: "The entire ice competition alley",
+          47: "Stone sliding gracefully toward target",
+          50: "Direct finesse draw toward the center",
+          51: "Teflon shoe sole for sliding athletes"
+        }
+      }
+    }
+  },
+  {
+    id: "day-4",
+    dayIndex: 3,
+    theme: "Volume IV: Strategy",
+    mini: {
+      title: "Mini 4",
+      type: "mini",
+      rows: 5,
+      cols: 5,
+      grid: [
+        "SHEER",
+        "HEAVE",
+        "EAVES",
+        "EVENT",
+        "RESTS"
+      ],
+      clues: {
+        across: {
+          1: "Transparently thin or extremely steep",
+          6: "Lift or toss with heavy effort",
+          7: "Roof overhangs on a building",
+          8: "Scheduled competition on a slate",
+          9: "Takes a breather to recover"
+        },
+        down: {
+          1: "Transparently thin or extremely steep",
+          2: "Lift or toss with heavy effort",
+          3: "Roof overhangs on a building",
+          4: "Scheduled competition on a slate",
+          5: "Takes a breather to recover"
+        }
+      }
+    },
+    midi: {
+      title: "Midi 4",
+      type: "midi",
+      rows: 9,
+      cols: 9,
+      grid: [
+        "HOGS#DRAW",
+        "AREA#RARE",
+        "LINE#UNIT",
+        "TONS#EASE",
+        "###SKIP##",
+        "##STONE##",
+        "SWEEP#ICE",
+        "TEAM#PEEL",
+        "OWNS#TEES"
+      ],
+      clues: {
+        across: {
+          1: "Farm swine or greedy individuals",
+          5: "Finesse shot thrown to rest on target",
+          9: "Defined territory or zone",
+          10: "Seldom found or lightly cooked",
+          11: "Path taken across a playing sheet",
+          12: "Four-person athletic squad",
+          13: "Heavy weight of granite blocks",
+          14: "Effortless relaxed motion",
+          15: "Team captain directing tactical shots",
+          16: "Solid circular 44-pound stone",
+          17: "Brush the ice to maintain trajectory",
+          20: "Chilled competition surface",
+          21: "Four-person athletic unit",
+          22: "Remove a protective guard stone",
+          23: "Commands the target circles",
+          24: "Center target intersection marks"
+        },
+        down: {
+          1: "Foothold starting grips",
+          2: "Championship athletic league title",
+          3: "Protective stone shielding a target",
+          4: "Final throw advantage in a frame",
+          5: "Speed of ice: keen versus heavy",
+          6: "Velocity required to remove a rock",
+          7: "White colorant base beneath ice",
+          8: "Scottish loch hosting historic bonspiels",
+          15: "Fast-moving granite crossing the sheet",
+          16: "Athlete who throws stones 1 and 2",
+          17: "Teflon component for smooth sliding",
+          18: "Loud clatter of rocks colliding",
+          19: "Sweeping muscles in arms and shoulders"
+        }
+      }
+    },
+    full: {
+      title: "Classic 4",
+      type: "full",
+      rows: 15,
+      cols: 15,
+      grid: [
+        "HAMMER#HACK#SPA",
+        "AVERSE#ARIA#TON",
+        "RECITE#MINT#ONE",
+        "SHE#SWEEP#STEEL",
+        "###TEES#ROAR###",
+        "SLIDER#WEIGHT##",
+        "LEAD#PEBBLE#ICE",
+        "ICE#BUTTON#HOUR",
+        "DEE#ERRORS#EASE",
+        "####DRY#SPINS##",
+        "BONUSES#OUTS###",
+        "ONCE#SLIDER#ICE",
+        "NEO#TEES#SWEEPS",
+        "SPA#ONCE#EAGLES",
+        "PEN#PAGES#STENT"
+      ],
+      clues: {
+        across: {
+          1: "Heavy hand tool or last-rock advantage",
+          7: "Starting block foothold in the ice",
+          11: "Thermal hot tub or health spa",
+          14: "Reluctant to take an unnecessary risk",
+          15: "Solo opera performance melody",
+          16: "Heavy measure equal to 2,000 pounds",
+          17: "Repeat memorized rules from memory",
+          18: "Pristine brand-new condition",
+          19: "Single unit or indivisible integer",
+          20: "Third-person feminine pronoun",
+          21: "Vigorous sweeping command",
+          22: "Durable metal scraper blade",
+          24: "Target centers at each end of the alley",
+          26: "Thunderous rumble of granite in motion",
+          28: "Slick footwear piece for gliding",
+          31: "Momentum and velocity given to a throw",
+          33: "First player to throw on a team",
+          34: "Water droplets frozen onto sheet surface",
+          36: "Solid playing surface",
+          37: "The chilled playing surface",
+          38: "Small central target circle",
+          39: "Sixty minutes of regulation play",
+          40: "Scottish river flowing into the North Sea",
+          41: "Delivery mistakes that forfeit points",
+          42: "Gliding with relaxed posture",
+          43: "Dry, low-humidity playing condition",
+          44: "Rotational turns applied to a handle",
+          46: "Extra points secured on a steal",
+          49: "Stones pushed out of the playing house",
+          50: "A single time in past history",
+          51: "Teflon shoe component for gliding",
+          53: "The frozen playing alley",
+          54: "Modern tournament format",
+          55: "Target intersection points",
+          56: "Vigorously brushes the ice alley",
+          57: "Club relaxation whirlpool",
+          58: "At one past moment in time",
+          59: "Majestic birds of prey or golf scores",
+          60: "Scorecard recording pen",
+          61: "Printed sheets in a tournament program",
+          62: "Medical support inserted into an artery"
+        },
+        down: {
+          1: "Protective guard shielding a scoring stone",
+          2: "Trajectory drifting too wide of target",
+          3: "Delivery falling short of the scoring rings",
+          4: "Rubber grip sole worn by sweepers",
+          5: "Locker room fellowship after matches",
+          6: "Shot that strikes and rolls into house",
+          7: "Rubber foothold embedded in the alley",
+          8: "Championship award pennant flag",
+          9: "Cold moisture vapor in an arena",
+          10: "Traditional Scottish woolen bonnet",
+          11: "The 150-foot official playing alley",
+          12: "Athlete who brushes the ice surface",
+          13: "Frame ending 0-0 to keep last-rock advantage",
+          23: "Final stone deliverer on a four-person rink",
+          25: "Score zero points intentionally",
+          27: "Vigorous sweeping team athlete",
+          28: "Stone sliding cleanly down the alley",
+          29: "Smooth delivery motion from the hack",
+          30: "Finesse shot landing right on the tee",
+          32: "Footwear sole crafted from teflon",
+          35: "Club tournament banquet dinner",
+          45: "Gripping sole on a non-sliding shoe",
+          47: "Deep rumble of heavy stone on ice",
+          48: "Historic Scottish loch where games began",
+          52: "Teflon slider plate under footwear"
+        }
+      }
+    }
+  },
+  {
+    id: "day-5",
+    dayIndex: 4,
+    theme: "Volume V: Championship",
+    mini: {
+      title: "Mini 5",
+      type: "mini",
+      rows: 5,
+      cols: 5,
+      grid: [
+        "SCOTS",
+        "CANOE",
+        "ONION",
+        "TOOTS",
+        "SENSE"
+      ],
+      clues: {
+        across: {
+          1: "Natives of Edinburgh or the Highlands",
+          6: "Narrow paddle boat for summer lakes",
+          7: "Pungent culinary bulb causing tears",
+          8: "Short horn blasts celebrating victory",
+          9: "Sound practical judgment or intuition"
+        },
+        down: {
+          1: "Natives of Edinburgh or the Highlands",
+          2: "Narrow paddle boat for summer lakes",
+          3: "Pungent culinary bulb causing tears",
+          4: "Short horn blasts celebrating victory",
+          5: "Sound practical judgment or intuition"
+        }
+      }
+    },
+    midi: {
+      title: "Midi 5",
+      type: "midi",
+      rows: 9,
+      cols: 9,
+      grid: [
+        "BONS#PEIL",
+        "AREA#HOLE",
+        "SWEE#PING",
+        "TONS#EASE",
+        "###SKIP##",
+        "##STONE##",
+        "HACK#DRAW",
+        "ODOR#UNIT",
+        "PENN#ROAR"
+      ],
+      clues: {
+        across: {
+          1: "Prefix for an invitational bonspiel",
+          5: "Suffix completing a tournament bonspiel",
+          9: "Free guard zone on the ice",
+          10: "Small divot in an ice alley",
+          11: "First syllable of sweeping action",
+          12: "Second syllable of sweeping action",
+          13: "Measure of granite rock weight",
+          14: "Effortless glide across the pebble",
+          15: "Team captain directing house strategy",
+          16: "Solid circular 44-pound stone",
+          17: "Rubber starting foothold for push-off",
+          20: "Delicate shot coming to rest in house",
+          22: "Aroma of coffee in a clubhouse",
+          23: "Four-person athletic squad",
+          24: "Championship pennant banner",
+          25: "Thunderous rumble of granite rocks"
+        },
+        down: {
+          1: "Central target circle of the house",
+          2: "Defensive stone shielding target",
+          3: "Vigorous sweeping team athlete",
+          4: "Final throw advantage in a frame",
+          5: "Gripping sole on non-sliding footwear",
+          6: "Heavy momentum required for takeouts",
+          7: "The official 150-foot playing alley",
+          8: "Scottish loch hosting outdoor bonspiels",
+          15: "Athlete who throws stones 1 and 2",
+          16: "Teflon shoe piece for gliding",
+          17: "Sound of stones clashing together",
+          18: "Score points without having hammer",
+          19: "Arm muscles used in vigorous sweeping"
+        }
+      }
+    },
+    full: {
+      title: "Classic 5",
+      type: "full",
+      rows: 15,
+      cols: 15,
+      grid: [
+        "BONSPIEL#HACK#S",
+        "A#AREA#SWEEPER#",
+        "T#LEAD#HAMMER##",
+        "STONE#BUTTON#DR",
+        "#TEES#ICE#PEBBL",
+        "###SKIP#WEIGHT#",
+        "DRAW#CURL#SLIDE",
+        "OUTTURN#INTURNS",
+        "RHO#DRAWS#NEATO",
+        "##SHAKE#PEEL###",
+        "ROARS#EAT#DEER#",
+        "HAMMER#SENSE#RA",
+        "ICE#BLANK#EXCEL",
+        "NUT#LOOSE#PEBBL",
+        "GAS#ENDED#SPOON"
+      ],
+      clues: {
+        across: {
+          1: "Traditional tournament gathering and social",
+          9: "Rubber foothold for push-off delivery",
+          10: "Plural suffix indicator",
+          11: "Free guard territory on the sheet",
+          13: "Athlete vigorously brushing the ice",
+          15: "First thrower on a four-person squad",
+          17: "Last stone delivery advantage",
+          19: "Polished 44-pound granite rock",
+          21: "Small central circle of target rings",
+          23: "Draw shot abbreviation",
+          25: "Target intersection points on ice",
+          26: "The frozen playing surface",
+          27: "Sprayed water droplets frozen on ice",
+          29: "Team strategist directing house play",
+          31: "Velocity given to a thrown stone",
+          33: "Shot thrown to stop inside scoring rings",
+          35: "Curving trajectory of a traveling stone",
+          37: "Gliding motion out of the hack",
+          38: "Handle rotation away from thrower body",
+          40: "Handle rotation toward thrower body",
+          42: "Greek letter following pi",
+          43: "Non-hitting finesse shots",
+          45: "Informal slang for neat or excellent",
+          46: "Post-match handshake of sportsmanship",
+          48: "Clear guard and shooter out of play",
+          50: "Cheering sounds from an arena crowd",
+          52: "Sweeper call: 'Brush hard!'",
+          54: "Woodland antlered animals",
+          57: "Advantage of throwing final stone in end",
+          60: "Tactical feel for ice conditions",
+          61: "Ancient Egyptian sun deity",
+          62: "The frozen playing alley",
+          63: "End scored 0-0 to retain hammer",
+          65: "Outperform opponents across the match",
+          66: "Hardware fastener pairing with a bolt",
+          67: "Stones moving freely without guards",
+          68: "Water droplet sprayed on ice surface",
+          69: "Fuel powering the ice resurfacer",
+          70: "Concluded an 8-end match",
+          71: "Trophy cup or utensil award"
+        },
+        down: {
+          1: "Footwear grip worn by sweepers",
+          2: "Tackle a difficult tactical split",
+          3: "Anti-freeze spray for icy paths",
+          4: "Pleat in a traditional Scottish kilt",
+          5: "Chalk score marks on a board",
+          6: "Stone thrown with excessive momentum",
+          7: "Appropriate delivery weight",
+          8: "Tactical strategic plan from the house",
+          9: "Club bar seating furniture",
+          12: "Stone resting behind a guard rock",
+          14: "Smooth teflon footwear piece",
+          16: "Ice technician's alley maintenance",
+          18: "Ice sheet temperature readings",
+          20: "Smooth gliding motion from the hack",
+          22: "Throw with gentle momentum",
+          24: "Stone resting right on the button",
+          28: "Tournament gathering with banquet",
+          30: "Final stone deliverer on team",
+          32: "Scoring zero points intentionally",
+          34: "Timing device for stone travel",
+          36: "Score sheet recorded columns",
+          39: "Curler who calls all tactical shots",
+          41: "Tactical placement of guards",
+          44: "Footwear worn on nonsliding foot",
+          47: "Scottish origin country of curling",
+          49: "Vibration sound of spinning granite",
+          51: "Scottish lake where bonspiels began",
+          53: "Teflon plate under slider foot",
+          55: "Stone that strikes and stays in rings",
+          56: "Curling club locker room area",
+          58: "Curling team captain's greeting",
+          59: "Score points during opponent hammer",
+          64: "Cold temperature rating on sheet"
+        }
+      }
+    }
+  }
+];
 
-  savePersistence() {
+class TimeGatedManager {
+  constructor() {
+    this.storageKey = 'daily_crossword_save_state_v2';
+    this.state = this.loadState();
+  }
+
+  loadState() {
     try {
-      if (this.currentPuzzle && !this.isSolved) {
-        this.savedGrids[this.currentPuzzle.id] = {
-          userGrid: this.userGrid,
-          timerSeconds: this.timerSeconds,
-          hintsUsed: this.hintsUsed,
-          errorsCount: this.errorsCount,
-          revealedCells: [...this.revealedCells]
+      const data = localStorage.getItem(this.storageKey);
+      if (data) {
+        return JSON.parse(data);
+      }
+    } catch (e) {
+      console.warn('Unable to read localStorage', e);
+    }
+    return {
+      completed: {},
+      savedGrids: {},
+      savedTimes: {},
+      best_mini: null,
+      best_midi: null,
+      best_full: null,
+      soundEnabled: true,
+      streak: 0,
+      lastActiveDateStr: null
+    };
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+    } catch (e) {
+      console.error('Failed to save state', e);
+    }
+  }
+
+  getTodayDayNumber() {
+    const epoch = new Date(2025, 0, 1).getTime();
+    const now = new Date();
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const dayDiff = Math.max(0, Math.floor((todayMidnight - epoch) / (1000 * 60 * 60 * 24)));
+    return dayDiff + 1;
+  }
+
+  getDateForDay(dayNumber) {
+    const epoch = new Date(2025, 0, 1).getTime();
+    const time = epoch + (dayNumber - 1) * (1000 * 60 * 60 * 24);
+    return new Date(time);
+  }
+
+  getPuzzleForDay(dayNumber) {
+    const count = PUZZLE_DATA_SETS.length;
+    if (count === 0) return null;
+    const rawIndex = (dayNumber - 1) % count;
+    const template = PUZZLE_DATA_SETS[rawIndex];
+
+    return {
+      dayNumber,
+      rawIndex,
+      theme: template.theme,
+      date: this.getDateForDay(dayNumber),
+      mini: {
+        ...template.mini,
+        type: 'mini',
+        title: `Mini #${dayNumber} (5×5)`
+      },
+      midi: {
+        ...template.midi,
+        type: 'midi',
+        title: `Midi #${dayNumber} (9×9)`
+      },
+      full: {
+        ...template.full,
+        type: 'full',
+        title: `Classic #${dayNumber} (15×15)`
+      }
+    };
+  }
+
+  getVaultPuzzles() {
+    const today = this.getTodayDayNumber();
+    const list = [];
+    const minDay = Math.max(1, today - 60);
+    for (let d = today - 1; d >= minDay; d--) {
+      list.push(this.getPuzzleForDay(d));
+    }
+    return list;
+  }
+
+  markCompleted(dayNumber, type, seconds) {
+    const key = `${dayNumber}_${type}`;
+    this.state.completed[key] = true;
+
+    const timeKey = `best_${type}`;
+    if (!this.state[timeKey] || seconds < this.state[timeKey]) {
+      this.state[timeKey] = seconds;
+    }
+
+    const todayStr = new Date().toDateString();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toDateString();
+
+    if (this.state.lastActiveDateStr === todayStr) {
+      // already recorded today
+    } else if (this.state.lastActiveDateStr === yesterdayStr) {
+      this.state.streak = (this.state.streak || 0) + 1;
+      this.state.lastActiveDateStr = todayStr;
+    } else {
+      this.state.streak = 1;
+      this.state.lastActiveDateStr = todayStr;
+    }
+
+    this.saveState();
+  }
+
+  isCompleted(dayNumber, type) {
+    const key = `${dayNumber}_${type}`;
+    return !!this.state.completed[key];
+  }
+
+  getTotalSolved() {
+    return Object.keys(this.state.completed).filter(k => this.state.completed[k]).length;
+  }
+
+  getBestTime(type) {
+    const val = this.state[`best_${type}`];
+    if (!val) return '--:--';
+    const m = Math.floor(val / 60).toString().padStart(2, '0');
+    const s = (val % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+}
+
+const timeGate = new TimeGatedManager();
+
+class CrosswordEngine {
+  constructor() {
+    this.activeDayNumber = 1;
+    this.activeType = 'mini';
+    this.activePuzzle = null;
+    this.cells = [];
+    this.clues = { across: {}, down: {} };
+    this.activeCell = { r: 0, c: 0 };
+    this.direction = 'ACROSS';
+    this.timerInterval = null;
+    this.elapsedSeconds = 0;
+    this.gridBuilt = false;
+  }
+
+  loadPuzzle(dayNumber, type) {
+    const bundle = timeGate.getPuzzleForDay(dayNumber);
+    if (!bundle || !bundle[type]) return false;
+
+    this.activeDayNumber = dayNumber;
+    this.activeType = type;
+    this.activePuzzle = bundle[type];
+    this.clues = this.activePuzzle.clues || { across: {}, down: {} };
+
+    this.buildGridMatrix();
+    this.restoreProgress();
+    this.startTimer();
+    this.gridBuilt = false;
+    this.render();
+    return true;
+  }
+
+  buildGridMatrix() {
+    const { rows, cols, grid } = this.activePuzzle;
+    this.cells = [];
+
+    for (let r = 0; r < rows; r++) {
+      this.cells[r] = [];
+      const rowStr = grid[r] || '';
+      for (let c = 0; c < cols; c++) {
+        const char = rowStr[c] || '#';
+        const isBlack = (char === '#' || char === '.');
+        this.cells[r][c] = {
+          r,
+          c,
+          solution: isBlack ? '#' : char.toUpperCase(),
+          userLetter: '',
+          isBlack,
+          number: null,
+          acrossClueNum: null,
+          downClueNum: null
         };
       }
-
-      const bundle = {
-        version: 1,
-        unlockedCodex: [...this.unlockedCodex],
-        solvedPuzzleIds: [...this.solvedPuzzleIds],
-        unlockedBadges: [...this.unlockedBadges],
-        xp: this.xp,
-        puzzlesSolvedCount: this.puzzlesSolvedCount,
-        cleanSweepsCount: this.cleanSweepsCount,
-        streak: this.streak,
-        lastPlayedDate: this.lastPlayedDate,
-        activePuzzleId: this.activePuzzleId,
-        savedGrids: this.savedGrids,
-        settings: this.settings
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(bundle));
-    } catch (e) {
-      console.warn("Storage save error:", e);
     }
-  },
 
-  checkDailyStreak() {
-    const today = new Date().toISOString().slice(0, 10);
-    if (!this.lastPlayedDate) {
-      this.lastPlayedDate = today;
-      return;
-    }
-    if (this.lastPlayedDate !== today) {
-      const last = new Date(this.lastPlayedDate);
-      const now = new Date(today);
-      const diffDays = Math.round((now - last) / (1000 * 60 * 60 * 24));
-      if (diffDays === 1) {
-        this.streak += 1;
-      } else if (diffDays > 1) {
-        this.streak = 1;
-      }
-      this.lastPlayedDate = today;
-      this.savePersistence();
-    }
-  },
+    let currentNumber = 1;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = this.cells[r][c];
+        if (cell.isBlack) continue;
 
-  getCurrentRank() {
-    const ranks = CONTENT_DATA.ranks;
-    let current = ranks[0];
-    for (let i = 0; i < ranks.length; i++) {
-      if (this.xp >= ranks[i].xpRequired) {
-        current = ranks[i];
+        const startsAcross = (c === 0 || this.cells[r][c - 1].isBlack) &&
+                             (c + 1 < cols && !this.cells[r][c + 1].isBlack);
+        const startsDown = (r === 0 || this.cells[r - 1][c].isBlack) &&
+                           (r + 1 < rows && !this.cells[r + 1][c].isBlack);
+
+        if (startsAcross || startsDown) {
+          cell.number = currentNumber++;
+        }
       }
     }
-    const currentIndex = ranks.indexOf(current);
-    const next = ranks[currentIndex + 1] || current;
-    return { current, next };
-  },
 
-  resetAllData() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch (e) {}
-    this.unlockedCodex = new Set();
-    this.solvedPuzzleIds = new Set();
-    this.unlockedBadges = new Set();
-    this.xp = 0;
-    this.puzzlesSolvedCount = 0;
-    this.cleanSweepsCount = 0;
-    this.streak = 1;
-    this.savedGrids = {};
-    this.currentPuzzle = null;
-    this.savePersistence();
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = this.cells[r][c];
+        if (cell.isBlack) continue;
+
+        let leftCol = c;
+        while (leftCol > 0 && !this.cells[r][leftCol - 1].isBlack) {
+          leftCol--;
+        }
+        if (this.cells[r][leftCol].number) {
+          cell.acrossClueNum = this.cells[r][leftCol].number;
+        }
+
+        let topRow = r;
+        while (topRow > 0 && !this.cells[topRow - 1][c].isBlack) {
+          topRow--;
+        }
+        if (this.cells[topRow][c].number) {
+          cell.downClueNum = this.cells[topRow][c].number;
+        }
+      }
+    }
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (!this.cells[r][c].isBlack) {
+          this.activeCell = { r, c };
+          this.direction = 'ACROSS';
+          return;
+        }
+      }
+    }
   }
-};
 
-/* ==========================================================================
-   4. CROSSWORD SOLVING & BOARD ENGINE
-   ========================================================================== */
-const CrosswordEngine = {
-  boardMap: {},
+  restoreProgress() {
+    const key = `${this.activeDayNumber}_${this.activeType}`;
+    const saved = timeGate.state.savedGrids[key];
+    const savedTime = timeGate.state.savedTimes[key];
 
-  loadPuzzle(puzzleId, isReplay = false) {
-    const puzzle = CONTENT_DATA.puzzles.find(p => p.id === puzzleId) || CONTENT_DATA.puzzles[0];
-    GameState.currentPuzzle = puzzle;
-    GameState.activePuzzleId = puzzle.id;
-    GameState.isSolved = isReplay ? false : GameState.solvedPuzzleIds.has(puzzle.id);
-    GameState.isPaused = false;
+    this.elapsedSeconds = savedTime || 0;
 
-    const saved = !isReplay ? GameState.savedGrids[puzzle.id] : null;
-    if (saved && !GameState.isSolved) {
-      GameState.userGrid = { ...saved.userGrid };
-      GameState.timerSeconds = saved.timerSeconds || 0;
-      GameState.hintsUsed = saved.hintsUsed || 0;
-      GameState.errorsCount = saved.errorsCount || 0;
-      GameState.revealedCells = new Set(saved.revealedCells || []);
-    } else if (GameState.isSolved && !isReplay) {
-      GameState.userGrid = {};
-      GameState.timerSeconds = 0;
-      GameState.hintsUsed = 0;
-      GameState.errorsCount = 0;
-      GameState.revealedCells = new Set();
-    } else {
-      GameState.userGrid = {};
-      GameState.timerSeconds = 0;
-      GameState.hintsUsed = 0;
-      GameState.errorsCount = 0;
-      GameState.revealedCells = new Set();
-      delete GameState.savedGrids[puzzle.id];
-    }
-
-    this.buildBoardMap(puzzle);
-
-    const firstWord = puzzle.words[0];
-    GameState.activeDirection = firstWord.dir;
-    GameState.activeCell = { r: firstWord.row, c: firstWord.col };
-    GameState.activeWord = firstWord;
-
-    this.renderMeta();
-    this.renderGrid();
-    this.updateClueBar();
-    this.highlightActiveCells();
-    this.updateProgress();
-
-    if (!GameState.isSolved) {
-      this.startTimer();
-    } else {
-      this.stopTimer();
-      Object.keys(this.boardMap).forEach(key => {
-        if (this.boardMap[key]) GameState.userGrid[key] = this.boardMap[key].letter;
-      });
-      this.renderGrid();
-      this.updateProgress();
-    }
-  },
-
-  buildBoardMap(puzzle) {
-    this.boardMap = {};
-    const { rows, cols } = puzzle.gridSize;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        this.boardMap[`${r},${c}`] = null;
-      }
-    }
-
-    puzzle.words.forEach(word => {
-      const len = word.answer.length;
-      for (let i = 0; i < len; i++) {
-        const r = word.dir === "across" ? word.row : word.row + i;
-        const c = word.dir === "across" ? word.col + i : word.col;
-        const key = `${r},${c}`;
-
-        if (!this.boardMap[key]) {
-          this.boardMap[key] = {
-            r,
-            c,
-            letter: word.answer[i].toUpperCase(),
-            num: i === 0 ? word.num : null,
-            words: [word]
-          };
-        } else {
-          if (i === 0 && !this.boardMap[key].num) {
-            this.boardMap[key].num = word.num;
+    if (Array.isArray(saved)) {
+      let idx = 0;
+      for (let r = 0; r < this.activePuzzle.rows; r++) {
+        for (let c = 0; c < this.activePuzzle.cols; c++) {
+          if (!this.cells[r][c].isBlack && saved[idx]) {
+            this.cells[r][c].userLetter = saved[idx];
           }
-          if (!this.boardMap[key].words.includes(word)) {
-            this.boardMap[key].words.push(word);
-          }
-        }
-      }
-    });
-  },
-
-  renderMeta() {
-    const p = GameState.currentPuzzle;
-    const tierBadge = document.getElementById("puzzle-tier-badge");
-    const titleLabel = document.getElementById("puzzle-title-label");
-    const editionLabel = document.getElementById("masthead-edition");
-
-    if (tierBadge) {
-      tierBadge.textContent = p.tier.toUpperCase();
-      tierBadge.className = `badge tier-badge ${p.tier}`;
-    }
-    if (titleLabel) titleLabel.textContent = p.title;
-    if (editionLabel) {
-      editionLabel.textContent = `${p.tier.toUpperCase()} • ${p.gridSize.rows}×${p.gridSize.cols} SERVICE`;
-    }
-    this.updateTimerDisplay();
-  },
-
-  renderGrid() {
-    const gridEl = document.getElementById("crossword-grid");
-    const stage = document.getElementById("board-stage");
-    if (!gridEl || !stage || !GameState.currentPuzzle) return;
-
-    const { rows, cols } = GameState.currentPuzzle.gridSize;
-    const availWidth = Math.max(180, stage.clientWidth - 12);
-    const availHeight = Math.max(160, stage.clientHeight - 12);
-
-    const gap = 2;
-    const cellByW = Math.floor((availWidth - (cols - 1) * gap) / cols);
-    const cellByH = Math.floor((availHeight - (rows - 1) * gap) / rows);
-    const cellSize = Math.max(26, Math.min(cellByW, cellByH, 56));
-
-    gridEl.innerHTML = "";
-    gridEl.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
-    gridEl.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const key = `${r},${c}`;
-        const cellData = this.boardMap[key];
-        const cell = document.createElement("div");
-        cell.className = "cw-cell";
-        cell.dataset.row = r;
-        cell.dataset.col = c;
-        cell.style.width = `${cellSize}px`;
-        cell.style.height = `${cellSize}px`;
-
-        if (!cellData) {
-          cell.classList.add("black-cell");
-          cell.setAttribute("aria-hidden", "true");
-        } else {
-          cell.setAttribute("role", "gridcell");
-          cell.setAttribute("tabindex", "-1");
-          cell.setAttribute("aria-label", `Row ${r + 1}, Col ${c + 1}`);
-
-          if (cellData.num) {
-            const numEl = document.createElement("span");
-            numEl.className = "cw-cell-num";
-            numEl.textContent = cellData.num;
-            cell.appendChild(numEl);
-          }
-
-          const letterEl = document.createElement("span");
-          letterEl.className = "cw-cell-letter";
-          letterEl.style.fontSize = `${Math.round(cellSize * 0.54)}px`;
-          letterEl.textContent = GameState.userGrid[key] || "";
-          cell.appendChild(letterEl);
-
-          if (GameState.revealedCells.has(key)) {
-            cell.classList.add("revealed-cell");
-          }
-
-          cell.addEventListener("click", () => this.handleCellClick(r, c));
-        }
-        gridEl.appendChild(cell);
-      }
-    }
-    this.highlightActiveCells();
-  },
-
-  handleCellClick(r, c) {
-    if (GameState.isPaused) return;
-    const key = `${r},${c}`;
-    const cellData = this.boardMap[key];
-    if (!cellData || !cellData.words || cellData.words.length === 0) return;
-
-    SoundEngine.playClick();
-
-    if (GameState.activeCell.r === r && GameState.activeCell.c === c) {
-      const currentIdx = cellData.words.findIndex(w => w.id === GameState.activeWord?.id);
-      const nextIdx = (currentIdx + 1) % cellData.words.length;
-      GameState.activeWord = cellData.words[nextIdx];
-      GameState.activeDirection = GameState.activeWord.dir;
-    } else {
-      GameState.activeCell = { r, c };
-      const matchingWord = cellData.words.find(w => w.dir === GameState.activeDirection) || cellData.words[0];
-      GameState.activeWord = matchingWord;
-      GameState.activeDirection = matchingWord.dir;
-    }
-
-    this.updateClueBar();
-    this.highlightActiveCells();
-  },
-
-  updateClueBar() {
-    const word = GameState.activeWord;
-    if (!word) return;
-
-    const dirBadge = document.getElementById("clue-direction-badge");
-    const numLabel = document.getElementById("clue-number-label");
-    const catLabel = document.getElementById("clue-category-label");
-    const descLabel = document.getElementById("clue-description");
-
-    if (dirBadge) dirBadge.textContent = word.dir.toUpperCase();
-    if (numLabel) numLabel.textContent = `${word.num}.`;
-    if (catLabel) catLabel.textContent = word.cat;
-    if (descLabel) descLabel.textContent = word.clue;
-  },
-
-  highlightActiveCells() {
-    const cells = document.querySelectorAll(".cw-cell:not(.black-cell)");
-    const active = GameState.activeCell;
-    const activeWord = GameState.activeWord;
-    const key = `${active.r},${active.c}`;
-    const currentData = this.boardMap[key];
-
-    const crossWords = currentData ? currentData.words.filter(w => w.id !== activeWord?.id) : [];
-
-    cells.forEach(cell => {
-      const r = parseInt(cell.dataset.row, 10);
-      const c = parseInt(cell.dataset.col, 10);
-      const isCurrentActive = r === active.r && c === active.c;
-
-      cell.classList.remove("active-cell", "word-highlight", "cross-highlight");
-
-      if (isCurrentActive) {
-        cell.classList.add("active-cell");
-      } else if (activeWord && this.isCellInWord(r, c, activeWord)) {
-        cell.classList.add("word-highlight");
-      } else if (crossWords.some(cw => this.isCellInWord(r, c, cw))) {
-        cell.classList.add("cross-highlight");
-      }
-    });
-  },
-
-  isCellInWord(r, c, word) {
-    if (!word) return false;
-    const len = word.answer.length;
-    if (word.dir === "across") {
-      return r === word.row && c >= word.col && c < word.col + len;
-    } else {
-      return c === word.col && r >= word.row && r < word.row + len;
-    }
-  },
-
-  inputLetter(char) {
-    if (GameState.isSolved || GameState.isPaused) return;
-    const { r, c } = GameState.activeCell;
-    const key = `${r},${c}`;
-    if (!this.boardMap[key]) return;
-
-    SoundEngine.playClick();
-    const upper = char.toUpperCase();
-    GameState.userGrid[key] = upper;
-
-    const cellEl = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"] .cw-cell-letter`);
-    if (cellEl) cellEl.textContent = upper;
-
-    const parent = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"]`);
-    if (parent) parent.classList.remove("error-cell");
-
-    GameState.savePersistence();
-    this.advanceActiveCell(1);
-    this.updateProgress();
-    this.checkPuzzleCompletion();
-  },
-
-  handleBackspace() {
-    if (GameState.isSolved || GameState.isPaused) return;
-    const { r, c } = GameState.activeCell;
-    const key = `${r},${c}`;
-
-    SoundEngine.playClick();
-
-    if (GameState.userGrid[key] && !GameState.revealedCells.has(key)) {
-      delete GameState.userGrid[key];
-      const cellEl = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"] .cw-cell-letter`);
-      if (cellEl) cellEl.textContent = "";
-    } else {
-      this.advanceActiveCell(-1);
-      const newKey = `${GameState.activeCell.r},${GameState.activeCell.c}`;
-      if (!GameState.revealedCells.has(newKey)) {
-        delete GameState.userGrid[newKey];
-        const prevEl = document.querySelector(`.cw-cell[data-row="${GameState.activeCell.r}"][data-col="${GameState.activeCell.c}"] .cw-cell-letter`);
-        if (prevEl) prevEl.textContent = "";
-      }
-    }
-    GameState.savePersistence();
-    this.updateProgress();
-  },
-
-  advanceActiveCell(step = 1) {
-    const word = GameState.activeWord;
-    if (!word) return;
-
-    const len = word.answer.length;
-    const offset = word.dir === "across"
-      ? GameState.activeCell.c - word.col
-      : GameState.activeCell.r - word.row;
-
-    let nextOffset = offset + step;
-
-    if (step > 0 && GameState.settings.skipFilled) {
-      while (nextOffset < len) {
-        const testR = word.dir === "across" ? word.row : word.row + nextOffset;
-        const testC = word.dir === "across" ? word.col + nextOffset : word.col;
-        const testKey = `${testR},${testC}`;
-        if (!GameState.userGrid[testKey]) break;
-        nextOffset++;
-      }
-    }
-
-    if (nextOffset >= 0 && nextOffset < len) {
-      const nextR = word.dir === "across" ? word.row : word.row + nextOffset;
-      const nextC = word.dir === "across" ? word.col + nextOffset : word.col;
-      GameState.activeCell = { r: nextR, c: nextC };
-    }
-    this.highlightActiveCells();
-  },
-
-  toggleDirection() {
-    const { r, c } = GameState.activeCell;
-    const cellData = this.boardMap[`${r},${c}`];
-    if (!cellData || cellData.words.length <= 1) {
-      this.navigateClue(1);
-      return;
-    }
-    SoundEngine.playClick();
-    const currentIdx = cellData.words.findIndex(w => w.id === GameState.activeWord?.id);
-    const nextIdx = (currentIdx + 1) % cellData.words.length;
-    GameState.activeWord = cellData.words[nextIdx];
-    GameState.activeDirection = GameState.activeWord.dir;
-    this.updateClueBar();
-    this.highlightActiveCells();
-  },
-
-  navigateClue(step = 1) {
-    SoundEngine.playClick();
-    const words = GameState.currentPuzzle.words;
-    if (!words || words.length === 0) return;
-
-    let idx = words.findIndex(w => w.id === GameState.activeWord?.id);
-    if (idx === -1) idx = 0;
-
-    const nextIdx = (idx + step + words.length) % words.length;
-    const nextWord = words[nextIdx];
-
-    GameState.activeWord = nextWord;
-    GameState.activeDirection = nextWord.dir;
-    GameState.activeCell = { r: nextWord.row, c: nextWord.col };
-
-    this.updateClueBar();
-    this.highlightActiveCells();
-  },
-
-  revealActiveLetter() {
-    if (GameState.isSolved || GameState.isPaused) return;
-    const { r, c } = GameState.activeCell;
-    const key = `${r},${c}`;
-    const cellData = this.boardMap[key];
-    if (!cellData) return;
-
-    GameState.hintsUsed++;
-    GameState.revealedCells.add(key);
-    GameState.userGrid[key] = cellData.letter;
-
-    const cell = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"]`);
-    if (cell) {
-      cell.classList.add("revealed-cell");
-      cell.classList.remove("error-cell");
-      const letterEl = cell.querySelector(".cw-cell-letter");
-      if (letterEl) letterEl.textContent = cellData.letter;
-    }
-
-    SoundEngine.playChime();
-    GameState.savePersistence();
-    this.advanceActiveCell(1);
-    this.updateProgress();
-    this.checkPuzzleCompletion();
-  },
-
-  checkActiveWord() {
-    if (GameState.isSolved || GameState.isPaused) return;
-    const word = GameState.activeWord;
-    if (!word) return;
-
-    SoundEngine.playClick();
-    let hasMistake = false;
-    const len = word.answer.length;
-
-    for (let i = 0; i < len; i++) {
-      const r = word.dir === "across" ? word.row : word.row + i;
-      const c = word.dir === "across" ? word.col + i : word.col;
-      const key = `${r},${c}`;
-      const userVal = GameState.userGrid[key];
-      const correctVal = word.answer[i];
-
-      const cell = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"]`);
-      if (userVal && userVal !== correctVal) {
-        hasMistake = true;
-        GameState.errorsCount++;
-        if (cell) {
-          cell.classList.add("error-cell");
-          setTimeout(() => cell.classList.remove("error-cell"), 1500);
+          idx++;
         }
       }
     }
+  }
 
-    if (hasMistake) {
-      SoundEngine.playError();
-      UIController.showToast("Mistakes flagged in red", "error");
-    } else {
-      SoundEngine.playChime();
-      UIController.showToast("Word is looking sharp!", "success");
-    }
-  },
-
-  clearActiveWord() {
-    if (GameState.isSolved || GameState.isPaused) return;
-    const word = GameState.activeWord;
-    if (!word) return;
-
-    SoundEngine.playClick();
-    const len = word.answer.length;
-
-    for (let i = 0; i < len; i++) {
-      const r = word.dir === "across" ? word.row : word.row + i;
-      const c = word.dir === "across" ? word.col + i : word.col;
-      const key = `${r},${c}`;
-
-      if (!GameState.revealedCells.has(key)) {
-        delete GameState.userGrid[key];
-        const letterEl = document.querySelector(`.cw-cell[data-row="${r}"][data-col="${c}"] .cw-cell-letter`);
-        if (letterEl) letterEl.textContent = "";
+  saveProgress() {
+    const key = `${this.activeDayNumber}_${this.activeType}`;
+    const flat = [];
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        flat.push(this.cells[r][c].userLetter || '');
       }
     }
-    GameState.savePersistence();
-    this.updateProgress();
-    UIController.showToast("Word cleared");
-  },
-
-  updateProgress() {
-    if (!GameState.currentPuzzle) return;
-    const keys = Object.keys(this.boardMap).filter(k => this.boardMap[k] !== null);
-    const total = keys.length;
-    const filled = keys.filter(k => !!GameState.userGrid[k]).length;
-    const pct = total > 0 ? Math.round((filled / total) * 100) : 0;
-
-    const txt = document.getElementById("progress-text");
-    const fill = document.getElementById("progress-fill");
-    const status = document.getElementById("progress-status");
-
-    if (txt) txt.textContent = `${filled} / ${total} cells (${pct}%)`;
-    if (fill) fill.style.width = `${pct}%`;
-    if (status) status.textContent = pct === 100 ? "Ready" : "Solving";
-  },
-
-  checkPuzzleCompletion() {
-    const keys = Object.keys(this.boardMap).filter(k => this.boardMap[k] !== null);
-    const allFilled = keys.every(k => !!GameState.userGrid[k]);
-    if (!allFilled) return;
-
-    const allCorrect = keys.every(k => GameState.userGrid[k] === this.boardMap[k].letter);
-    if (allCorrect) {
-      this.handlePuzzleVictory();
-    } else {
-      SoundEngine.playError();
-      UIController.showToast("Grid is filled with some errors", "error");
-    }
-  },
-
-  handlePuzzleVictory() {
-    GameState.isSolved = true;
-    this.stopTimer();
-    SoundEngine.playFanfare();
-
-    const puzzle = GameState.currentPuzzle;
-    const isFirstSolve = !GameState.solvedPuzzleIds.has(puzzle.id);
-    GameState.solvedPuzzleIds.add(puzzle.id);
-    GameState.puzzlesSolvedCount++;
-
-    const isClean = GameState.hintsUsed === 0 && GameState.errorsCount === 0;
-    if (isClean) GameState.cleanSweepsCount++;
-
-    const baseReward = puzzle.tier === "mini" ? 100 : (puzzle.tier === "midi" ? 150 : 250);
-    const earnedXp = isFirstSolve ? baseReward : Math.round(baseReward * 0.35);
-    GameState.xp += earnedXp;
-
-    puzzle.words.forEach(w => {
-      if (w.codexId) GameState.unlockedCodex.add(w.codexId);
-    });
-
-    if (GameState.puzzlesSolvedCount >= 1) GameState.unlockedBadges.add("first_solve");
-    if (isClean) GameState.unlockedBadges.add("clean_sweep");
-    if (GameState.solvedPuzzleIds.size >= 5) GameState.unlockedBadges.add("vault_master");
-    if (GameState.unlockedCodex.size >= 12) GameState.unlockedBadges.add("scholar");
-    if (GameState.timerSeconds < 120) GameState.unlockedBadges.add("speedy");
-    if (GameState.getCurrentRank().current.level >= 5) GameState.unlockedBadges.add("craft_master");
-
-    GameState.savePersistence();
-
-    const modal = document.getElementById("modal-victory");
-    const vTitle = document.getElementById("victory-puzzle-name");
-    const vTime = document.getElementById("vic-time");
-    const vHints = document.getElementById("vic-hints");
-    const vAcc = document.getElementById("vic-accuracy");
-
-    if (vTitle) vTitle.textContent = puzzle.title;
-    if (vTime) vTime.textContent = this.formatTime(GameState.timerSeconds);
-    if (vHints) vHints.textContent = GameState.hintsUsed.toString();
-    if (vAcc) {
-      const accuracy = Math.max(65, 100 - (GameState.errorsCount * 4 + GameState.hintsUsed * 8));
-      vAcc.textContent = `${accuracy}%`;
-    }
-
-    const firstWord = puzzle.words.find(w => w.codexId);
-    const spec = CONTENT_DATA.codex.find(c => c.id === (firstWord ? firstWord.codexId : "neat"));
-    if (spec) {
-      const sName = document.getElementById("vic-spec-name");
-      const sFam = document.getElementById("vic-spec-family");
-      const sDesc = document.getElementById("vic-spec-desc");
-      if (sName) sName.textContent = spec.name;
-      if (sFam) sFam.textContent = `${spec.category} • ${spec.glass}`;
-      if (sDesc) sDesc.textContent = spec.tip || spec.subline;
-    }
-
-    if (modal) modal.classList.remove("hidden");
-    UIController.refreshMenuStats();
-  },
+    timeGate.state.savedGrids[key] = flat;
+    timeGate.state.savedTimes[key] = this.elapsedSeconds;
+    timeGate.saveState();
+  }
 
   startTimer() {
-    this.stopTimer();
-    GameState.timerInterval = setInterval(() => {
-      if (!GameState.isPaused && !GameState.isSolved) {
-        GameState.timerSeconds++;
-        this.updateTimerDisplay();
+    clearInterval(this.timerInterval);
+    const timerElem = document.getElementById('game-timer');
+    const update = () => {
+      const mins = Math.floor(this.elapsedSeconds / 60).toString().padStart(2, '0');
+      const secs = (this.elapsedSeconds % 60).toString().padStart(2, '0');
+      if (timerElem) timerElem.textContent = `${mins}:${secs}`;
+    };
+    update();
+    this.timerInterval = setInterval(() => {
+      this.elapsedSeconds++;
+      update();
+      if (this.elapsedSeconds % 5 === 0) {
+        this.saveProgress();
       }
     }, 1000);
-  },
+  }
 
   stopTimer() {
-    if (GameState.timerInterval) {
-      clearInterval(GameState.timerInterval);
-      GameState.timerInterval = null;
-    }
-  },
-
-  togglePause() {
-    GameState.isPaused = !GameState.isPaused;
-    const pauseOverlay = document.getElementById("pause-overlay");
-    const pauseBtn = document.getElementById("btn-pause-play");
-
-    if (GameState.isPaused) {
-      if (pauseOverlay) pauseOverlay.classList.remove("hidden");
-      if (pauseBtn) pauseBtn.textContent = "▶";
-    } else {
-      if (pauseOverlay) pauseOverlay.classList.add("hidden");
-      if (pauseBtn) pauseBtn.textContent = "⏸";
-    }
-  },
-
-  updateTimerDisplay() {
-    const el = document.getElementById("play-timer");
-    if (el) el.textContent = this.formatTime(GameState.timerSeconds);
-  },
-
-  formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    clearInterval(this.timerInterval);
+    this.saveProgress();
   }
-};
 
-/* ==========================================================================
-   5. UI CONTROLLER & VIEW NAVIGATION
-   ========================================================================== */
-const UIController = {
-  activeTab: "menu",
-  activeFilter: "all",
-  activeCodexCat: "all",
+  selectCell(r, c) {
+    if (this.cells[r][c].isBlack) return;
 
-  init() {
-    GameState.init();
+    if (this.activeCell.r === r && this.activeCell.c === c) {
+      this.toggleDirection();
+    } else {
+      this.activeCell = { r, c };
+      const target = this.cells[r][c];
+      if (this.direction === 'ACROSS' && !target.acrossClueNum && target.downClueNum) {
+        this.direction = 'DOWN';
+      } else if (this.direction === 'DOWN' && !target.downClueNum && target.acrossClueNum) {
+        this.direction = 'ACROSS';
+      }
+      sound.playBlip();
+      this.render();
+    }
+  }
 
-    this.bindMasthead();
-    this.bindTabs();
-    this.bindMenuActions();
-    this.bindToolbar();
-    this.bindKeyboard();
-    this.bindModals();
-    this.bindSettings();
-    this.bindVault();
-    this.bindCodex();
-    this.bindResize();
+  toggleDirection() {
+    const cur = this.cells[this.activeCell.r][this.activeCell.c];
+    if (this.direction === 'ACROSS') {
+      if (cur.downClueNum) this.direction = 'DOWN';
+    } else {
+      if (cur.acrossClueNum) this.direction = 'ACROSS';
+    }
+    sound.playToggle();
+    this.render();
+  }
 
-    this.refreshMenuStats();
-    this.switchTab("menu");
-  },
+  getActiveClue() {
+    const cell = this.cells[this.activeCell.r][this.activeCell.c];
+    if (!cell || cell.isBlack) return { num: '', dir: this.direction, text: 'Select any square...' };
 
-  bindMasthead() {
-    const soundBtn = document.getElementById("btn-sound");
-    const soundIcon = document.getElementById("sound-icon");
-    const menuToggle = document.getElementById("btn-menu-toggle");
-    const settingsBtn = document.getElementById("btn-settings-open");
+    let num = (this.direction === 'ACROSS') ? cell.acrossClueNum : cell.downClueNum;
+    if (!num) {
+      this.direction = (this.direction === 'ACROSS') ? 'DOWN' : 'ACROSS';
+      num = (this.direction === 'ACROSS') ? cell.acrossClueNum : cell.downClueNum;
+    }
 
-    const updateSoundUI = () => {
-      const active = GameState.settings.sound;
-      if (soundIcon) soundIcon.textContent = active ? "🔊" : "🔇";
-      if (soundBtn) soundBtn.setAttribute("aria-label", active ? "Mute audio" : "Unmute audio");
+    const dirKey = this.direction.toLowerCase();
+    let text = (this.clues[dirKey] && this.clues[dirKey][num]) ? this.clues[dirKey][num] : null;
+
+    if (!text) {
+      let word = '';
+      if (this.direction === 'ACROSS') {
+        const r = this.activeCell.r;
+        let c = 0;
+        while (c < this.activePuzzle.cols) {
+          if (this.cells[r][c].acrossClueNum === num) {
+            word += this.cells[r][c].solution;
+          }
+          c++;
+        }
+      } else {
+        const c = this.activeCell.c;
+        let r = 0;
+        while (r < this.activePuzzle.rows) {
+          if (this.cells[r][c].downClueNum === num) {
+            word += this.cells[r][c].solution;
+          }
+          r++;
+        }
+      }
+      text = GENERAL_DICTIONARY_CLUES[word] || `Clue for entry "${word}" (${word.length} letters)`;
+    }
+
+    return {
+      num: num ? `${num}${this.direction[0]}` : '',
+      dir: this.direction,
+      text
     };
-    updateSoundUI();
+  }
 
-    if (soundBtn) {
-      soundBtn.addEventListener("click", () => {
-        GameState.settings.sound = !GameState.settings.sound;
-        GameState.savePersistence();
-        updateSoundUI();
-        SoundEngine.playClick();
-        const toggleEl = document.getElementById("setting-toggle-sound");
-        if (toggleEl) toggleEl.checked = GameState.settings.sound;
-      });
-    }
+  inputLetter(letter) {
+    const { r, c } = this.activeCell;
+    const cell = this.cells[r][c];
+    if (cell.isBlack) return;
 
-    if (menuToggle) {
-      menuToggle.addEventListener("click", () => {
-        SoundEngine.playClick();
-        this.switchTab("menu");
-      });
-    }
+    cell.userLetter = letter.toUpperCase();
+    sound.playBlip();
+    this.saveProgress();
 
-    if (settingsBtn) {
-      settingsBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-settings").classList.remove("hidden");
-      });
-    }
-  },
+    this.stepCursor(1);
+    this.render();
+    this.checkAutoCompletion();
+  }
 
-  bindTabs() {
-    const tabs = document.querySelectorAll(".nav-tab");
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        const target = tab.dataset.tab;
-        SoundEngine.playClick();
-        this.switchTab(target);
-      });
-    });
+  deleteLetter() {
+    const { r, c } = this.activeCell;
+    const cell = this.cells[r][c];
 
-    document.querySelectorAll(".btn-return-menu").forEach(btn => {
-      btn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        this.switchTab("menu");
-      });
-    });
-  },
-
-  switchTab(tabName) {
-    this.activeTab = tabName;
-
-    document.querySelectorAll(".nav-tab").forEach(tab => {
-      const isActive = tab.dataset.tab === tabName;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
-
-    document.querySelectorAll(".app-view").forEach(v => v.classList.remove("active"));
-    const targetView = document.getElementById(`view-${tabName}`);
-    if (targetView) targetView.classList.add("active");
-
-    if (tabName === "play") {
-      if (!GameState.currentPuzzle) {
-        CrosswordEngine.loadPuzzle(GameState.activePuzzleId || CONTENT_DATA.puzzles[0].id);
+    if (cell.userLetter !== '') {
+      cell.userLetter = '';
+      sound.playDelete();
+    } else {
+      this.stepCursor(-1);
+      const prev = this.cells[this.activeCell.r][this.activeCell.c];
+      if (!prev.isBlack) {
+        prev.userLetter = '';
+        sound.playDelete();
       }
-      setTimeout(() => CrosswordEngine.renderGrid(), 40);
-    } else if (tabName === "menu") {
-      this.refreshMenuStats();
-    } else if (tabName === "puzzles") {
-      this.renderPuzzlesVault();
-    } else if (tabName === "codex") {
-      this.renderCodex();
-    } else if (tabName === "mastery") {
-      this.renderMastery();
     }
-  },
+    this.saveProgress();
+    this.render();
+  }
 
-  bindMenuActions() {
-    const primaryBtn = document.getElementById("btn-menu-primary-action");
-    const vaultCard = document.getElementById("menu-btn-vault");
-    const codexCard = document.getElementById("menu-btn-codex");
-    const masteryCard = document.getElementById("menu-btn-mastery");
+  stepCursor(delta) {
+    const { rows, cols } = this.activePuzzle;
+    let { r, c } = this.activeCell;
 
-    if (primaryBtn) {
-      primaryBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        const target = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
-        CrosswordEngine.loadPuzzle(target.id);
-        this.switchTab("play");
-      });
-    }
-
-    if (vaultCard) vaultCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("puzzles"); });
-    if (codexCard) codexCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("codex"); });
-    if (masteryCard) masteryCard.addEventListener("click", () => { SoundEngine.playClick(); this.switchTab("mastery"); });
-  },
-
-  refreshMenuStats() {
-    const nextUnsolved = CONTENT_DATA.puzzles.find(p => !GameState.solvedPuzzleIds.has(p.id)) || CONTENT_DATA.puzzles[0];
-    const featTier = document.getElementById("menu-featured-tier");
-    const featTitle = document.getElementById("menu-featured-title");
-    const featDesc = document.getElementById("menu-featured-desc");
-    const primaryActionText = document.getElementById("menu-primary-action-text");
-
-    if (featTier) featTier.textContent = nextUnsolved.tier.toUpperCase();
-    if (featTitle) featTitle.textContent = nextUnsolved.title;
-    if (featDesc) featDesc.textContent = nextUnsolved.blurb;
-    if (primaryActionText) {
-      primaryActionText.textContent = GameState.solvedPuzzleIds.has(nextUnsolved.id) ? "Replay Service" : "Solve Featured Shift";
-    }
-
-    const vaultProg = document.getElementById("menu-vault-progress");
-    if (vaultProg) vaultProg.textContent = `${GameState.solvedPuzzleIds.size}/5 Services Solved`;
-
-    const codexProg = document.getElementById("menu-codex-progress");
-    if (codexProg) codexProg.textContent = `${GameState.unlockedCodex.size}/24 Specs Unlocked`;
-
-    const rankTitle = document.getElementById("menu-rank-title");
-    if (rankTitle) rankTitle.textContent = GameState.getCurrentRank().current.title;
-
-    const streakCount = document.getElementById("streak-count");
-    if (streakCount) streakCount.textContent = GameState.streak.toString();
-
-    document.getElementById("menu-stat-xp").textContent = GameState.xp.toString();
-    document.getElementById("menu-stat-cleans").textContent = GameState.cleanSweepsCount.toString();
-    document.getElementById("menu-stat-solved").textContent = `${GameState.solvedPuzzleIds.size}/5`;
-  },
-
-  bindToolbar() {
-    const prevBtn = document.getElementById("clue-prev");
-    const nextBtn = document.getElementById("clue-next");
-    const pauseBtn = document.getElementById("btn-pause-play");
-    const restartBtn = document.getElementById("btn-restart-play");
-    const resumeBtn = document.getElementById("btn-resume-play");
-    const menuFromPauseBtn = document.getElementById("btn-menu-from-pause");
-    const hintBtn = document.getElementById("tool-reveal-letter");
-    const checkBtn = document.getElementById("tool-check-word");
-    const clearBtn = document.getElementById("tool-clear-word");
-    const inspectBtn = document.getElementById("tool-inspect-spec");
-    const clueMain = document.getElementById("clue-main");
-
-    if (prevBtn) prevBtn.addEventListener("click", () => CrosswordEngine.navigateClue(-1));
-    if (nextBtn) nextBtn.addEventListener("click", () => CrosswordEngine.navigateClue(1));
-    if (pauseBtn) pauseBtn.addEventListener("click", () => CrosswordEngine.togglePause());
-    if (resumeBtn) resumeBtn.addEventListener("click", () => CrosswordEngine.togglePause());
-
-    if (menuFromPauseBtn) {
-      menuFromPauseBtn.addEventListener("click", () => {
-        CrosswordEngine.togglePause();
-        this.switchTab("menu");
-      });
-    }
-
-    if (restartBtn) {
-      restartBtn.addEventListener("click", () => {
-        if (confirm("Restart this puzzle service from the beginning?")) {
-          SoundEngine.playClick();
-          CrosswordEngine.loadPuzzle(GameState.currentPuzzle.id, true);
+    if (this.direction === 'ACROSS') {
+      let nextC = c + delta;
+      while (nextC >= 0 && nextC < cols) {
+        if (!this.cells[r][nextC].isBlack) {
+          this.activeCell = { r, c: nextC };
+          return;
         }
-      });
+        nextC += delta;
+      }
+    } else {
+      let nextR = r + delta;
+      while (nextR >= 0 && nextR < rows) {
+        if (!this.cells[nextR][c].isBlack) {
+          this.activeCell = { r: nextR, c };
+          return;
+        }
+        nextR += delta;
+      }
+    }
+  }
+
+  nextClue() {
+    sound.playToggle();
+    const activeNum = (this.direction === 'ACROSS')
+      ? this.cells[this.activeCell.r][this.activeCell.c].acrossClueNum
+      : this.cells[this.activeCell.r][this.activeCell.c].downClueNum;
+
+    const clueNums = new Set();
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        const cell = this.cells[r][c];
+        if (!cell.isBlack) {
+          const n = (this.direction === 'ACROSS') ? cell.acrossClueNum : cell.downClueNum;
+          if (n) clueNums.add(n);
+        }
+      }
     }
 
-    if (hintBtn) hintBtn.addEventListener("click", () => CrosswordEngine.revealActiveLetter());
-    if (checkBtn) checkBtn.addEventListener("click", () => CrosswordEngine.checkActiveWord());
-    if (clearBtn) clearBtn.addEventListener("click", () => CrosswordEngine.clearActiveWord());
-    if (clueMain) clueMain.addEventListener("click", () => CrosswordEngine.toggleDirection());
+    const numbers = Array.from(clueNums).sort((a, b) => a - b);
+    if (numbers.length === 0) return;
 
-    if (inspectBtn) {
-      inspectBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        const word = GameState.activeWord;
-        const codexId = word?.codexId || "neat";
-        this.openSpecModal(codexId);
-      });
+    const currIdx = numbers.indexOf(Number(activeNum));
+    const nextIdx = (currIdx + 1) % numbers.length;
+    const targetNum = numbers[nextIdx];
+
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        const cell = this.cells[r][c];
+        if (!cell.isBlack && cell.number === targetNum) {
+          this.activeCell = { r, c };
+          this.render();
+          return;
+        }
+      }
     }
-  },
+  }
 
-  bindKeyboard() {
-    window.addEventListener("keydown", e => {
-      if (this.activeTab !== "play") return;
-      const tag = document.activeElement?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA") return;
+  prevClue() {
+    sound.playToggle();
+    const activeNum = (this.direction === 'ACROSS')
+      ? this.cells[this.activeCell.r][this.activeCell.c].acrossClueNum
+      : this.cells[this.activeCell.r][this.activeCell.c].downClueNum;
 
-      const key = e.key;
-      if (/^[a-zA-Z]$/.test(key)) {
-        e.preventDefault();
-        CrosswordEngine.inputLetter(key);
-      } else if (key === "Backspace") {
-        e.preventDefault();
-        CrosswordEngine.handleBackspace();
-      } else if (key === " " || key === "Enter") {
-        e.preventDefault();
-        CrosswordEngine.toggleDirection();
-      } else if (key === "ArrowRight") {
-        e.preventDefault();
-        if (GameState.activeDirection === "across") CrosswordEngine.advanceActiveCell(1);
-        else CrosswordEngine.toggleDirection();
-      } else if (key === "ArrowLeft") {
-        e.preventDefault();
-        if (GameState.activeDirection === "across") CrosswordEngine.advanceActiveCell(-1);
-        else CrosswordEngine.toggleDirection();
-      } else if (key === "ArrowDown") {
-        e.preventDefault();
-        if (GameState.activeDirection === "down") CrosswordEngine.advanceActiveCell(1);
-        else CrosswordEngine.toggleDirection();
-      } else if (key === "ArrowUp") {
-        e.preventDefault();
-        if (GameState.activeDirection === "down") CrosswordEngine.advanceActiveCell(-1);
-        else CrosswordEngine.toggleDirection();
-      } else if (key === "Tab") {
-        e.preventDefault();
-        CrosswordEngine.navigateClue(e.shiftKey ? -1 : 1);
+    const clueNums = new Set();
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        const cell = this.cells[r][c];
+        if (!cell.isBlack) {
+          const n = (this.direction === 'ACROSS') ? cell.acrossClueNum : cell.downClueNum;
+          if (n) clueNums.add(n);
+        }
+      }
+    }
+
+    const numbers = Array.from(clueNums).sort((a, b) => a - b);
+    if (numbers.length === 0) return;
+
+    const currIdx = numbers.indexOf(Number(activeNum));
+    const prevIdx = (currIdx - 1 + numbers.length) % numbers.length;
+    const targetNum = numbers[prevIdx];
+
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        const cell = this.cells[r][c];
+        if (!cell.isBlack && cell.number === targetNum) {
+          this.activeCell = { r, c };
+          this.render();
+          return;
+        }
+      }
+    }
+  }
+
+  checkCurrentWord() {
+    const { r, c } = this.activeCell;
+    const activeCell = this.cells[r][c];
+    if (activeCell.isBlack) return;
+
+    const targetNum = (this.direction === 'ACROSS') ? activeCell.acrossClueNum : activeCell.downClueNum;
+    let hasError = false;
+
+    for (let row = 0; row < this.activePuzzle.rows; row++) {
+      for (let col = 0; col < this.activePuzzle.cols; col++) {
+        const cell = this.cells[row][col];
+        if (cell.isBlack) continue;
+        const inWord = (this.direction === 'ACROSS')
+          ? cell.acrossClueNum === targetNum
+          : cell.downClueNum === targetNum;
+
+        if (inWord) {
+          const domCell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+          if (cell.userLetter && cell.userLetter !== cell.solution) {
+            hasError = true;
+            if (domCell) domCell.classList.add('cell-error');
+          }
+        }
+      }
+    }
+
+    if (hasError) {
+      sound.playError();
+      setTimeout(() => {
+        document.querySelectorAll('.cell-error').forEach(el => el.classList.remove('cell-error'));
+      }, 700);
+    } else {
+      sound.playBlip();
+    }
+  }
+
+  revealCurrentWord() {
+    const { r, c } = this.activeCell;
+    const activeCell = this.cells[r][c];
+    if (activeCell.isBlack) return;
+
+    const targetNum = (this.direction === 'ACROSS') ? activeCell.acrossClueNum : activeCell.downClueNum;
+    for (let row = 0; row < this.activePuzzle.rows; row++) {
+      for (let col = 0; col < this.activePuzzle.cols; col++) {
+        const cell = this.cells[row][col];
+        if (cell.isBlack) continue;
+        const inWord = (this.direction === 'ACROSS')
+          ? cell.acrossClueNum === targetNum
+          : cell.downClueNum === targetNum;
+
+        if (inWord) {
+          cell.userLetter = cell.solution;
+        }
+      }
+    }
+    sound.playBlip();
+    this.saveProgress();
+    this.render();
+    this.checkAutoCompletion();
+  }
+
+  checkAutoCompletion() {
+    let filled = 0;
+    let total = 0;
+    let allCorrect = true;
+
+    for (let r = 0; r < this.activePuzzle.rows; r++) {
+      for (let c = 0; c < this.activePuzzle.cols; c++) {
+        const cell = this.cells[r][c];
+        if (!cell.isBlack) {
+          total++;
+          if (cell.userLetter !== '') filled++;
+          if (cell.userLetter !== cell.solution) allCorrect = false;
+        }
+      }
+    }
+
+    if (filled === total && allCorrect) {
+      this.handleVictory();
+    }
+  }
+
+  handleVictory() {
+    this.stopTimer();
+    timeGate.markCompleted(this.activeDayNumber, this.activeType, this.elapsedSeconds);
+    sound.playWin();
+
+    const modal = document.getElementById('modal-victory');
+    const tierLabel = document.getElementById('victory-tier-label');
+    const timeLabel = document.getElementById('victory-time');
+
+    const mins = Math.floor(this.elapsedSeconds / 60).toString().padStart(2, '0');
+    const secs = (this.elapsedSeconds % 60).toString().padStart(2, '0');
+
+    if (tierLabel) tierLabel.textContent = `${this.activePuzzle.title} Solved!`;
+    if (timeLabel) timeLabel.textContent = `${mins}:${secs}`;
+    if (modal) modal.classList.remove('hidden');
+
+    launchConfetti();
+  }
+
+  render() {
+    const container = document.getElementById('crossword-grid-container');
+    if (!container || !this.activePuzzle) return;
+
+    const { rows, cols } = this.activePuzzle;
+    const wrapper = document.getElementById('grid-wrapper');
+    const maxW = (wrapper ? wrapper.clientWidth : 340) - 18;
+    const maxH = (wrapper ? wrapper.clientHeight : 340) - 18;
+
+    const cellDim = Math.min(Math.floor(maxW / cols), Math.floor(maxH / rows), 54);
+    document.documentElement.style.setProperty('--cell-dim', `${cellDim}px`);
+
+    if (!this.gridBuilt || container.children.length !== (rows * cols)) {
+      container.innerHTML = '';
+      container.style.gridTemplateColumns = `repeat(${cols}, ${cellDim}px)`;
+      container.style.gridTemplateRows = `repeat(${rows}, ${cellDim}px)`;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cell = this.cells[r][c];
+          const div = document.createElement('div');
+          div.className = 'grid-cell';
+          div.dataset.row = r;
+          div.dataset.col = c;
+          div.style.width = `${cellDim}px`;
+          div.style.height = `${cellDim}px`;
+
+          if (cell.isBlack) {
+            div.classList.add('black-cell');
+          } else {
+            if (cell.number) {
+              const numSpan = document.createElement('span');
+              numSpan.className = 'cell-number';
+              numSpan.textContent = cell.number;
+              div.appendChild(numSpan);
+            }
+
+            const letterSpan = document.createElement('span');
+            letterSpan.className = 'cell-letter';
+            letterSpan.textContent = cell.userLetter || '';
+            div.appendChild(letterSpan);
+
+            div.addEventListener('pointerdown', (e) => {
+              e.preventDefault();
+              this.selectCell(r, c);
+            });
+          }
+
+          container.appendChild(div);
+        }
+      }
+      this.gridBuilt = true;
+    }
+
+    const activeCell = this.cells[this.activeCell.r][this.activeCell.c];
+    const activeTargetNum = (this.direction === 'ACROSS')
+      ? activeCell.acrossClueNum
+      : activeCell.downClueNum;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = this.cells[r][c];
+        if (cell.isBlack) continue;
+
+        const cellDiv = container.children[r * cols + c];
+        if (!cellDiv) continue;
+
+        cellDiv.style.width = `${cellDim}px`;
+        cellDiv.style.height = `${cellDim}px`;
+
+        const letterSpan = cellDiv.querySelector('.cell-letter');
+        if (letterSpan) {
+          letterSpan.textContent = cell.userLetter || '';
+        }
+
+        cellDiv.classList.remove('highlight-active', 'highlight-word');
+
+        if (r === this.activeCell.r && c === this.activeCell.c) {
+          cellDiv.classList.add('highlight-active');
+        } else {
+          const inWord = (this.direction === 'ACROSS')
+            ? cell.acrossClueNum === activeTargetNum
+            : cell.downClueNum === activeTargetNum;
+          if (inWord) {
+            cellDiv.classList.add('highlight-word');
+          }
+        }
+      }
+    }
+
+    const clueInfo = this.getActiveClue();
+    const clueNumLabel = document.getElementById('clue-number-label');
+    const clueDirLabel = document.getElementById('clue-dir-label');
+    const clueTextLabel = document.getElementById('clue-text-label');
+
+    if (clueNumLabel) clueNumLabel.textContent = clueInfo.num;
+    if (clueDirLabel) clueDirLabel.textContent = clueInfo.dir;
+    if (clueTextLabel) clueTextLabel.textContent = clueInfo.text;
+  }
+}
+
+const engine = new CrosswordEngine();
+
+function launchConfetti() {
+  const canvas = document.getElementById('victory-canvas');
+  if (!canvas || !canvas.parentElement) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.parentElement.clientWidth || 340;
+  canvas.height = canvas.parentElement.clientHeight || 340;
+
+  const particles = [];
+  const colors = ['#00e5ff', '#ffbe1a', '#e62243', '#ffffff', '#00e676'];
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.8) * 14,
+      size: Math.random() * 7 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 10
+    });
+  }
+
+  let frames = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.34;
+      p.rot += p.vRot;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rot * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+
+    frames++;
+    if (frames < 90) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+class UIRouter {
+  constructor() {
+    this.screens = {
+      menu: document.getElementById('screen-main-menu'),
+      dailySub: document.getElementById('screen-daily-sub'),
+      vault: document.getElementById('screen-vault'),
+      puzzle: document.getElementById('screen-puzzle')
+    };
+    this.appHeader = document.querySelector('.app-header');
+    this.globalHomeBtn = document.getElementById('btn-global-home');
+  }
+
+  showScreen(name) {
+    Object.values(this.screens).forEach(scr => {
+      if (scr) scr.classList.remove('active');
+    });
+
+    if (this.screens[name]) {
+      this.screens[name].classList.add('active');
+    }
+
+    if (this.appHeader) {
+      this.appHeader.classList.toggle('app-header-hidden', name === 'puzzle');
+    }
+
+    if (name === 'menu') {
+      if (this.globalHomeBtn) {
+        this.globalHomeBtn.href = "https://tileworksgamesstudio.github.io/Curling-Menu/";
+        const textSpan = this.globalHomeBtn.querySelector('.btn-text');
+        if (textSpan) textSpan.textContent = 'HOME';
+        this.globalHomeBtn.onclick = null;
+      }
+      this.refreshMenu();
+    } else {
+      if (this.globalHomeBtn) {
+        this.globalHomeBtn.removeAttribute('href');
+        const textSpan = this.globalHomeBtn.querySelector('.btn-text');
+        if (textSpan) textSpan.textContent = 'MENU';
+        this.globalHomeBtn.onclick = (e) => {
+          e.preventDefault();
+          sound.playBlip();
+          engine.stopTimer();
+          this.showScreen('menu');
+        };
+      }
+    }
+
+    if (name === 'puzzle') {
+      setTimeout(() => {
+        engine.gridBuilt = false;
+        engine.render();
+      }, 40);
+    }
+  }
+
+  refreshMenu() {
+    const todayNum = timeGate.getTodayDayNumber();
+    const puz = timeGate.getPuzzleForDay(todayNum);
+
+    const editionBadge = document.getElementById('hero-edition-badge');
+    if (editionBadge) editionBadge.textContent = `DAILY EDITION #${todayNum}`;
+
+    const releaseSub = document.getElementById('daily-release-date');
+    if (releaseSub && puz) {
+      const dateStr = puz.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      releaseSub.textContent = `${puz.theme} • ${dateStr}`;
+    }
+
+    const vaultSub = document.getElementById('vault-count-sub');
+    if (vaultSub) {
+      const pastList = timeGate.getVaultPuzzles();
+      vaultSub.textContent = `${pastList.length} Archived Editions`;
+    }
+
+    const streakVal = document.getElementById('stat-streak-val');
+    const solvedVal = document.getElementById('stat-solved-val');
+    const bestMini = document.getElementById('stat-best-mini');
+
+    if (streakVal) streakVal.textContent = timeGate.state.streak || '0';
+    if (solvedVal) solvedVal.textContent = timeGate.getTotalSolved();
+    if (bestMini) bestMini.textContent = timeGate.getBestTime('mini');
+  }
+
+  renderDailySubMenu(dayNumber) {
+    const bundle = timeGate.getPuzzleForDay(dayNumber);
+    const titleElem = document.getElementById('daily-sub-title');
+    const dateElem = document.getElementById('daily-sub-date');
+
+    if (titleElem) titleElem.textContent = bundle.theme.toUpperCase();
+    if (dateElem) dateElem.textContent = bundle.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+    const titleFull = document.getElementById('tier-title-full');
+    const titleMidi = document.getElementById('tier-title-midi');
+    const titleMini = document.getElementById('tier-title-mini');
+
+    if (titleFull) titleFull.textContent = `Classic Crossword (15×15)`;
+    if (titleMidi) titleMidi.textContent = `Midi Crossword (9×9)`;
+    if (titleMini) titleMini.textContent = `Mini Crossword (5×5)`;
+
+    const tierLabels = {
+      full: 'CLASSIC 15×15',
+      midi: 'MIDI 9×9',
+      mini: 'MINI 5×5'
+    };
+
+    ['full', 'midi', 'mini'].forEach(type => {
+      const badge = document.getElementById(`status-${type}`);
+      const btn = document.querySelector(`.tier-play-btn[data-type="${type}"]`);
+      if (badge && btn) {
+        btn.dataset.day = dayNumber;
+        if (timeGate.isCompleted(dayNumber, type)) {
+          badge.textContent = 'SOLVED';
+          badge.classList.add('solved');
+          btn.textContent = `REVIEW ${tierLabels[type]}`;
+        } else {
+          badge.textContent = 'READY';
+          badge.classList.remove('solved');
+          btn.textContent = `PLAY ${tierLabels[type]}`;
+        }
       }
     });
 
-    document.querySelectorAll(".kb-key").forEach(k => {
-      k.addEventListener("click", e => {
-        e.preventDefault();
-        const val = k.dataset.key;
-        if (val === "BACKSPACE") {
-          CrosswordEngine.handleBackspace();
-        } else if (k.id === "key-toggle-dir") {
-          CrosswordEngine.toggleDirection();
-        } else if (val) {
-          CrosswordEngine.inputLetter(val);
-        }
-      });
-    });
-  },
+    this.showScreen('dailySub');
+  }
 
-  bindModals() {
-    const nextBtn = document.getElementById("btn-next-puzzle");
-    const viewCodexBtn = document.getElementById("btn-view-in-codex");
-    const closeVictoryBtn = document.getElementById("btn-close-victory");
-    const closeSpecBtn = document.getElementById("btn-close-spec-modal");
-
-    if (nextBtn) {
-      nextBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-victory").classList.add("hidden");
-        const currId = GameState.currentPuzzle?.id;
-        const currIdx = CONTENT_DATA.puzzles.findIndex(p => p.id === currId);
-        const nextIdx = (currIdx + 1) % CONTENT_DATA.puzzles.length;
-        CrosswordEngine.loadPuzzle(CONTENT_DATA.puzzles[nextIdx].id);
-        this.switchTab("play");
-      });
-    }
-
-    if (viewCodexBtn) {
-      viewCodexBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-victory").classList.add("hidden");
-        const puzzle = GameState.currentPuzzle;
-        const firstWord = puzzle?.words.find(w => w.codexId);
-        if (firstWord) this.openSpecModal(firstWord.codexId);
-        this.switchTab("codex");
-      });
-    }
-
-    if (closeVictoryBtn) {
-      closeVictoryBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-victory").classList.add("hidden");
-      });
-    }
-
-    if (closeSpecBtn) {
-      closeSpecBtn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-codex-spec").classList.add("hidden");
-      });
-    }
-  },
-
-  bindSettings() {
-    const closeSettings = document.getElementById("btn-close-settings");
-    const toggleSound = document.getElementById("setting-toggle-sound");
-    const toggleHaptics = document.getElementById("setting-toggle-haptics");
-    const toggleSkip = document.getElementById("setting-toggle-skip-filled");
-    const resetDataBtn = document.getElementById("btn-reset-data");
-
-    if (closeSettings) {
-      closeSettings.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.getElementById("modal-settings").classList.add("hidden");
-      });
-    }
-
-    if (toggleSound) {
-      toggleSound.checked = GameState.settings.sound;
-      toggleSound.addEventListener("change", e => {
-        GameState.settings.sound = e.target.checked;
-        GameState.savePersistence();
-        const soundIcon = document.getElementById("sound-icon");
-        if (soundIcon) soundIcon.textContent = e.target.checked ? "🔊" : "🔇";
-      });
-    }
-
-    if (toggleHaptics) {
-      toggleHaptics.checked = GameState.settings.haptics;
-      toggleHaptics.addEventListener("change", e => {
-        GameState.settings.haptics = e.target.checked;
-        GameState.savePersistence();
-      });
-    }
-
-    if (toggleSkip) {
-      toggleSkip.checked = GameState.settings.skipFilled;
-      toggleSkip.addEventListener("change", e => {
-        GameState.settings.skipFilled = e.target.checked;
-        GameState.savePersistence();
-      });
-    }
-
-    if (resetDataBtn) {
-      resetDataBtn.addEventListener("click", () => {
-        if (confirm("Reset all saved progress, records, and unlocks?")) {
-          GameState.resetAllData();
-          this.refreshMenuStats();
-          this.renderMastery();
-          this.renderCodex();
-          this.renderPuzzlesVault();
-          document.getElementById("modal-settings").classList.add("hidden");
-          this.showToast("All progress reset");
-        }
-      });
-    }
-  },
-
-  openSpecModal(codexId) {
-    const spec = CONTENT_DATA.codex.find(c => c.id === codexId);
-    if (!spec) return;
-
-    document.getElementById("modal-spec-cat").textContent = spec.category;
-    document.getElementById("codex-modal-title").textContent = spec.name;
-    document.getElementById("modal-spec-subline").textContent = spec.subline;
-    document.getElementById("modal-spec-glass").textContent = spec.glass;
-    document.getElementById("modal-spec-method").textContent = spec.method;
-    document.getElementById("modal-spec-ice").textContent = spec.ice;
-    document.getElementById("modal-spec-garnish").textContent = spec.garnish;
-    document.getElementById("modal-spec-formula").innerText = spec.formula || "N/A";
-    document.getElementById("modal-spec-tip").textContent = spec.tip || "";
-    document.getElementById("modal-spec-lore").textContent = spec.lore || "";
-
-    document.getElementById("modal-codex-spec").classList.remove("hidden");
-  },
-
-  bindVault() {
-    document.querySelectorAll(".filter-chip").forEach(btn => {
-      btn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        this.activeFilter = btn.dataset.filter;
-        this.renderPuzzlesVault();
-      });
-    });
-  },
-
-  renderPuzzlesVault() {
-    const list = document.getElementById("puzzles-list");
+  renderVault() {
+    const list = document.getElementById('vault-list');
     if (!list) return;
-    list.innerHTML = "";
+    list.innerHTML = '';
 
-    const puzzles = CONTENT_DATA.puzzles.filter(p => this.activeFilter === "all" || p.tier === this.activeFilter);
+    const pastPuzzles = timeGate.getVaultPuzzles();
 
-    puzzles.forEach(p => {
-      const isSolved = GameState.solvedPuzzleIds.has(p.id);
-      const article = document.createElement("article");
-      article.className = "daily-spotlight-card";
-
-      article.innerHTML = `
-        <div class="daily-badge-row">
-          <span class="badge tier-badge ${p.tier}">${p.tier.toUpperCase()}</span>
-          ${isSolved ? '<span class="badge gold-badge">SOLVED</span>' : '<span class="daily-reward-text">+100 XP</span>'}
-        </div>
-        <h3>${p.title}</h3>
-        <p>${p.blurb}</p>
-        <div class="daily-cta-row">
-          <button class="btn btn-primary vault-play-btn" data-id="${p.id}" data-replay="${isSolved ? 'true' : 'false'}" type="button">${isSolved ? 'Replay' : 'Solve Service'}</button>
-          <span class="daily-reward-text">${p.gridSize.rows}×${p.gridSize.cols} GRID</span>
+    if (pastPuzzles.length === 0) {
+      list.innerHTML = `
+        <div class="vault-empty-note neo-card">
+          <p>No past puzzles in the archive yet.</p>
+          <p style="margin-top: 6px; font-size: 11px; opacity: 0.85;">
+            Past daily editions will automatically accumulate here.
+          </p>
         </div>
       `;
-      list.appendChild(article);
-    });
-
-    document.querySelectorAll(".vault-play-btn").forEach(btn => {
-      btn.addEventListener("click", e => {
-        SoundEngine.playClick();
-        const id = e.target.dataset.id;
-        const isReplay = e.target.dataset.replay === "true";
-        CrosswordEngine.loadPuzzle(id, isReplay);
-        this.switchTab("play");
-      });
-    });
-  },
-
-  bindCodex() {
-    document.querySelectorAll(".codex-filter").forEach(btn => {
-      btn.addEventListener("click", () => {
-        SoundEngine.playClick();
-        document.querySelectorAll(".codex-filter").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        this.activeCodexCat = btn.dataset.cat;
-        this.renderCodex();
-      });
-    });
-
-    const searchInput = document.getElementById("codex-search");
-    if (searchInput) {
-      searchInput.addEventListener("input", e => this.renderCodex(e.target.value.toLowerCase()));
-    }
-  },
-
-  renderCodex(searchQuery = "") {
-    const grid = document.getElementById("codex-grid");
-    const countLabel = document.getElementById("codex-unlocked-count");
-    if (!grid) return;
-
-    if (countLabel) {
-      countLabel.textContent = `Unlocked: ${GameState.unlockedCodex.size} / ${CONTENT_DATA.codex.length} Records`;
+      return;
     }
 
-    grid.innerHTML = "";
+    pastPuzzles.forEach(bundle => {
+      const card = document.createElement('div');
+      card.className = 'tier-card neo-card';
+      const dateStr = bundle.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-    const filtered = CONTENT_DATA.codex.filter(c => {
-      const catMatch = this.activeCodexCat === "all" || c.category === this.activeCodexCat;
-      const searchMatch = !searchQuery ||
-        c.name.toLowerCase().includes(searchQuery) ||
-        c.category.toLowerCase().includes(searchQuery) ||
-        c.subline.toLowerCase().includes(searchQuery);
-      return catMatch && searchMatch;
+      card.innerHTML = `
+        <div class="tier-header-row">
+          <span class="tier-badge size-midi">EDITION #${bundle.dayNumber}</span>
+          <span class="tier-meta-time">${dateStr}</span>
+        </div>
+        <h3 class="tier-title">${bundle.theme}</h3>
+        <div style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;">
+          <button class="neo-btn small-btn primary-btn vault-play-btn" data-day="${bundle.dayNumber}" data-type="full">CLASSIC 15×15</button>
+          <button class="neo-btn small-btn secondary-btn vault-play-btn" data-day="${bundle.dayNumber}" data-type="midi">MIDI 9×9</button>
+          <button class="neo-btn small-btn vault-play-btn" data-day="${bundle.dayNumber}" data-type="mini">MINI 5×5</button>
+        </div>
+      `;
+      list.appendChild(card);
     });
 
-    filtered.forEach(c => {
-      const isUnlocked = GameState.unlockedCodex.has(c.id);
-      const card = document.createElement("div");
-      card.className = "codex-card " + (isUnlocked ? "unlocked" : "locked");
-
-      if (isUnlocked) {
-        card.innerHTML = `
-          <span class="cat-tag">${c.category}</span>
-          <h4 style="margin: 6px 0 2px; font-size: 1.1rem; font-weight: 900; color: #000;">${c.name}</h4>
-          <p style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #493934;">${c.subline}</p>
-        `;
-        card.addEventListener("click", () => {
-          SoundEngine.playClick();
-          this.openSpecModal(c.id);
-        });
-      } else {
-        card.innerHTML = `
-          <div style="font-size: 1.2rem; margin-bottom: 4px;">🔒</div>
-          <h4 style="margin: 0 0 2px; color: #a4918a; font-size: 0.95rem; font-weight: 800;">Locked Craft Record</h4>
-          <p style="margin: 0; font-size: 0.8rem; color: #7b6862;">Solve crossword entry to inspect</p>
-        `;
-      }
-      grid.appendChild(card);
-    });
-  },
-
-  renderMastery() {
-    const { current, next } = GameState.getCurrentRank();
-
-    document.getElementById("profile-rank-icon").textContent = current.icon;
-    document.getElementById("profile-rank-title").textContent = current.title;
-    document.getElementById("profile-rank-sub").textContent = `Level ${current.level} • ${GameState.xp} XP`;
-
-    const progress = next.level === current.level ? 100 :
-      ((GameState.xp - current.xpRequired) / (next.xpRequired - current.xpRequired)) * 100;
-    document.getElementById("profile-xp-fill").style.width = `${Math.min(100, Math.max(0, progress))}%`;
-
-    document.getElementById("stat-puzzles-solved").textContent = `${GameState.solvedPuzzleIds.size} / 5`;
-    document.getElementById("stat-words-unlocked").textContent = GameState.unlockedCodex.size.toString();
-    document.getElementById("stat-clean-sweeps").textContent = GameState.cleanSweepsCount.toString();
-    document.getElementById("stat-streak-high").textContent = GameState.streak.toString();
-    document.getElementById("streak-count").textContent = GameState.streak.toString();
-
-    const domainBars = document.getElementById("domain-bars");
-    if (domainBars) {
-      domainBars.innerHTML = "";
-      CONTENT_DATA.domains.forEach(d => {
-        const domainItems = CONTENT_DATA.codex.filter(c => c.category === d.keyCat);
-        const unlockedItems = domainItems.filter(c => GameState.unlockedCodex.has(c.id));
-        const pct = domainItems.length ? Math.round((unlockedItems.length / domainItems.length) * 100) : 0;
-
-        domainBars.innerHTML += `
-          <div style="margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 800; margin-bottom: 3px; color: #000;">
-              <span>${d.name}</span>
-              <span>${unlockedItems.length}/${domainItems.length} (${pct}%)</span>
-            </div>
-            <div style="background: #2b1712; height: 7px; border: 1.5px solid #000; border-radius: 2px; overflow: hidden;">
-              <div style="width: ${pct}%; height: 100%; background: #dfae52; transition: width 0.3s ease;"></div>
-            </div>
-          </div>
-        `;
+    list.querySelectorAll('.vault-play-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = parseInt(btn.dataset.day, 10);
+        const type = btn.dataset.type;
+        this.launchGame(day, type);
       });
-    }
-
-    const badgesGrid = document.getElementById("achievements-grid");
-    if (badgesGrid) {
-      badgesGrid.innerHTML = "";
-      CONTENT_DATA.achievements.forEach(a => {
-        const earned = GameState.unlockedBadges.has(a.id);
-        badgesGrid.innerHTML += `
-          <div style="background: ${earned ? '#fffaf0' : '#2d140e'}; padding: 10px; border-radius: 4px; text-align: center; opacity: ${earned ? 1 : 0.65}; border: 2px solid #000; box-shadow: ${earned ? '2px 2px 0 #000' : 'none'};">
-            <div style="font-size: 1.6rem; margin-bottom: 2px;">${earned ? a.icon : '🔒'}</div>
-            <div style="font-size: 0.85rem; font-weight: 900; color: ${earned ? '#000' : '#f0e6d2'}; margin-bottom: 2px;">${a.name}</div>
-            <div style="font-size: 0.72rem; font-weight: 600; color: ${earned ? '#5c4640' : '#a49688'};">${a.desc}</div>
-          </div>
-        `;
-      });
-    }
-  },
-
-  bindResize() {
-    window.addEventListener("resize", () => {
-      if (this.activeTab === "play") CrosswordEngine.renderGrid();
     });
-  },
-
-  showToast(msg, type = "info") {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.className = `toast-message ${type} show`;
-    setTimeout(() => toast.classList.remove("show"), 2200);
   }
-};
 
-document.addEventListener("DOMContentLoaded", () => {
-  UIController.init();
+  launchGame(dayNumber, type) {
+    if (engine.loadPuzzle(dayNumber, type)) {
+      const bundle = timeGate.getPuzzleForDay(dayNumber);
+      const titleElem = document.getElementById('game-puzzle-title');
+      const tierElem = document.getElementById('game-puzzle-tier');
+
+      const dimensionLabels = {
+        full: '15×15',
+        midi: '9×9',
+        mini: '5×5'
+      };
+
+      const typeLabel = type === 'full' ? 'CLASSIC 15×15' : type === 'midi' ? 'MIDI 9×9' : 'MINI 5×5';
+      if (titleElem) titleElem.textContent = bundle[type].title;
+      if (tierElem) tierElem.textContent = `${dimensionLabels[type]} • ${bundle.theme}`;
+
+      this.showScreen('puzzle');
+    }
+  }
+}
+
+const router = new UIRouter();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnDaily = document.getElementById('btn-menu-daily');
+  const btnVault = document.getElementById('btn-menu-vault');
+  const btnRules = document.getElementById('btn-menu-rules');
+  const btnGameBack = document.getElementById('btn-game-back');
+
+  if (btnDaily) {
+    btnDaily.addEventListener('click', () => {
+      sound.playBlip();
+      const todayNum = timeGate.getTodayDayNumber();
+      router.renderDailySubMenu(todayNum);
+    });
+  }
+
+  if (btnVault) {
+    btnVault.addEventListener('click', () => {
+      sound.playBlip();
+      router.renderVault();
+      router.showScreen('vault');
+    });
+  }
+
+  if (btnRules) {
+    btnRules.addEventListener('click', () => {
+      sound.playBlip();
+      document.getElementById('modal-rules').classList.remove('hidden');
+    });
+  }
+
+  if (btnGameBack) {
+    btnGameBack.addEventListener('click', () => {
+      sound.playBlip();
+      engine.stopTimer();
+      router.renderDailySubMenu(engine.activeDayNumber);
+    });
+  }
+
+  const btnBackFromSub = document.getElementById('btn-back-from-sub');
+  if (btnBackFromSub) {
+    btnBackFromSub.addEventListener('click', () => {
+      sound.playBlip();
+      router.showScreen('menu');
+    });
+  }
+
+  const btnBackFromVault = document.getElementById('btn-back-from-vault');
+  if (btnBackFromVault) {
+    btnBackFromVault.addEventListener('click', () => {
+      sound.playBlip();
+      router.showScreen('menu');
+    });
+  }
+
+  document.querySelectorAll('.tier-play-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sound.playBlip();
+      const type = btn.dataset.type;
+      const day = parseInt(btn.dataset.day, 10);
+      router.launchGame(day, type);
+    });
+  });
+
+  const btnPrevClue = document.getElementById('btn-prev-clue');
+  const btnNextClue = document.getElementById('btn-next-clue');
+  const clueBar = document.getElementById('clue-bar');
+
+  if (btnPrevClue) {
+    btnPrevClue.addEventListener('click', (e) => {
+      e.stopPropagation();
+      engine.prevClue();
+    });
+  }
+
+  if (btnNextClue) {
+    btnNextClue.addEventListener('click', (e) => {
+      e.stopPropagation();
+      engine.nextClue();
+    });
+  }
+
+  if (clueBar) {
+    clueBar.addEventListener('click', () => {
+      engine.toggleDirection();
+    });
+  }
+
+  const btnCheck = document.getElementById('btn-check-word');
+  const btnReveal = document.getElementById('btn-reveal-word');
+
+  if (btnCheck) {
+    btnCheck.addEventListener('click', () => {
+      engine.checkCurrentWord();
+    });
+  }
+
+  if (btnReveal) {
+    btnReveal.addEventListener('click', () => {
+      engine.revealCurrentWord();
+    });
+  }
+
+  const virtualKeyboard = document.getElementById('custom-keyboard');
+  if (virtualKeyboard) {
+    virtualKeyboard.addEventListener('pointerdown', (e) => {
+      const btn = e.target.closest('.key-btn');
+      if (!btn) return;
+      e.preventDefault();
+
+      const key = btn.dataset.key;
+      if (key === 'BACKSPACE') {
+        engine.deleteLetter();
+      } else if (key === 'TOGGLE') {
+        engine.toggleDirection();
+      } else if (key && key.length === 1) {
+        engine.inputLetter(key);
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (!document.getElementById('screen-puzzle').classList.contains('active')) return;
+
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      engine.deleteLetter();
+    } else if (e.key === 'Delete') {
+      e.preventDefault();
+      const { r, c } = engine.activeCell;
+      if (!engine.cells[r][c].isBlack) {
+        engine.cells[r][c].userLetter = '';
+        sound.playDelete();
+        engine.saveProgress();
+        engine.render();
+      }
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      engine.stepCursor(1);
+      engine.render();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      engine.stepCursor(-1);
+      engine.render();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (engine.direction === 'ACROSS') engine.toggleDirection();
+      else engine.stepCursor(1);
+      engine.render();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (engine.direction === 'ACROSS') engine.toggleDirection();
+      else engine.stepCursor(-1);
+      engine.render();
+    } else if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      engine.toggleDirection();
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      if (e.shiftKey) engine.prevClue();
+      else engine.nextClue();
+    } else if (/^[a-zA-Z]$/.test(e.key)) {
+      e.preventDefault();
+      engine.inputLetter(e.key.toUpperCase());
+    }
+  });
+
+  const soundBtn = document.getElementById('btn-sound-toggle');
+  const soundIcon = document.getElementById('sound-icon');
+  const soundCheck = document.getElementById('setting-sound');
+
+  const updateSoundUI = () => {
+    if (sound.enabled) {
+      if (soundIcon) soundIcon.textContent = '🔊';
+      if (soundCheck) soundCheck.checked = true;
+    } else {
+      if (soundIcon) soundIcon.textContent = '🔇';
+      if (soundCheck) soundCheck.checked = false;
+    }
+  };
+
+  if (soundBtn) {
+    soundBtn.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      updateSoundUI();
+      sound.playBlip();
+    });
+  }
+
+  if (soundCheck) {
+    soundCheck.addEventListener('change', (e) => {
+      sound.enabled = e.target.checked;
+      updateSoundUI();
+    });
+  }
+
+  const btnSettings = document.getElementById('btn-open-settings');
+  const modalSettings = document.getElementById('modal-settings');
+  const btnResetStorage = document.getElementById('btn-reset-storage');
+
+  if (btnSettings && modalSettings) {
+    btnSettings.addEventListener('click', () => {
+      sound.playBlip();
+      modalSettings.classList.remove('hidden');
+    });
+  }
+
+  if (btnResetStorage) {
+    btnResetStorage.addEventListener('click', () => {
+      if (window.confirm('Reset all saved puzzle completion history and grids on this device?')) {
+        localStorage.removeItem(timeGate.storageKey);
+        timeGate.state = timeGate.loadState();
+        modalSettings.classList.add('hidden');
+        router.refreshMenu();
+      }
+    });
+  }
+
+  document.querySelectorAll('.close-modal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sound.playBlip();
+      btn.closest('.modal-overlay').classList.add('hidden');
+    });
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('pointerdown', (e) => {
+      if (e.target === overlay) {
+        sound.playBlip();
+        overlay.classList.add('hidden');
+      }
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(modal => {
+        if (!modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
+      });
+    }
+  });
+
+  const btnVictoryContinue = document.getElementById('btn-victory-continue');
+  if (btnVictoryContinue) {
+    btnVictoryContinue.addEventListener('click', () => {
+      sound.playBlip();
+      document.getElementById('modal-victory').classList.add('hidden');
+      router.showScreen('menu');
+    });
+  }
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (document.getElementById('screen-puzzle').classList.contains('active')) {
+        engine.gridBuilt = false;
+        engine.render();
+      }
+    }, 60);
+  });
+
+  router.showScreen('menu');
 });
