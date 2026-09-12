@@ -3,98 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="description" content="The Daily Cocktail Crossword — Mini, Midi, and Main grids curated from the master 32-category cocktail curriculum.">
-  <meta name="theme-color" content="#120c0a">
-  <title>The Daily Cocktail Crossword</title>
+  <meta name="theme-color" content="#0d0402">
+  <title>Cocktail Crossword</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <!-- Ambient Lounge & Floating Garnish Background -->
   <div class="ambient-lounge" id="ambientLounge" aria-hidden="true">
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="ambient-uplight"></div>
     <div class="lounge-grain"></div>
     <div class="garnish-layer" id="garnishLayer"></div>
   </div>
 
-  <div class="app-viewport">
-    <!-- ===================================================================
-         SCREEN 1: DEDICATED MAIN MENU (STANDALONE SCREEN)
-         =================================================================== -->
-    <section id="screenMenu" class="app-screen screen-menu" role="region" aria-label="Crossword Main Menu">
-      <!-- Brand Header -->
+  <div id="screenError" class="app-screen hidden" role="region" aria-label="Error State">
+    <div class="error-container glass-panel">
+      <h1 id="errorTitle">Unavailable</h1>
+      <p id="errorMsg">Puzzle data could not be verified.</p>
+      <button type="button" class="btn-primary" id="btnRetry">Try again</button>
+    </div>
+  </div>
+
+  <div class="app-viewport" id="mainViewport" style="display: none;">
+    <section id="screenMenu" class="app-screen" role="region" aria-label="Main Menu">
       <header class="menu-brand-header">
-        <span class="gold-subtitle">THE DAILY SPECS</span>
-        <h1 class="menu-app-title">COCKTAIL CROSSWORD</h1>
-        <p class="menu-curriculum-tag">32-Category Curriculum • Foundations to Master Lore</p>
+        <h1>Cocktail Crossword</h1>
       </header>
 
-      <!-- Today's Puzzle Card with Tier Carousel -->
-      <section class="today-hero-card brutal-panel" aria-labelledby="todayHeading">
+      <section class="today-hero-card glass-panel" aria-labelledby="todayHeading">
         <div class="today-card-header">
-          <div class="today-meta-left">
-            <span class="live-dot-indicator" aria-hidden="true"></span>
-            <span id="menuTodayDate" class="today-date-text">TODAY'S SERVICE</span>
-          </div>
-          <span id="menuTodayDayLabel" class="gold-pill-tag">DAY 0</span>
+          <h2 id="todayHeading" class="today-date-text">Today</h2>
         </div>
 
-        <!-- Crossword Today Selector Carousel (Mini / Midi / Main) -->
         <div class="tier-carousel-container">
-          <button type="button" class="carousel-nav-btn prev brutal-tap" id="btnCarouselPrev" aria-label="Previous crossword tier">‹</button>
+          <button type="button" class="carousel-nav-btn" id="btnCarouselPrev" aria-label="Previous">‹</button>
           
-          <div class="tier-carousel-track" id="tierCarouselTrack" role="tablist" aria-label="Select Daily Crossword Tier">
-            <!-- Mini Card -->
-            <article class="tier-card active brutal-tap" role="tab" aria-selected="true" data-tier="mini" tabindex="0">
+          <div class="tier-carousel-track" id="tierCarouselTrack" role="tablist" aria-label="Select Tier">
+            <article class="tier-card glass-panel active" role="tab" aria-selected="true" data-tier="mini" tabindex="0">
               <div class="tier-card-top">
-                <span class="tier-badge badge-mini">MINI</span>
+                <span class="tier-badge">Mini</span>
                 <span class="tier-dim">5 × 5</span>
               </div>
-              <h3 class="tier-card-title" id="cardTitleMini">Foundations & Citrus</h3>
-              <p class="tier-card-desc">The Apertif: A rapid 5×5 bite to prime your palate.</p>
+              <h3 class="tier-card-title" id="cardTitleMini">Category</h3>
               <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMini">UNSOLVED</span>
-                <button type="button" class="btn-play-tier btn-solid brutal-tap" id="btnPlayMini">POUR MINI</button>
+                <span class="tier-status-pill" id="statusPillMini">Unsolved</span>
+                <button type="button" class="btn-primary" id="btnPlayMini">Play</button>
               </div>
             </article>
 
-            <!-- Midi Card -->
-            <article class="tier-card brutal-tap" role="tab" aria-selected="false" data-tier="midi" tabindex="0">
+            <article class="tier-card glass-panel" role="tab" aria-selected="false" data-tier="midi" tabindex="0">
               <div class="tier-card-top">
-                <span class="tier-badge badge-midi">MIDI</span>
+                <span class="tier-badge">Midi</span>
                 <span class="tier-dim">7 × 7</span>
               </div>
-              <h3 class="tier-card-title" id="cardTitleMidi">Amari & Modifiers</h3>
-              <p class="tier-card-desc">The Modifier: Symmetrical mid-size lounge exploration.</p>
+              <h3 class="tier-card-title" id="cardTitleMidi">Category</h3>
               <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMidi">UNSOLVED</span>
-                <button type="button" class="btn-play-tier btn-solid brutal-tap" id="btnPlayMidi">POUR MIDI</button>
+                <span class="tier-status-pill" id="statusPillMidi">Unsolved</span>
+                <button type="button" class="btn-primary" id="btnPlayMidi">Play</button>
               </div>
             </article>
 
-            <!-- Main Card -->
-            <article class="tier-card brutal-tap" role="tab" aria-selected="false" data-tier="main" tabindex="0">
+            <article class="tier-card glass-panel" role="tab" aria-selected="false" data-tier="main" tabindex="0">
               <div class="tier-card-top">
-                <span class="tier-badge badge-main">MAIN</span>
+                <span class="tier-badge">Main</span>
                 <span class="tier-dim">12 × 12</span>
               </div>
-              <h3 class="tier-card-title" id="cardTitleMain">Master Lounge</h3>
-              <p class="tier-card-desc">The Masterwork: Full symmetrical NYT-standard grid.</p>
+              <h3 class="tier-card-title" id="cardTitleMain">Category</h3>
               <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMain">UNSOLVED</span>
-                <button type="button" class="btn-play-tier btn-solid brutal-tap" id="btnPlayMain">POUR MAIN</button>
+                <span class="tier-status-pill" id="statusPillMain">Unsolved</span>
+                <button type="button" class="btn-primary" id="btnPlayMain">Play</button>
               </div>
             </article>
           </div>
 
-          <button type="button" class="carousel-nav-btn next brutal-tap" id="btnCarouselNext" aria-label="Next crossword tier">›</button>
+          <button type="button" class="carousel-nav-btn" id="btnCarouselNext" aria-label="Next">›</button>
         </div>
 
-        <!-- Carousel Indicators -->
         <div class="carousel-dots" id="carouselDots" aria-hidden="true">
           <span class="dot active" data-index="0"></span>
           <span class="dot" data-index="1"></span>
@@ -102,124 +88,62 @@
         </div>
       </section>
 
-      <!-- Primary Action Hub -->
       <nav class="menu-action-hub" aria-label="Main menu navigation">
-        <button type="button" class="menu-hub-btn brutal-panel brutal-tap" id="btnMenuVault">
-          <div class="hub-btn-left">
-            <svg class="hub-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <div class="hub-text">
-              <span class="hub-title">THE VAULT</span>
-              <span class="hub-sub">Revisit previously released cellars</span>
-            </div>
-          </div>
+        <button type="button" class="menu-hub-btn glass-panel" id="btnMenuVault">
+          <span class="hub-title">Vault</span>
           <span class="hub-chevron">›</span>
         </button>
 
         <div class="menu-secondary-row">
-          <button type="button" class="menu-aux-btn brutal-tap" id="btnMenuStats">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
-            <span>DOSSIER</span>
-          </button>
-
-          <button type="button" class="menu-aux-btn brutal-tap" id="btnMenuHelp">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-            <span>RULES</span>
-          </button>
-
-          <button type="button" class="menu-aux-btn brutal-tap" id="btnMenuSound" aria-pressed="false" aria-label="Toggle Sound Effects">
-            <svg id="menuSoundOnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            <svg id="menuSoundOffIcon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-            <span id="menuSoundLabel">SOUND ON</span>
-          </button>
+          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuStats">Stats</button>
+          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuHelp">Rules</button>
+          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuSound" aria-pressed="true">Sound</button>
         </div>
-
-        <!-- Universal Platform Home Button -->
-        <a href="https://tileworksgamesstudio.github.io/86/" class="menu-home-link brutal-tap" title="Back to 86 Studio Hub">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-          <span>RETURN TO 86 STUDIO HUB</span>
-        </a>
       </nav>
     </section>
 
-    <!-- ===================================================================
-         SCREEN 2: ACTIVE CROSSWORD GAMEPLAY SCREEN
-         =================================================================== -->
-    <section id="screenGame" class="app-screen screen-game hidden" role="region" aria-label="Crossword Puzzle Workspace">
-      <!-- Game Top Bar -->
+    <section id="screenGame" class="app-screen hidden" role="region" aria-label="Puzzle Workspace">
       <header class="game-header">
         <div class="game-header-left">
-          <button type="button" class="btn-menu-back brutal-tap" id="btnBackToMenu" aria-label="Back to Main Menu">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <span>MENU</span>
-          </button>
-          <div class="game-meta-group">
-            <span id="gameDayLabel" class="gold-subtitle">DAY 0</span>
-            <span id="gameThemeLabel" class="game-theme-tag">Foundations & Sours</span>
-          </div>
+          <button type="button" class="btn-menu-back glass-panel" id="btnBackToMenu">Back</button>
+          <span id="gameDayLabel" class="game-theme-tag">Date</span>
         </div>
-
         <div class="game-header-right">
-          <div class="timer-display" id="timerDisplay" aria-label="Elapsed Time">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span id="timerText">00:00</span>
-          </div>
-          <button type="button" class="game-action-icon brutal-tap" id="btnGameSound" title="Toggle Sound" aria-label="Toggle Sound">
-            <svg id="gameSoundOnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-            <svg id="gameSoundOffIcon" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line></svg>
-          </button>
-          <button type="button" class="game-action-icon brutal-tap" id="btnGameHelp" title="Bar Rules" aria-label="House Rules">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          </button>
+          <div class="timer-display glass-panel" id="timerText">00:00</div>
+          <button type="button" class="game-action-icon glass-panel" id="btnGameSound" aria-label="Toggle Sound">Sound</button>
+          <button type="button" class="game-action-icon glass-panel" id="btnGameHelp" aria-label="Rules">Rules</button>
         </div>
       </header>
 
-      <!-- Quick In-Game Tier Bar -->
-      <nav class="game-tier-bar" role="tablist" aria-label="Switch Crossword Tier">
-        <button type="button" class="game-tier-pill active brutal-tap" role="tab" aria-selected="true" data-tier="mini">
-          <span class="gt-name">MINI</span>
-          <span class="gt-dim">5×5</span>
-          <span class="gt-done hidden" id="gameBadgeMiniDone">✓</span>
-        </button>
-        <button type="button" class="game-tier-pill brutal-tap" role="tab" aria-selected="false" data-tier="midi">
-          <span class="gt-name">MIDI</span>
-          <span class="gt-dim">7×7</span>
-          <span class="gt-done hidden" id="gameBadgeMidiDone">✓</span>
-        </button>
-        <button type="button" class="game-tier-pill brutal-tap" role="tab" aria-selected="false" data-tier="main">
-          <span class="gt-name">MAIN</span>
-          <span class="gt-dim">12×12</span>
-          <span class="gt-done hidden" id="gameBadgeMainDone">✓</span>
-        </button>
+      <nav class="game-tier-bar" role="tablist" aria-label="Switch Tier">
+        <button type="button" class="game-tier-pill active glass-panel" role="tab" aria-selected="true" data-tier="mini">Mini <span class="gt-done hidden" id="gameBadgeMiniDone">✓</span></button>
+        <button type="button" class="game-tier-pill glass-panel" role="tab" aria-selected="false" data-tier="midi">Midi <span class="gt-done hidden" id="gameBadgeMidiDone">✓</span></button>
+        <button type="button" class="game-tier-pill glass-panel" role="tab" aria-selected="false" data-tier="main">Main <span class="gt-done hidden" id="gameBadgeMainDone">✓</span></button>
       </nav>
 
-      <!-- Hero Clue Readout Bar -->
-      <div class="active-clue-bar brutal-panel" id="activeClueBar" role="region" aria-live="polite">
+      <div class="active-clue-bar glass-panel" id="activeClueBar" role="region" aria-live="polite">
         <div class="clue-id-pill" id="clueDirectionLabel">1A</div>
-        <p class="clue-text" id="clueTextDisplay">Select any tile or clue below to begin solving.</p>
+        <p class="clue-text" id="clueTextDisplay">Select any tile to begin.</p>
       </div>
 
-      <!-- Main Solve Workspace -->
       <main class="solve-workspace">
-        <!-- Hero Crossword Grid -->
-        <section class="board-frame" aria-label="Crossword Grid">
-          <div id="crosswordGrid" class="crossword-grid grid-5x5"></div>
+        <section class="board-frame" aria-label="Grid">
+          <div id="crosswordGrid" class="crossword-grid"></div>
         </section>
 
-        <!-- Desktop & Tablet Clues Shelf -->
-        <aside class="clues-shelf brutal-panel" id="cluesShelf" aria-label="Puzzle Clues">
+        <aside class="clues-shelf glass-panel" id="cluesShelf" aria-label="Clues">
           <div class="clue-column" id="colAcross">
-            <h2 class="clue-col-head"><span class="accent-line"></span>ACROSS</h2>
+            <h2>Across</h2>
             <ol class="clue-list" id="acrossCluesList"></ol>
           </div>
           <div class="clue-column" id="colDown">
-            <h2 class="clue-col-head"><span class="accent-line"></span>DOWN</h2>
+            <h2>Down</h2>
             <ol class="clue-list" id="downCluesList"></ol>
           </div>
         </aside>
       </main>
 
-      <!-- Mobile Virtual Keyboard -->
-      <footer class="virtual-keyboard-section" id="virtualKeyboard" aria-label="On-Screen Keyboard">
+      <footer class="virtual-keyboard-section" id="virtualKeyboard" aria-label="Keyboard">
         <div class="keyboard-row">
           <button type="button" class="key-btn" data-key="Q">Q</button>
           <button type="button" class="key-btn" data-key="W">W</button>
@@ -244,7 +168,7 @@
           <button type="button" class="key-btn" data-key="L">L</button>
         </div>
         <div class="keyboard-row">
-          <button type="button" class="key-btn action-key" data-key="SWITCH" title="Switch Across / Down">⟲ DIR</button>
+          <button type="button" class="key-btn action-key" data-key="SWITCH">Dir</button>
           <button type="button" class="key-btn" data-key="Z">Z</button>
           <button type="button" class="key-btn" data-key="X">X</button>
           <button type="button" class="key-btn" data-key="C">C</button>
@@ -252,117 +176,89 @@
           <button type="button" class="key-btn" data-key="B">B</button>
           <button type="button" class="key-btn" data-key="N">N</button>
           <button type="button" class="key-btn" data-key="M">M</button>
-          <button type="button" class="key-btn action-key" data-key="BACKSPACE" title="Delete letter">⌫</button>
+          <button type="button" class="key-btn action-key" data-key="BACKSPACE">⌫</button>
         </div>
       </footer>
     </section>
 
-    <!-- ===================================================================
-         SCREEN 3: CELLAR VAULT (HISTORICAL RELEASES ARCHIVE)
-         =================================================================== -->
-    <section id="screenVault" class="app-screen screen-vault hidden" role="region" aria-label="Puzzle Vault Archive">
+    <section id="screenVault" class="app-screen hidden" role="region" aria-label="Vault">
       <header class="vault-screen-header">
-        <button type="button" class="btn-menu-back brutal-tap" id="btnVaultBackToMenu">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span>MENU</span>
-        </button>
-        <div class="vault-title-cluster">
-          <span class="gold-subtitle">HISTORICAL DISPATCH</span>
-          <h2 class="screen-heading">THE CELLAR VAULT</h2>
-        </div>
+        <button type="button" class="btn-menu-back glass-panel" id="btnVaultBackToMenu">Back</button>
+        <h1>Vault</h1>
       </header>
-      <p class="vault-intro">Previously released crosswords aging in the archive. Revisit past services to practice, learn, or complete missed days.</p>
       <div class="vault-list-container" id="vaultListContainer"></div>
     </section>
   </div>
 
-  <!-- ===================================================================
-       MODALS: DOSSIER, RULES, VICTORY
-       =================================================================== -->
-  <!-- Modal: Dossier / Statistics -->
   <div class="modal-overlay hidden" id="modalStats" role="dialog" aria-modal="true" aria-labelledby="statsModalTitle">
-    <div class="modal-card brutal-panel">
+    <div class="modal-card glass-panel">
       <div class="modal-header">
-        <div>
-          <span class="gold-subtitle">BARTENDER'S LOG</span>
-          <h2 id="statsModalTitle" class="modal-heading">PLAYER DOSSIER</h2>
-        </div>
-        <button type="button" class="btn-close brutal-tap" data-close="modalStats" aria-label="Close modal">&times;</button>
+        <h1 id="statsModalTitle">Stats</h1>
+        <button type="button" class="btn-close" data-close="modalStats" aria-label="Close">×</button>
       </div>
       <div class="stats-scorecard">
-        <div class="stat-box">
+        <div class="stat-box glass-panel">
           <span class="stat-num" id="statPlayed">0</span>
           <span class="stat-lbl">Played</span>
         </div>
-        <div class="stat-box">
+        <div class="stat-box glass-panel">
           <span class="stat-num" id="statCompleted">0</span>
           <span class="stat-lbl">Solved</span>
         </div>
-        <div class="stat-box">
+        <div class="stat-box glass-panel">
           <span class="stat-num" id="statStreak">0</span>
           <span class="stat-lbl">Streak</span>
         </div>
-        <div class="stat-box">
+        <div class="stat-box glass-panel">
           <span class="stat-num" id="statBestStreak">0</span>
           <span class="stat-lbl">Best</span>
         </div>
       </div>
-      <div class="stats-breakdown">
-        <h3>SOLVE TIMES (MEDIAN)</h3>
+      <div class="stats-breakdown glass-panel">
+        <h2>Median Times</h2>
         <div class="tier-time-row">
-          <span>Mini (5×5):</span>
-          <strong id="statTimeMini">--:--</strong>
+          <span>Mini:</span><strong id="statTimeMini">--:--</strong>
         </div>
         <div class="tier-time-row">
-          <span>Midi (7×7):</span>
-          <strong id="statTimeMidi">--:--</strong>
+          <span>Midi:</span><strong id="statTimeMidi">--:--</strong>
         </div>
         <div class="tier-time-row">
-          <span>Main (12×12):</span>
-          <strong id="statTimeMain">--:--</strong>
+          <span>Main:</span><strong id="statTimeMain">--:--</strong>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal: House Rules & Curriculum -->
   <div class="modal-overlay hidden" id="modalHelp" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
-    <div class="modal-card brutal-panel">
+    <div class="modal-card glass-panel">
       <div class="modal-header">
-        <div>
-          <span class="gold-subtitle">HOUSE SPECIFICATIONS</span>
-          <h2 id="helpModalTitle" class="modal-heading">HOW TO SOLVE</h2>
-        </div>
-        <button type="button" class="btn-close brutal-tap" data-close="modalHelp" aria-label="Close modal">&times;</button>
+        <h1 id="helpModalTitle">Rules</h1>
+        <button type="button" class="btn-close" data-close="modalHelp" aria-label="Close">×</button>
       </div>
       <div class="help-content">
-        <p><strong>Standard Crossword Rules:</strong> Tap any tile to select it. Tap the selected tile again (or hit <kbd>⟲ DIR</kbd> / <kbd>Space</kbd>) to toggle between <em>Across</em> and <em>Down</em>.</p>
-        <p><strong>Three Daily Tiers:</strong></p>
+        <p>Tap any tile to select it. Tap again or hit Dir to toggle between Across and Down.</p>
+        <p>Three daily tiers:</p>
         <ul>
-          <li><strong>Mini (5×5):</strong> Fast-pour aperitif covering fundamentals.</li>
-          <li><strong>Midi (7×7):</strong> Symmetrical cocktail modifier and spirits study.</li>
-          <li><strong>Main (12×12):</strong> Full masterwork drawn from the 32-category cocktail curriculum.</li>
+          <li>Mini (5×5)</li>
+          <li>Midi (7×7)</li>
+          <li>Main (12×12)</li>
         </ul>
-        <p><strong>Daily Release Schedule:</strong> A fresh set of three crosswords releases every morning at local midnight. Completed and past puzzles remain accessible anytime in <strong>The Vault</strong>.</p>
+        <p>Fresh crosswords release every day at midnight UK time. Past puzzles remain in the Vault.</p>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Victory Toast -->
   <div class="modal-overlay hidden" id="modalVictory" role="dialog" aria-modal="true" aria-labelledby="vicModalTitle">
-    <div class="modal-card brutal-panel victory-card">
-      <div class="glass-cheers-badge" aria-hidden="true">🍸</div>
-      <span class="gold-subtitle">SERVICE COMPLETED</span>
-      <h2 id="vicModalTitle" class="modal-heading">CLEAN POUR!</h2>
-      <p id="vicDescription" class="vic-copy">You solved the <strong>Mini</strong> grid in <strong>01:42</strong>.</p>
+    <div class="modal-card glass-panel victory-card">
+      <h1 id="vicModalTitle">Complete</h1>
+      <p id="vicDescription" class="vic-copy">You solved the grid.</p>
       <div class="victory-actions">
-        <button type="button" id="btnNextTierOrMenu" class="btn-solid brutal-tap">NEXT TIER</button>
-        <button type="button" class="btn-outline brutal-tap" data-close="modalVictory">REVIEW GRID</button>
+        <button type="button" id="btnNextTierOrMenu" class="btn-primary">Next</button>
+        <button type="button" class="btn-secondary" data-close="modalVictory">Review</button>
       </div>
     </div>
   </div>
 
-  <script src="puzzles.js"></script>
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
