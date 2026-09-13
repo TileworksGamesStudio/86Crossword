@@ -2,263 +2,226 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0d0402">
-  <title>Cocktail Crossword</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Crossword — The Cocktail Lounge</title>
+
+  <!-- Google Fonts: Luxury Editorial Serif & Clean Geometric Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ambient-lounge" id="ambientLounge" aria-hidden="true">
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="lounge-grain"></div>
-    <div class="garnish-layer" id="garnishLayer"></div>
-  </div>
+  <!-- Ambient Atmospheric Layers -->
+  <div class="lounge-caustics-layer" aria-hidden="true"></div>
+  <div class="lounge-vignette-layer" aria-hidden="true"></div>
+  <div class="lounge-grain-layer" aria-hidden="true"></div>
+  <div id="garnish-stage" class="lounge-garnish-stage" aria-hidden="true"></div>
 
-  <div id="screenError" class="app-screen hidden" role="region" aria-label="Error State">
-    <div class="error-container glass-panel">
-      <h1 id="errorTitle">Unavailable</h1>
-      <p id="errorMsg">Puzzle data could not be verified.</p>
-      <button type="button" class="btn-primary" id="btnRetry">Try again</button>
-    </div>
-  </div>
-
-  <div class="app-viewport" id="mainViewport" style="display: none;">
-    <section id="screenMenu" class="app-screen" role="region" aria-label="Main Menu">
-      <header class="menu-brand-header">
-        <h1>Cocktail Crossword</h1>
+  <div class="app">
+    <!-- Screen: Main Menu -->
+    <section id="screen-menu" class="screen" aria-label="Main Menu">
+      <header class="menu-header">
+        <div class="menu-brand-accent" aria-hidden="true">
+          <span class="ornament-line"></span>
+          <span class="ornament-gem">&#9670;</span>
+          <span class="ornament-line"></span>
+        </div>
+        <h1 class="app-title">Crossword</h1>
+        <p class="menu-tagline">Private Reserve Edition</p>
       </header>
 
-      <section class="today-hero-card glass-panel" aria-labelledby="todayHeading">
-        <div class="today-card-header">
-          <h2 id="todayHeading" class="today-date-text">Today</h2>
-        </div>
-
-        <div class="tier-carousel-container">
-          <button type="button" class="carousel-nav-btn" id="btnCarouselPrev" aria-label="Previous">‹</button>
-          
-          <div class="tier-carousel-track" id="tierCarouselTrack" role="tablist" aria-label="Select Tier">
-            <article class="tier-card glass-panel active" role="tab" aria-selected="true" data-tier="mini" tabindex="0">
-              <div class="tier-card-top">
-                <span class="tier-badge">Mini</span>
-                <span class="tier-dim">5 × 5</span>
-              </div>
-              <h3 class="tier-card-title" id="cardTitleMini">Category</h3>
-              <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMini">Unsolved</span>
-                <button type="button" class="btn-primary" id="btnPlayMini">Play</button>
-              </div>
-            </article>
-
-            <article class="tier-card glass-panel" role="tab" aria-selected="false" data-tier="midi" tabindex="0">
-              <div class="tier-card-top">
-                <span class="tier-badge">Midi</span>
-                <span class="tier-dim">7 × 7</span>
-              </div>
-              <h3 class="tier-card-title" id="cardTitleMidi">Category</h3>
-              <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMidi">Unsolved</span>
-                <button type="button" class="btn-primary" id="btnPlayMidi">Play</button>
-              </div>
-            </article>
-
-            <article class="tier-card glass-panel" role="tab" aria-selected="false" data-tier="main" tabindex="0">
-              <div class="tier-card-top">
-                <span class="tier-badge">Main</span>
-                <span class="tier-dim">12 × 12</span>
-              </div>
-              <h3 class="tier-card-title" id="cardTitleMain">Category</h3>
-              <div class="tier-card-footer">
-                <span class="tier-status-pill" id="statusPillMain">Unsolved</span>
-                <button type="button" class="btn-primary" id="btnPlayMain">Play</button>
-              </div>
-            </article>
+      <main class="menu-destinations">
+        <!-- 1. Daily Puzzle (Primary Destination) -->
+        <article class="menu-card destination-card" id="card-daily">
+          <div class="card-shimmer" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="card-tag-wrapper">
+              <span class="card-tag">Today's Game</span>
+            </div>
+            <h2 class="card-title" id="daily-puzzle-title">Daily Puzzle</h2>
+            <p class="card-date" id="daily-date-label">Loading...</p>
           </div>
+          <div class="tier-pills" id="daily-tier-selector" role="group" aria-label="Select Puzzle Tier"></div>
+          <button type="button" class="btn btn-primary btn-lg" id="btn-play-daily">Play Daily Puzzle</button>
+        </article>
 
-          <button type="button" class="carousel-nav-btn" id="btnCarouselNext" aria-label="Next">›</button>
+        <!-- 2. Vault (Historical Archive) -->
+        <article class="menu-card secondary-card">
+          <div class="card-header">
+            <h2 class="card-title">Vault</h2>
+            <p class="card-subtitle">Browse previous daily puzzles and completed archives.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-open-vault">Open Vault</button>
+        </article>
+
+        <!-- 3. Home (External Application Navigation) -->
+        <article class="menu-card secondary-card">
+          <div class="card-header">
+            <h2 class="card-title">Home</h2>
+            <p class="card-subtitle">Return to the main portal.</p>
+          </div>
+          <a href="#" class="btn btn-secondary" id="btn-nav-home" role="button">Return Home</a>
+        </article>
+
+        <!-- Utility Group (Rules & Statistics) -->
+        <div class="utility-row">
+          <button type="button" class="btn btn-sm" id="btn-open-stats" aria-haspopup="dialog">Stats</button>
+          <button type="button" class="btn btn-sm" id="btn-open-help" aria-haspopup="dialog">Rules</button>
         </div>
-
-        <div class="carousel-dots" id="carouselDots" aria-hidden="true">
-          <span class="dot active" data-index="0"></span>
-          <span class="dot" data-index="1"></span>
-          <span class="dot" data-index="2"></span>
-        </div>
-      </section>
-
-      <nav class="menu-action-hub" aria-label="Main menu navigation">
-        <button type="button" class="menu-hub-btn glass-panel" id="btnMenuVault">
-          <span class="hub-title">Vault</span>
-          <span class="hub-chevron">›</span>
-        </button>
-
-        <div class="menu-secondary-row">
-          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuStats">Stats</button>
-          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuHelp">Rules</button>
-          <button type="button" class="menu-aux-btn glass-panel" id="btnMenuSound" aria-pressed="true">Sound</button>
-        </div>
-      </nav>
+      </main>
     </section>
 
-    <section id="screenGame" class="app-screen hidden" role="region" aria-label="Puzzle Workspace">
+    <!-- Screen: Individual Gameplay -->
+    <section id="screen-game" class="screen hidden" aria-label="Gameplay Screen">
+      <!-- Dedicated Gameplay Header -->
       <header class="game-header">
-        <div class="game-header-left">
-          <button type="button" class="btn-menu-back glass-panel" id="btnBackToMenu">Back</button>
-          <span id="gameDayLabel" class="game-theme-tag">Date</span>
-        </div>
-        <div class="game-header-right">
-          <div class="timer-display glass-panel" id="timerText">00:00</div>
-          <button type="button" class="game-action-icon glass-panel" id="btnGameSound" aria-label="Toggle Sound">Sound</button>
-          <button type="button" class="game-action-icon glass-panel" id="btnGameHelp" aria-label="Rules">Rules</button>
+        <button type="button" class="btn btn-back" id="btn-back-menu" aria-label="Back to Game Menu">&larr; Menu</button>
+        <h1 id="game-puzzle-title" class="game-title">Daily Puzzle</h1>
+        <div class="game-header-meta">
+          <span id="game-timer" class="game-timer" aria-label="Timer">00:00</span>
+          <button type="button" class="btn btn-icon" id="btn-game-help" aria-label="Game Help">?</button>
         </div>
       </header>
 
-      <nav class="game-tier-bar" role="tablist" aria-label="Switch Tier">
-        <button type="button" class="game-tier-pill active glass-panel" role="tab" aria-selected="true" data-tier="mini">Mini <span class="gt-done hidden" id="gameBadgeMiniDone">✓</span></button>
-        <button type="button" class="game-tier-pill glass-panel" role="tab" aria-selected="false" data-tier="midi">Midi <span class="gt-done hidden" id="gameBadgeMidiDone">✓</span></button>
-        <button type="button" class="game-tier-pill glass-panel" role="tab" aria-selected="false" data-tier="main">Main <span class="gt-done hidden" id="gameBadgeMainDone">✓</span></button>
-      </nav>
-
-      <div class="active-clue-bar glass-panel" id="activeClueBar" role="region" aria-live="polite">
-        <div class="clue-id-pill" id="clueDirectionLabel">1A</div>
-        <p class="clue-text" id="clueTextDisplay">Select any tile to begin.</p>
+      <!-- Spatial Layout: Icons & Information ABOVE Game Board -->
+      <div class="game-top-controls">
+        <div class="tier-tabs" id="game-tier-tabs" role="tablist" aria-label="Available Tiers"></div>
+        <div class="active-clue-bar" aria-live="polite">
+          <span id="active-clue-badge" class="clue-badge">--</span>
+          <p id="active-clue-text" class="clue-text">Tap any cell to start solving.</p>
+        </div>
       </div>
 
-      <main class="solve-workspace">
-        <section class="board-frame" aria-label="Grid">
-          <div id="crosswordGrid" class="crossword-grid"></div>
-        </section>
-
-        <aside class="clues-shelf glass-panel" id="cluesShelf" aria-label="Clues">
-          <div class="clue-column" id="colAcross">
-            <h2>Across</h2>
-            <ol class="clue-list" id="acrossCluesList"></ol>
-          </div>
-          <div class="clue-column" id="colDown">
-            <h2>Down</h2>
-            <ol class="clue-list" id="downCluesList"></ol>
-          </div>
-        </aside>
+      <!-- Spatial Layout: Game Board in the CENTER -->
+      <main class="game-center">
+        <div class="board-wrapper">
+          <div id="crossword-board" class="crossword-grid" role="grid" aria-label="Crossword Grid"></div>
+        </div>
       </main>
 
-      <footer class="virtual-keyboard-section" id="virtualKeyboard" aria-label="Keyboard">
-        <div class="keyboard-row">
-          <button type="button" class="key-btn" data-key="Q">Q</button>
-          <button type="button" class="key-btn" data-key="W">W</button>
-          <button type="button" class="key-btn" data-key="E">E</button>
-          <button type="button" class="key-btn" data-key="R">R</button>
-          <button type="button" class="key-btn" data-key="T">T</button>
-          <button type="button" class="key-btn" data-key="Y">Y</button>
-          <button type="button" class="key-btn" data-key="U">U</button>
-          <button type="button" class="key-btn" data-key="I">I</button>
-          <button type="button" class="key-btn" data-key="O">O</button>
-          <button type="button" class="key-btn" data-key="P">P</button>
+      <!-- Spatial Layout: Supporting Text / Controls BELOW Game Board -->
+      <footer class="game-bottom">
+        <!-- Tablet/Desktop Supporting Clue Lists -->
+        <div class="clues-split-panel" id="clues-panel">
+          <div class="clues-column">
+            <h3>Across</h3>
+            <ol id="clues-list-across" class="clue-list"></ol>
+          </div>
+          <div class="clues-column">
+            <h3>Down</h3>
+            <ol id="clues-list-down" class="clue-list"></ol>
+          </div>
         </div>
-        <div class="keyboard-row">
-          <button type="button" class="key-btn" data-key="A">A</button>
-          <button type="button" class="key-btn" data-key="S">S</button>
-          <button type="button" class="key-btn" data-key="D">D</button>
-          <button type="button" class="key-btn" data-key="F">F</button>
-          <button type="button" class="key-btn" data-key="G">G</button>
-          <button type="button" class="key-btn" data-key="H">H</button>
-          <button type="button" class="key-btn" data-key="J">J</button>
-          <button type="button" class="key-btn" data-key="K">K</button>
-          <button type="button" class="key-btn" data-key="L">L</button>
-        </div>
-        <div class="keyboard-row">
-          <button type="button" class="key-btn action-key" data-key="SWITCH">Dir</button>
-          <button type="button" class="key-btn" data-key="Z">Z</button>
-          <button type="button" class="key-btn" data-key="X">X</button>
-          <button type="button" class="key-btn" data-key="C">C</button>
-          <button type="button" class="key-btn" data-key="V">V</button>
-          <button type="button" class="key-btn" data-key="B">B</button>
-          <button type="button" class="key-btn" data-key="N">N</button>
-          <button type="button" class="key-btn" data-key="M">M</button>
-          <button type="button" class="key-btn action-key" data-key="BACKSPACE">⌫</button>
+
+        <!-- Touch Mobile Keyboard -->
+        <div class="onscreen-keyboard" id="onscreen-keyboard" aria-label="Virtual Keyboard">
+          <div class="kb-row">
+            <button type="button" data-key="Q">Q</button>
+            <button type="button" data-key="W">W</button>
+            <button type="button" data-key="E">E</button>
+            <button type="button" data-key="R">R</button>
+            <button type="button" data-key="T">T</button>
+            <button type="button" data-key="Y">Y</button>
+            <button type="button" data-key="U">U</button>
+            <button type="button" data-key="I">I</button>
+            <button type="button" data-key="O">O</button>
+            <button type="button" data-key="P">P</button>
+          </div>
+          <div class="kb-row">
+            <button type="button" data-key="A">A</button>
+            <button type="button" data-key="S">S</button>
+            <button type="button" data-key="D">D</button>
+            <button type="button" data-key="F">F</button>
+            <button type="button" data-key="G">G</button>
+            <button type="button" data-key="H">H</button>
+            <button type="button" data-key="J">J</button>
+            <button type="button" data-key="K">K</button>
+            <button type="button" data-key="L">L</button>
+          </div>
+          <div class="kb-row">
+            <button type="button" data-key="DIR" class="kb-action" aria-label="Switch Clue Direction">Dir</button>
+            <button type="button" data-key="Z">Z</button>
+            <button type="button" data-key="X">X</button>
+            <button type="button" data-key="C">C</button>
+            <button type="button" data-key="V">V</button>
+            <button type="button" data-key="B">B</button>
+            <button type="button" data-key="N">N</button>
+            <button type="button" data-key="M">M</button>
+            <button type="button" data-key="BACKSPACE" class="kb-action" aria-label="Delete Letter">&larr;</button>
+          </div>
         </div>
       </footer>
     </section>
 
-    <section id="screenVault" class="app-screen hidden" role="region" aria-label="Vault">
-      <header class="vault-screen-header">
-        <button type="button" class="btn-menu-back glass-panel" id="btnVaultBackToMenu">Back</button>
-        <h1>Vault</h1>
+    <!-- Screen: Vault Archive -->
+    <section id="screen-vault" class="screen hidden" aria-label="Vault Archive">
+      <header class="game-header">
+        <button type="button" class="btn btn-back" id="btn-back-vault" aria-label="Back to Game Menu">&larr; Menu</button>
+        <h1 class="game-title">Vault</h1>
+        <div class="game-header-meta"></div>
       </header>
-      <div class="vault-list-container" id="vaultListContainer"></div>
+      <main class="vault-content" id="vault-list"></main>
     </section>
-  </div>
 
-  <div class="modal-overlay hidden" id="modalStats" role="dialog" aria-modal="true" aria-labelledby="statsModalTitle">
-    <div class="modal-card glass-panel">
-      <div class="modal-header">
-        <h1 id="statsModalTitle">Stats</h1>
-        <button type="button" class="btn-close" data-close="modalStats" aria-label="Close">×</button>
+    <!-- Screen: Error / Recovery -->
+    <section id="screen-error" class="screen hidden" aria-label="Error Screen">
+      <div class="error-box">
+        <h2>Unable to Load Puzzle</h2>
+        <p id="error-message">Puzzle data is currently unavailable. Please check your connection and retry.</p>
+        <button type="button" class="btn btn-primary" id="btn-retry-load">Retry</button>
       </div>
-      <div class="stats-scorecard">
-        <div class="stat-box glass-panel">
-          <span class="stat-num" id="statPlayed">0</span>
-          <span class="stat-lbl">Played</span>
+    </section>
+
+    <!-- Modal: Statistics -->
+    <div id="modal-stats" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-stats-title">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h2 id="modal-stats-title">Statistics</h2>
+          <button type="button" class="btn-close" data-close="modal-stats" aria-label="Close dialog">&times;</button>
         </div>
-        <div class="stat-box glass-panel">
-          <span class="stat-num" id="statCompleted">0</span>
-          <span class="stat-lbl">Solved</span>
+        <div class="stats-overview">
+          <div class="stat-card"><span id="stat-played">0</span><label>Played</label></div>
+          <div class="stat-card"><span id="stat-solved">0</span><label>Solved</label></div>
+          <div class="stat-card"><span id="stat-streak">0</span><label>Streak</label></div>
+          <div class="stat-card"><span id="stat-best">0</span><label>Best Streak</label></div>
         </div>
-        <div class="stat-box glass-panel">
-          <span class="stat-num" id="statStreak">0</span>
-          <span class="stat-lbl">Streak</span>
+        <h3 class="stats-subtitle">Median Completion Times</h3>
+        <ul class="stats-times-list" id="stats-tier-times"></ul>
+      </div>
+    </div>
+
+    <!-- Modal: Rules & How to Play -->
+    <div id="modal-help" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-help-title">
+      <div class="modal-window">
+        <div class="modal-header">
+          <h2 id="modal-help-title">How to Play</h2>
+          <button type="button" class="btn-close" data-close="modal-help" aria-label="Close dialog">&times;</button>
         </div>
-        <div class="stat-box glass-panel">
-          <span class="stat-num" id="statBestStreak">0</span>
-          <span class="stat-lbl">Best</span>
+        <div class="modal-body">
+          <p><strong>Selecting:</strong> Tap any cell to focus it. Tap the active cell again, click <strong>Dir</strong>, or hit <strong>Space/Tab</strong> to switch between Across and Down.</p>
+          <p><strong>Typing:</strong> Type letters on your keyboard or tap the touch keys. The cursor automatically advances to the next cell.</p>
+          <p><strong>Erasing:</strong> Use <strong>Backspace</strong> to erase the current or previous letter.</p>
+          <p><strong>Vault:</strong> Missed a previous day? Browse historical puzzles anytime in the <strong>Vault</strong>.</p>
         </div>
       </div>
-      <div class="stats-breakdown glass-panel">
-        <h2>Median Times</h2>
-        <div class="tier-time-row">
-          <span>Mini:</span><strong id="statTimeMini">--:--</strong>
-        </div>
-        <div class="tier-time-row">
-          <span>Midi:</span><strong id="statTimeMidi">--:--</strong>
-        </div>
-        <div class="tier-time-row">
-          <span>Main:</span><strong id="statTimeMain">--:--</strong>
+    </div>
+
+    <!-- Modal: Victory / Solved -->
+    <div id="modal-victory" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-victory-title">
+      <div class="modal-window victory-window">
+        <div class="victory-icon" aria-hidden="true">&#x2713;</div>
+        <h2 id="modal-victory-title">Puzzle Complete!</h2>
+        <p id="victory-summary-text"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="btn-victory-action">Continue</button>
+          <button type="button" class="btn btn-secondary" data-close="modal-victory">Review Grid</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal-overlay hidden" id="modalHelp" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
-    <div class="modal-card glass-panel">
-      <div class="modal-header">
-        <h1 id="helpModalTitle">Rules</h1>
-        <button type="button" class="btn-close" data-close="modalHelp" aria-label="Close">×</button>
-      </div>
-      <div class="help-content">
-        <p>Tap any tile to select it. Tap again or hit Dir to toggle between Across and Down.</p>
-        <p>Three daily tiers:</p>
-        <ul>
-          <li>Mini (5×5)</li>
-          <li>Midi (7×7)</li>
-          <li>Main (12×12)</li>
-        </ul>
-        <p>Fresh crosswords release every day at midnight UK time. Past puzzles remain in the Vault.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay hidden" id="modalVictory" role="dialog" aria-modal="true" aria-labelledby="vicModalTitle">
-    <div class="modal-card glass-panel victory-card">
-      <h1 id="vicModalTitle">Complete</h1>
-      <p id="vicDescription" class="vic-copy">You solved the grid.</p>
-      <div class="victory-actions">
-        <button type="button" id="btnNextTierOrMenu" class="btn-primary">Next</button>
-        <button type="button" class="btn-secondary" data-close="modalVictory">Review</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
